@@ -32,7 +32,7 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 						<li><a href="/annabel-lee">Annabel Lee</a></li>
 						<li><a href="/cask-of-amontillado">The Cask of Amontillado</a></li>
 						<li><a href="/daffodils">I Wandered Lonely as a Cloud</a></li>
-						<li><a href="/credits">Credits</a></li>
+						<li><a href="/about">About</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -43,7 +43,101 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 		</main>
 
 		<footer class="site-footer">
-			<p>Romantic Age | School project</p>
+			<div class="site-footer__inner">
+				<p>Romantic Age | School project</p>
+				<button
+					class="footer-motion-toggle"
+					id="motion-toggle"
+					type="button"
+					aria-label="Reduce motion"
+					aria-pressed="false"
+				>
+					Reduce Motion
+				</button>
+			</div>
 		</footer>
+
+		<script>
+			// Restore the saved choice, or use the operating system setting as a fallback.
+			const motionStorageKey = "romantic-age-reduce-motion";
+			const motionRoot = document.documentElement;
+			const motionToggle = document.querySelector<HTMLButtonElement>("#motion-toggle");
+			const stickyHeader = document.querySelector<HTMLElement>(".site-header");
+			const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+			let hasSavedMotionChoice = false;
+			let savedMotionChoice: string | null = null;
+
+			try {
+				savedMotionChoice = localStorage.getItem(motionStorageKey);
+				hasSavedMotionChoice = savedMotionChoice === "true" || savedMotionChoice === "false";
+			} catch {
+				// The OS preference still works when browser storage is unavailable.
+			}
+
+			function setReducedMotion(enabled: boolean, saveChoice = false) {
+				motionRoot.classList.toggle("reduce-motion-active", enabled);
+				motionToggle?.setAttribute("aria-pressed", String(enabled));
+
+				if (saveChoice) {
+					hasSavedMotionChoice = true;
+					try {
+						localStorage.setItem(motionStorageKey, String(enabled));
+					} catch {
+						// Keep the current-page setting even if browser storage is unavailable.
+					}
+				}
+
+				if (enabled) {
+					stickyHeader?.classList.remove("header-hidden");
+				}
+			}
+
+			setReducedMotion(hasSavedMotionChoice ? savedMotionChoice === "true" : reducedMotionQuery.matches);
+
+			motionToggle?.addEventListener("click", () => {
+				setReducedMotion(!motionRoot.classList.contains("reduce-motion-active"), true);
+			});
+
+			// Follow later OS preference changes unless the visitor has made an explicit choice.
+			reducedMotionQuery.addEventListener("change", (event) => {
+				if (!hasSavedMotionChoice) setReducedMotion(event.matches);
+			});
+
+			// Hide the sticky header while scrolling down and reveal it while scrolling up.
+			let previousScrollY = window.scrollY;
+			let scrollUpdateQueued = false;
+
+			window.addEventListener(
+				"scroll",
+				() => {
+					if (scrollUpdateQueued) return;
+					scrollUpdateQueued = true;
+
+					window.requestAnimationFrame(() => {
+						scrollUpdateQueued = false;
+						const currentScrollY = window.scrollY;
+
+						if (
+							motionRoot.classList.contains("reduce-motion-active") ||
+							stickyHeader?.contains(document.activeElement) ||
+							currentScrollY < 80 ||
+							currentScrollY < previousScrollY - 6
+						) {
+							stickyHeader?.classList.remove("header-hidden");
+						} else if (currentScrollY > previousScrollY + 6) {
+							stickyHeader?.classList.add("header-hidden");
+						}
+
+						previousScrollY = currentScrollY;
+					});
+				},
+				{ passive: true },
+			);
+
+			// Keep navigation reachable if keyboard focus enters while the header is hidden.
+			stickyHeader?.addEventListener("focusin", () => {
+				stickyHeader?.classList.remove("header-hidden");
+			});
+		</script>
 	</body>
 </html>

@@ -68,8 +68,17 @@ button:focus-visible {
 }
 
 .site-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
 	border-bottom: 1px solid #45413a;
 	background: var(--color-surface);
+	transition: transform 220ms ease;
+}
+
+/* The scroll handler toggles this class after the visitor scrolls down. */
+.site-header.header-hidden {
+	transform: translateY(-100%);
 }
 
 .site-header__inner {
@@ -157,10 +166,40 @@ h1 {
 }
 
 .site-footer p {
-	width: min(100% - 2rem, 72rem);
-	margin: 0 auto;
-	padding-block: 1.25rem;
+	margin: 0;
 	font-size: 0.9rem;
+}
+
+.site-footer__inner {
+	display: flex;
+	width: min(100% - 2rem, 72rem);
+	min-height: 4rem;
+	margin-inline: auto;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding-block: 0.65rem;
+}
+
+/* Keep the motion preference control quiet while preserving its focus ring. */
+.footer-motion-toggle {
+	padding: 0.25rem 0.55rem;
+	border: 1px solid #51483e;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--color-muted);
+	font: inherit;
+	font-family: system-ui, sans-serif;
+	font-size: 0.78rem;
+	line-height: 1.35;
+	cursor: pointer;
+}
+
+.footer-motion-toggle:hover,
+.footer-motion-toggle[aria-pressed="true"] {
+	border-color: #8a7654;
+	background: #292723;
+	color: var(--color-text);
 }
 
 /* Annabel Lee: cold moonlight, deep water, and restrained gothic detail. */
@@ -585,13 +624,29 @@ h1 {
 		gap: 0.75rem;
 	}
 
+	.site-header__inner nav {
+		width: 100%;
+	}
+
 	.site-nav {
 		justify-content: flex-start;
 		gap: 0.35rem 0.8rem;
 	}
 
+	.site-nav li {
+		max-width: 100%;
+	}
+
 	.site-nav a {
 		font-size: 0.84rem;
+		white-space: normal;
+	}
+
+	.site-footer__inner {
+		align-items: center;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-block: 1rem;
 	}
 
 	.annabel-hero {
@@ -627,5 +682,33 @@ h1 {
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 	}
+}
+
+/*
+ * A visitor-controlled override. It disables motion while preserving static
+ * transforms that form the room and book geometry. Interactive book tilts
+ * and the sticky-header slide are handled separately below.
+ */
+html.reduce-motion-active *,
+html.reduce-motion-active *::before,
+html.reduce-motion-active *::after {
+	scroll-behavior: auto !important;
+	animation: none !important;
+	transition: none !important;
+}
+
+html.reduce-motion-active .site-header.header-hidden {
+	transform: translateY(0) !important;
+}
+
+html.reduce-motion-active .book-link:hover .book,
+html.reduce-motion-active .book-link:focus-visible .book {
+	transform: rotateY(-19deg) rotateX(3deg) !important;
+}
+
+html.reduce-motion-active .book-link:hover .book-link__art::after,
+html.reduce-motion-active .book-link:focus-visible .book-link__art::after {
+	transform: translateX(-50%) rotateX(70deg) !important;
+	opacity: 0.72 !important;
 }
 
