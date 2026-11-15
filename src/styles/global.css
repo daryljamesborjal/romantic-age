@@ -1587,7 +1587,7 @@ html.reduce-motion-active .site-header.header-hidden {
 
 html.reduce-motion-active .book-link:hover .book,
 html.reduce-motion-active .book-link:focus-visible .book {
-	transform: rotateY(-19deg) rotateX(3deg) !important;
+	transform: rotateY(-20deg) rotateX(2deg) !important;
 }
 
 html.reduce-motion-active .book-link:hover .book-link__art::after,
