@@ -617,6 +617,130 @@ h1 {
 	outline-color: var(--daff-focus);
 }
 
+/* An unboxed call-to-action above a softly fading, theme-aware reading area. */
+.reading-panel {
+	--reading-copy: #f2f4fa;
+	--reading-copy-background: #111624;
+	--reading-action: #d7e1f2;
+	--reading-action-hover: #fff;
+	--reading-focus: #fff0a8;
+	width: min(100%, 70ch);
+	margin: clamp(1.5rem, 4vw, 2.5rem) auto;
+	color: var(--reading-copy);
+}
+
+.cask-theme .reading-panel {
+	--reading-copy: #f4f0eb;
+	--reading-copy-background: #171416;
+	--reading-action: #f2d28d;
+	--reading-action-hover: #fff2d1;
+}
+
+.daffodils-theme .reading-panel {
+	--reading-copy: #20343a;
+	--reading-copy-background: #fffef7;
+	--reading-action: #355b40;
+	--reading-action-hover: #193b2c;
+	--reading-focus: #6c3500;
+}
+
+.reading-panel > summary {
+	display: flex;
+	width: fit-content;
+	max-width: 100%;
+	align-items: center;
+	justify-content: center;
+	gap: 0.8rem;
+	margin-inline: auto;
+	padding: 0.6rem 0.9rem;
+	color: var(--reading-action);
+	cursor: pointer;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.3rem, 3vw, 1.7rem);
+	line-height: 1.35;
+	list-style: none;
+	text-align: center;
+	text-wrap: balance;
+	transition: color 220ms ease, text-shadow 220ms ease;
+}
+
+.reading-panel > summary::-webkit-details-marker {
+	display: none;
+}
+
+.reading-panel > summary::after {
+	flex: 0 0 auto;
+	content: "+";
+	font-family: system-ui, sans-serif;
+	font-size: 1.35rem;
+	font-weight: 300;
+	line-height: 1;
+	transition: transform 280ms ease;
+}
+
+.reading-panel[open] > summary::after {
+	transform: rotate(45deg);
+}
+
+.reading-panel > summary:hover {
+	color: var(--reading-action-hover);
+	text-shadow: 0 0 1.1rem currentColor;
+}
+
+.reading-panel > summary:focus-visible {
+	border-radius: 0.25rem;
+	outline: 3px solid var(--reading-focus);
+	outline-offset: 3px;
+}
+
+/* The child wrapper lets grid interpolate the content height on disclosure. */
+.reading-panel > .text-content {
+	display: grid;
+	grid-template-rows: 0fr;
+	width: min(100%, 70ch);
+	margin-inline: auto;
+	padding-inline: clamp(1.1rem, 4vw, 2rem);
+	background-color: transparent;
+	visibility: hidden;
+	transition: grid-template-rows 420ms ease, visibility 420ms ease, background-color 420ms ease;
+}
+
+.reading-panel[open] > .text-content {
+	grid-template-rows: 1fr;
+	background-color: var(--reading-copy-background);
+	visibility: visible;
+}
+
+.text-content__inner {
+	min-height: 0;
+	overflow: hidden;
+	padding-block: 0;
+	color: var(--reading-copy);
+	font-size: clamp(1.1rem, 2.3vw, 1.2rem);
+	line-height: 1.75;
+	text-align: center;
+	opacity: 0;
+	transition: padding 420ms ease, opacity 320ms ease;
+}
+
+.reading-panel[open] .text-content__inner {
+	padding-block: clamp(1.5rem, 4vw, 2.5rem);
+	opacity: 1;
+}
+
+.cask-theme .text-content__inner {
+	text-align: left;
+}
+
+.text-content p {
+	margin: 0;
+	white-space: pre-line;
+}
+
+.text-content p + p {
+	margin-top: 1.15em;
+}
+
 @media (max-width: 48rem) {
 	.site-header__inner {
 		align-items: flex-start;
