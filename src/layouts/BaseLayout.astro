@@ -1,6 +1,7 @@
 ---
 // Shared page shell. Individual routes provide a document title and page content.
 import "../styles/global.css";
+import ThemeToggle from "../components/shared/ThemeToggle.astro";
 
 interface Props {
 	title?: string;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const { title = "Romantic Age", mainClass = "" } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === currentPath;
 ---
 
 <!doctype html>
@@ -18,6 +21,27 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#151515" />
 		<title>{title}</title>
+		<!-- Apply the saved or system theme before the page paints to avoid a flash. -->
+		<script is:inline>
+			(() => {
+				const themeStorageKey = "romantic-age-theme";
+				let savedTheme = null;
+
+				try {
+					savedTheme = localStorage.getItem(themeStorageKey);
+				} catch {
+					// Use the operating system preference when storage is unavailable.
+				}
+
+				const theme = savedTheme === "light" || savedTheme === "dark"
+					? savedTheme
+					: window.matchMedia("(prefers-color-scheme: dark)").matches
+						? "dark"
+						: "light";
+
+				document.documentElement.setAttribute("data-theme", theme);
+			})();
+		</script>
 	</head>
 	<body>
 		<!-- A skip link lets keyboard users bypass repeated navigation. -->
@@ -28,11 +52,12 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 				<a class="site-name" href="/">Romantic Age</a>
 				<nav aria-label="Main navigation">
 					<ul class="site-nav">
-						<li><a href="/">Home</a></li>
-						<li><a href="/annabel-lee">Annabel Lee</a></li>
-						<li><a href="/cask-of-amontillado">The Cask of Amontillado</a></li>
-						<li><a href="/daffodils">I Wandered Lonely as a Cloud</a></li>
-						<li><a href="/about">About</a></li>
+						<li><a href="/" aria-current={isCurrentPage("/") ? "page" : undefined}>Home</a></li>
+						<li><a href="/annabel-lee" aria-current={isCurrentPage("/annabel-lee") ? "page" : undefined}>Annabel Lee</a></li>
+						<li><a href="/cask-of-amontillado" aria-current={isCurrentPage("/cask-of-amontillado") ? "page" : undefined}>The Cask of Amontillado</a></li>
+						<li><a href="/daffodils" aria-current={isCurrentPage("/daffodils") ? "page" : undefined}>I Wandered Lonely as a Cloud</a></li>
+						<li><a href="/about" aria-current={isCurrentPage("/about") ? "page" : undefined}>About</a></li>
+						<li><ThemeToggle /></li>
 					</ul>
 				</nav>
 			</div>
@@ -58,6 +83,29 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 		</footer>
 
 		<script>
+			// Persist the theme choice and expose its current state accessibly.
+			const themeStorageKey = "romantic-age-theme";
+			const themeRoot = document.documentElement;
+			const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle");
+
+			function setTheme(theme: "dark" | "light", saveChoice = false) {
+				themeRoot.setAttribute("data-theme", theme);
+				themeToggle?.setAttribute("aria-pressed", String(theme === "dark"));
+
+				if (saveChoice) {
+					try {
+						localStorage.setItem(themeStorageKey, theme);
+					} catch {
+						// Keep the current-page choice if browser storage is unavailable.
+					}
+				}
+			}
+
+			setTheme(themeRoot.getAttribute("data-theme") === "dark" ? "dark" : "light");
+			themeToggle?.addEventListener("click", () => {
+				setTheme(themeRoot.getAttribute("data-theme") === "dark" ? "light" : "dark", true);
+			});
+
 			// Restore the saved choice, or use the operating system setting as a fallback.
 			const motionStorageKey = "romantic-age-reduce-motion";
 			const motionRoot = document.documentElement;

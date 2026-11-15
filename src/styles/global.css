@@ -3,23 +3,55 @@
  * keyboard focus indicators. The Annabel Lee theme is scoped to its page.
  */
 :root {
-	color-scheme: dark;
 	font-family: Georgia, "Times New Roman", serif;
 	font-size: 100%;
 	line-height: 1.6;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
-	--color-background: #151515;
-	--color-surface: #202020;
-	--color-text: #f3efe7;
+	/* Dark defaults remain available if JavaScript is unavailable. */
+	--bg-color: #0d111b;
+	--text-color: #f3efe7;
+	--card-bg: #1a202b;
+	--border-color: #4d5665;
+	--color-background: var(--bg-color);
+	--color-surface: var(--card-bg);
+	--color-text: var(--text-color);
 	--color-muted: #c4bfb6;
 	--color-accent: #e8c98b;
+	--color-accent-hover: #fff0ca;
 	--color-focus: #fff19a;
 	/* Landing-only lighting stays behind the content and keeps a warm contrast. */
-	--landing-overlay-top: rgb(20 15 10 / 72%);
-	--landing-overlay-bottom: rgb(10 5 0 / 90%);
-	--landing-vignette: rgb(0 0 0 / 80%);
+	--landing-overlay-top: rgb(20 15 10 / 40%);
+	--landing-overlay-bottom: rgb(10 5 0 / 70%);
+	--landing-vignette: rgb(0 0 0 / 60%);
 	--landing-book-glow: rgb(248 190 112 / 24%);
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--bg-color: #0d111b;
+	--text-color: #f3efe7;
+	--card-bg: #1a202b;
+	--border-color: #4d5665;
+	--color-muted: #c4bfb6;
+	--color-accent: #e8c98b;
+	--color-accent-hover: #fff0ca;
+	--color-focus: #fff19a;
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--bg-color: #f6f3eb;
+	--text-color: #202a32;
+	--card-bg: #fffdf8;
+	--border-color: #8b918b;
+	--color-muted: #47545a;
+	--color-accent: #354c5a;
+	--color-accent-hover: #172e3b;
+	--color-focus: #713d00;
+	--landing-overlay-top: rgb(24 29 31 / 38%);
+	--landing-overlay-bottom: rgb(14 20 16 / 64%);
+	--landing-vignette: rgb(0 0 0 / 48%);
 }
 
 *,
@@ -40,13 +72,19 @@ body {
 	color: var(--color-text);
 }
 
+/* Theme changes transition gently; reduced-motion rules below remove this. */
+body,
+body :where(*) {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 a {
 	color: var(--color-accent);
 	text-underline-offset: 0.2em;
 }
 
 a:hover {
-	color: #fff0ca;
+	color: var(--color-accent-hover);
 }
 
 /* A strong outline remains visible for keyboard and other focus navigation. */
@@ -72,13 +110,23 @@ button:focus-visible {
 	transform: translateY(0);
 }
 
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	clip-path: inset(50%);
+}
+
 .site-header {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	border-bottom: 1px solid #45413a;
+	border-bottom: 1px solid var(--border-color);
 	background: var(--color-surface);
-	transition: transform 220ms ease;
+	transition: transform 220ms ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 /* The scroll handler toggles this class after the visitor scrolls down. */
@@ -121,11 +169,28 @@ button:focus-visible {
 	text-decoration-thickness: 1px;
 }
 
+nav a[aria-current="page"] {
+	color: var(--color-accent-hover);
+	font-weight: 700;
+	text-decoration-line: underline;
+	text-decoration-color: var(--color-accent);
+	text-decoration-thickness: 0.18em;
+	text-underline-offset: 0.35em;
+}
+
 .site-main {
 	width: min(100% - 2rem, 72rem);
 	min-height: 65vh;
 	margin-inline: auto;
 	padding-block: clamp(3rem, 10vw, 7rem);
+}
+
+/* Poem pages need an unconfined main column so the hero can meet both viewport edges. */
+.site-main.poem-page {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 0 0 clamp(3rem, 8vw, 6rem);
 }
 
 .page-intro {
@@ -164,7 +229,7 @@ h1 {
 }
 
 .site-footer {
-	border-top: 1px solid #45413a;
+	border-top: 1px solid var(--border-color);
 	background: var(--color-surface);
 	color: var(--color-muted);
 	text-align: center;
@@ -202,38 +267,56 @@ h1 {
 
 .footer-motion-toggle:hover,
 .footer-motion-toggle[aria-pressed="true"] {
-	border-color: #8a7654;
-	background: #292723;
+	border-color: var(--border-color);
+	background: var(--bg-color);
 	color: var(--color-text);
 }
 
 /* Annabel Lee: cold moonlight, deep water, and restrained gothic detail. */
 .annabel-lee-theme {
+	--bg-color: #080a12;
 	--al-background: #080a12;
 	--al-panel: #111624;
+	--al-panel-alt: #101522;
 	--al-panel-hover: #171e2e;
 	--al-text: #f2f4fa;
 	--al-muted: #d2d8e5;
 	--al-silver: #d7e1f2;
+	--annabel-accent: #d7e1f2;
 	--al-border: #48536d;
 	--al-focus: #fff0a8;
-	background: var(--al-background);
+	position: relative;
+	isolation: isolate;
+	background:
+		radial-gradient(ellipse at 50% 8%, rgb(66 87 139 / 18%), transparent 52%),
+		radial-gradient(ellipse at 12% 72%, rgb(50 37 83 / 12%), transparent 48%),
+		var(--al-background);
 	color: var(--al-text);
 }
 
 .annabel-hero {
 	position: relative;
 	display: grid;
+	width: 100%;
 	min-height: clamp(25rem, 65vh, 42rem);
 	place-items: center;
 	overflow: hidden;
 	isolation: isolate;
-	border: 1px solid var(--al-border);
-	border-radius: 1.25rem;
+	border: 0;
+	border-radius: 0;
 	background:
 		radial-gradient(ellipse at 50% 100%, #252440 0, #121625 38%, #090b14 75%),
 		linear-gradient(180deg, #0b0d17, #101526);
 	text-align: center;
+}
+
+/* This final decorative layer fades each scene into its page's own background. */
+.hero-bottom-fade {
+	position: absolute;
+	z-index: 1;
+	inset: 0;
+	background: linear-gradient(to bottom, transparent 66%, var(--bg-color) 100%);
+	pointer-events: none;
 }
 
 /* The moon glow and layered waves are decorative CSS, with no script needed. */
@@ -287,7 +370,7 @@ h1 {
 
 .annabel-hero__content {
 	position: relative;
-	z-index: 1;
+	z-index: 2;
 	width: min(100% - 2rem, 48rem);
 	padding-block: 10rem 6rem;
 	text-shadow: 0 2px 1.25rem #050710;
@@ -319,7 +402,7 @@ h1 {
 }
 
 .annabel-content {
-	width: min(100%, 70ch);
+	width: min(calc(100% - 2rem), 70ch);
 	margin: clamp(3rem, 8vw, 6rem) auto 0;
 }
 
@@ -334,7 +417,7 @@ h1 {
 
 .annabel-section:nth-child(even) {
 	margin-left: clamp(0rem, 4vw, 2rem);
-	background: #101522;
+	background: var(--al-panel-alt);
 }
 
 .annabel-section:hover {
@@ -360,29 +443,51 @@ h1 {
 	outline-color: var(--al-focus);
 }
 
+/* A single decorative grain layer sits behind content on all three work pages. */
+.annabel-lee-theme::before,
+.cask-theme::before,
+.daffodils-theme::before {
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.55'/%3E%3C/svg%3E");
+	background-repeat: repeat;
+	content: "";
+	opacity: 0.05;
+	pointer-events: none;
+}
+
 /* Cask of Amontillado: a warm Carnival welcome above cold catacombs. */
 .cask-theme {
+	--bg-color: #0b0a0c;
 	--cask-background: #0b0a0c;
 	--cask-panel: #191719;
 	--cask-panel-alt: #211d20;
 	--cask-text: #f4f0eb;
 	--cask-muted: #d9d2cd;
 	--cask-gold: #f2d28d;
+	--cask-accent: #e5c784;
 	--cask-border: #65504b;
 	--cask-focus: #fff0a8;
-	background: var(--cask-background);
+	position: relative;
+	isolation: isolate;
+	background:
+		radial-gradient(ellipse at 52% 12%, rgb(91 22 38 / 23%), transparent 52%),
+		radial-gradient(ellipse at 18% 76%, rgb(55 15 28 / 16%), transparent 48%),
+		var(--cask-background);
 	color: var(--cask-text);
 }
 
 .cask-hero {
 	position: relative;
 	display: grid;
+	width: 100%;
 	min-height: clamp(25rem, 65vh, 42rem);
 	place-items: center;
 	overflow: hidden;
 	isolation: isolate;
-	border: 1px solid #795c3f;
-	border-radius: 1.25rem;
+	border: 0;
+	border-radius: 0;
 	background:
 		radial-gradient(ellipse at 50% 2%, rgb(255 206 114 / 22%), transparent 28%),
 		linear-gradient(180deg, #681f2b 0%, #39151f 39%, #191316 68%, #09090b 100%);
@@ -423,7 +528,7 @@ h1 {
 .cask-hero__content,
 .daffodils-hero__content {
 	position: relative;
-	z-index: 1;
+	z-index: 2;
 	width: min(100% - 2rem, 52rem);
 	padding-block: 8rem 5rem;
 }
@@ -463,27 +568,35 @@ h1 {
 
 /* Daffodils: open sky, warm sunlight, and soft green hills. */
 .daffodils-theme {
+	--bg-color: #f5f7ed;
 	--daff-background: #f5f7ed;
 	--daff-panel: #fffef7;
 	--daff-panel-alt: #edf3e5;
 	--daff-text: #20343a;
 	--daff-muted: #344d50;
 	--daff-green: #355b40;
+	--daffodils-accent: #365b2d;
 	--daff-border: #9eaf91;
 	--daff-focus: #6c3500;
-	background: var(--daff-background);
+	position: relative;
+	isolation: isolate;
+	background:
+		radial-gradient(ellipse at 18% 14%, rgb(205 225 154 / 34%), transparent 48%),
+		radial-gradient(ellipse at 84% 70%, rgb(248 222 135 / 24%), transparent 46%),
+		var(--daff-background);
 	color: var(--daff-text);
 }
 
 .daffodils-hero {
 	position: relative;
 	display: grid;
+	width: 100%;
 	min-height: clamp(25rem, 65vh, 42rem);
 	place-items: center;
 	overflow: hidden;
 	isolation: isolate;
-	border: 1px solid #9fb8bd;
-	border-radius: 1.25rem;
+	border: 0;
+	border-radius: 0;
 	background:
 		radial-gradient(circle at 76% 22%, #fff8c8 0 3.5rem, rgb(255 245 188 / 48%) 3.6rem 8rem, transparent 8.1rem),
 		linear-gradient(180deg, #9acbd9 0%, #cce4e2 53%, #edf1d9 100%);
@@ -524,15 +637,16 @@ h1 {
 }
 
 .daffodils-hero__content {
-	border: 1px solid rgb(48 78 79 / 24%);
-	border-radius: 1rem;
-	background: rgb(245 247 237 / 90%);
-	box-shadow: 0 1rem 3rem rgb(39 77 83 / 12%);
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
 }
 
 .daffodils-hero h1 {
 	color: #203943;
-	text-shadow: 0 1px 0 rgb(255 255 255 / 35%);
+	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
 }
 
 .daffodils-hero__author {
@@ -545,7 +659,7 @@ h1 {
 /* Both new poem pages share the same comfortable reading column and panels. */
 .cask-content,
 .daffodils-content {
-	width: min(100%, 70ch);
+	width: min(calc(100% - 2rem), 70ch);
 	margin: clamp(3rem, 8vw, 6rem) auto 0;
 }
 
@@ -622,6 +736,188 @@ h1 {
 	outline-color: var(--daff-focus);
 }
 
+/* Light palette overrides preserve each work's identity with readable ink. */
+html[data-theme="light"] .annabel-lee-theme {
+	--bg-color: #f0f3f8;
+	--al-background: #f0f3f8;
+	--al-panel: #fffefa;
+	--al-panel-alt: #e9eef6;
+	--al-panel-hover: #e2e9f3;
+	--al-muted: #354252;
+	--al-silver: #304563;
+	--annabel-accent: #304563;
+	--al-border: #8997aa;
+	--al-focus: #6b3f00;
+	background: radial-gradient(ellipse at 50% 8%, rgb(141 168 207 / 28%), transparent 52%),
+		radial-gradient(ellipse at 12% 72%, rgb(172 157 201 / 18%), transparent 48%), #f0f3f8;
+	color: #202a38;
+}
+
+html[data-theme="light"] .annabel-section:nth-child(even) {
+	background: #e9eef6;
+}
+
+html[data-theme="light"] .annabel-section:hover {
+	border-color: #61728d;
+	background: #e2e9f3;
+}
+
+html[data-theme="light"] .annabel-hero {
+	border-color: #8997aa;
+	background: radial-gradient(ellipse at 50% 100%, #cbd7e9 0, #e1e7f0 45%, #f1f3f7 82%),
+		linear-gradient(180deg, #e7edf5, #dfe6f0);
+}
+
+html[data-theme="light"] .annabel-hero::after {
+	background:
+		radial-gradient(ellipse at 18% 0%, transparent 0 33%, rgb(87 111 151 / 14%) 34% 35%, transparent 36%),
+		radial-gradient(ellipse at 72% 5%, transparent 0 38%, rgb(87 111 151 / 12%) 39% 40%, transparent 41%),
+		linear-gradient(180deg, rgb(171 188 214 / 46%), #d8e0eb 86%);
+}
+
+html[data-theme="light"] .annabel-hero__decoration::before {
+	background: radial-gradient(ellipse at center 36%, transparent 0 18%, rgb(239 243 249 / 10%) 58%, rgb(239 243 249 / 34%) 100%);
+}
+
+html[data-theme="light"] .annabel-hero__content {
+	text-shadow: 0 1px 1rem rgb(255 255 255 / 75%);
+}
+
+html[data-theme="light"] .annabel-hero__eyebrow,
+html[data-theme="light"] .annabel-hero h1,
+html[data-theme="light"] .annabel-hero__author {
+	color: #26374f;
+}
+
+html[data-theme="light"] .annabel-lee-theme .reading-panel {
+	--reading-copy: #202a38;
+	--reading-copy-background: #fffefa;
+	--reading-action: #304563;
+	--reading-action-hover: #1f314b;
+	--reading-focus: #6b3f00;
+}
+
+html[data-theme="light"] .cask-theme {
+	--bg-color: #f4efec;
+	--cask-background: #f4efec;
+	--cask-panel: #fffdfa;
+	--cask-panel-alt: #f0e9e6;
+	--cask-text: #29242a;
+	--cask-muted: #443d42;
+	--cask-gold: #713b30;
+	--cask-accent: #713b30;
+	--cask-border: #9c827b;
+	--cask-focus: #573000;
+	--cask-panel-hover: #e9dedb;
+	background: radial-gradient(ellipse at 52% 12%, rgb(180 104 88 / 20%), transparent 52%),
+		radial-gradient(ellipse at 18% 76%, rgb(153 118 109 / 13%), transparent 48%), #f4efec;
+	color: #29242a;
+}
+
+html[data-theme="light"] .cask-section:nth-child(even) {
+	background: var(--cask-panel-alt);
+}
+
+html[data-theme="light"] .cask-section:hover {
+	border-color: #80544c;
+	background: var(--cask-panel-hover);
+}
+
+html[data-theme="light"] .cask-hero {
+	border-color: #9c827b;
+	background:
+		radial-gradient(ellipse at 50% 2%, rgb(255 229 180 / 72%), transparent 28%),
+		linear-gradient(180deg, #f1d8d3 0%, #e8d5cf 39%, #ded4d0 68%, #d5cfcc 100%);
+}
+
+html[data-theme="light"] .cask-hero::before {
+	border-color: rgb(94 59 52 / 38%);
+	background: linear-gradient(180deg, rgb(65 49 48 / 10%), rgb(38 32 34 / 42%));
+}
+
+html[data-theme="light"] .cask-hero::after {
+	background: radial-gradient(ellipse at 50% 42%, transparent 0 24%, rgb(61 48 47 / 8%) 76%, rgb(52 42 43 / 18%) 100%);
+}
+
+html[data-theme="light"] .cask-hero__eyebrow,
+html[data-theme="light"] .cask-hero h1,
+html[data-theme="light"] .cask-hero__author {
+	color: #382a2a;
+	text-shadow: 0 1px 0 rgb(255 255 255 / 40%);
+}
+
+html[data-theme="light"] .cask-theme .reading-panel {
+	--reading-copy: #29242a;
+	--reading-copy-background: #fffdfa;
+	--reading-action: #713b30;
+	--reading-action-hover: #4f2925;
+	--reading-focus: #573000;
+}
+
+html[data-theme="dark"] .daffodils-theme {
+	--bg-color: #111a19;
+	--daff-background: #111a19;
+	--daff-panel: #1b2825;
+	--daff-panel-alt: #202f2a;
+	--daff-text: #edf2e9;
+	--daff-muted: #d2dfd0;
+	--daff-green: #c7dfaa;
+	--daff-accent: #d2e4b8;
+	--daffodils-accent: #d2e4b8;
+	--daff-border: #657b68;
+	--daff-focus: #ffe69a;
+	background: radial-gradient(ellipse at 18% 14%, rgb(80 117 77 / 25%), transparent 48%),
+		radial-gradient(ellipse at 84% 70%, rgb(161 133 57 / 16%), transparent 46%), #111a19;
+	color: #edf2e9;
+}
+
+html[data-theme="dark"] .daffodils-section:nth-child(even) {
+	background: var(--daff-panel-alt);
+}
+
+html[data-theme="dark"] .daffodils-section:hover {
+	border-color: #a6c28e;
+	background: #263a30;
+}
+
+html[data-theme="dark"] .daffodils-hero {
+	border-color: #637b6a;
+	background:
+		radial-gradient(circle at 76% 22%, #e5d88d 0 3.5rem, rgb(210 192 115 / 36%) 3.6rem 8rem, transparent 8.1rem),
+		linear-gradient(180deg, #335b65 0%, #314f4d 53%, #374a3b 100%);
+}
+
+html[data-theme="dark"] .daffodils-hero::before {
+	background: #536c4c;
+}
+
+html[data-theme="dark"] .daffodils-hero::after {
+	background: linear-gradient(180deg, #465f45, #2b4939);
+}
+
+html[data-theme="dark"] .daffodils-hero__content {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+}
+
+html[data-theme="dark"] .daffodils-hero__eyebrow,
+html[data-theme="dark"] .daffodils-hero h1,
+html[data-theme="dark"] .daffodils-hero__author {
+	color: #eff3e9;
+	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+}
+
+html[data-theme="dark"] .daffodils-theme .reading-panel {
+	--reading-copy: #edf2e9;
+	--reading-copy-background: #1b2825;
+	--reading-action: #d2e4b8;
+	--reading-action-hover: #f1f7e9;
+	--reading-focus: #ffe69a;
+}
+
 /* An unboxed call-to-action above a softly fading, theme-aware reading area. */
 .reading-panel {
 	--reading-copy: #f2f4fa;
@@ -629,7 +925,7 @@ h1 {
 	--reading-action: #d7e1f2;
 	--reading-action-hover: #fff;
 	--reading-focus: #fff0a8;
-	width: min(100%, 70ch);
+	width: min(calc(100% - 2rem), 70ch);
 	margin: clamp(1.5rem, 4vw, 2.5rem) auto;
 	color: var(--reading-copy);
 }
@@ -809,7 +1105,7 @@ h1 {
 		scroll-behavior: auto !important;
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		transition: none !important;
 	}
 }
 
