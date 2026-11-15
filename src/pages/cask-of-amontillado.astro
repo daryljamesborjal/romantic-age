@@ -1,11 +1,13 @@
 ---
 // Cask of Amontillado reading and study page.
 import PoemLayout from "../layouts/PoemLayout.astro";
+import CaskScene from "../components/scene/CaskScene.astro";
 ---
 
 <PoemLayout title="The Cask of Amontillado | Romantic Age" themeClass="poem-page cask-theme">
 	<!-- The arch and candlelit gradient are decorative CSS, with no JavaScript. -->
 	<section class="cask-hero" aria-labelledby="page-title">
+		<CaskScene />
 		<div class="cask-hero__decoration" aria-hidden="true"></div>
 		<div class="hero-bottom-fade" aria-hidden="true"></div>
 		<div class="cask-hero__content">

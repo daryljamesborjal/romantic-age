@@ -25,6 +25,17 @@
 	--landing-overlay-bottom: rgb(10 5 0 / 70%);
 	--landing-vignette: rgb(0 0 0 / 60%);
 	--landing-book-glow: rgb(248 190 112 / 24%);
+	/* Catacomb-safe fallbacks are replaced by each explicit theme below. */
+	--cask-scene-background: linear-gradient(180deg, #101311 0%, #1b1d1a 52%, #10120f 100%);
+	--cask-carnival-light: linear-gradient(180deg, #72162a 0%, #a6382c 43%, #c46a2e 72%, #d7a64b 100%);
+	--cask-bunting-rope: #4d281e;
+	--cask-flag-one: #e2ba52;
+	--cask-flag-two: #9e2634;
+	--cask-flag-three: #e9dfc4;
+	--cask-arch-fill: #363a34;
+	--cask-arch-edge: rgb(177 167 139 / 18%);
+	--cask-arch-opening: #111411;
+	--cask-drip: #9aab9b;
 }
 
 :root[data-theme="dark"] {
@@ -52,6 +63,16 @@
 	--daff-leaf: #527549;
 	--daff-flower: #d8b94b;
 	--daff-trumpet: #aa6c2e;
+	--cask-scene-background: linear-gradient(180deg, #101311 0%, #1b1d1a 52%, #10120f 100%);
+	--cask-carnival-light: linear-gradient(180deg, #72162a 0%, #a6382c 43%, #c46a2e 72%, #d7a64b 100%);
+	--cask-bunting-rope: #4d281e;
+	--cask-flag-one: #e2ba52;
+	--cask-flag-two: #9e2634;
+	--cask-flag-three: #e9dfc4;
+	--cask-arch-fill: #363a34;
+	--cask-arch-edge: rgb(177 167 139 / 18%);
+	--cask-arch-opening: #111411;
+	--cask-drip: #9aab9b;
 }
 
 :root[data-theme="light"] {
@@ -79,6 +100,16 @@
 	--daff-leaf: #3d7042;
 	--daff-flower: #f4cb4e;
 	--daff-trumpet: #df8423;
+	--cask-scene-background: linear-gradient(180deg, #8c1b2d 0%, #b84127 42%, #d87a2d 72%, #edc05c 100%);
+	--cask-carnival-light: radial-gradient(ellipse at 50% 12%, rgb(255 221 132 / 48%), transparent 34%), linear-gradient(180deg, #83172d 0%, #b43625 42%, #d9732a 72%, #e9b84f 100%);
+	--cask-bunting-rope: #743c2a;
+	--cask-flag-one: #f3d26b;
+	--cask-flag-two: #a9273a;
+	--cask-flag-three: #fff0c4;
+	--cask-arch-fill: #363a34;
+	--cask-arch-edge: rgb(177 167 139 / 18%);
+	--cask-arch-opening: #111411;
+	--cask-drip: #9aab9b;
 	--landing-overlay-top: rgb(24 29 31 / 38%);
 	--landing-overlay-bottom: rgb(14 20 16 / 64%);
 	--landing-vignette: rgb(0 0 0 / 48%);
@@ -518,39 +549,22 @@ h1 {
 	isolation: isolate;
 	border: 0;
 	border-radius: 0;
-	background:
-		radial-gradient(ellipse at 50% 2%, rgb(255 206 114 / 22%), transparent 28%),
-		linear-gradient(180deg, #681f2b 0%, #39151f 39%, #191316 68%, #09090b 100%);
+	background: transparent;
 	text-align: center;
 }
 
 /* A low contrast arch suggests the catacombs beneath the Carnival scene. */
 .cask-hero::before {
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	width: min(48%, 27rem);
-	height: 78%;
-	transform: translateX(-50%);
-	border: 1px solid rgb(220 186 132 / 32%);
-	border-bottom: 0;
-	border-radius: 50% 50% 0 0 / 32% 32% 0 0;
-	background: linear-gradient(180deg, rgb(11 10 12 / 15%), rgb(5 5 7 / 84%));
-	box-shadow: 0 0 4rem rgb(7 6 9 / 42%);
-	content: "";
-	pointer-events: none;
+	display: none;
 }
 
 .cask-hero::after {
-	position: absolute;
-	inset: 0;
-	background: radial-gradient(ellipse at 50% 42%, transparent 0 24%, rgb(7 6 8 / 30%) 76%, rgb(5 5 7 / 55%) 100%);
-	content: "";
-	pointer-events: none;
+	display: none;
 }
 
 .cask-hero__decoration {
 	position: absolute;
+	z-index: 1;
 	inset: 0;
 	background: repeating-linear-gradient(110deg, transparent 0 12rem, rgb(255 220 160 / 3%) 12.1rem 12.2rem, transparent 12.3rem 24rem);
 }
@@ -561,6 +575,11 @@ h1 {
 	z-index: 2;
 	width: min(100% - 2rem, 52rem);
 	padding-block: 8rem 5rem;
+}
+
+.cask-hero__content {
+	position: relative;
+	z-index: 10;
 }
 
 .cask-hero__eyebrow,
@@ -882,19 +901,15 @@ html[data-theme="light"] .cask-section:hover {
 }
 
 html[data-theme="light"] .cask-hero {
-	border-color: #9c827b;
-	background:
-		radial-gradient(ellipse at 50% 2%, rgb(255 229 180 / 72%), transparent 28%),
-		linear-gradient(180deg, #f1d8d3 0%, #e8d5cf 39%, #ded4d0 68%, #d5cfcc 100%);
+	background: transparent;
 }
 
 html[data-theme="light"] .cask-hero::before {
-	border-color: rgb(94 59 52 / 38%);
-	background: linear-gradient(180deg, rgb(65 49 48 / 10%), rgb(38 32 34 / 42%));
+	display: none;
 }
 
 html[data-theme="light"] .cask-hero::after {
-	background: radial-gradient(ellipse at 50% 42%, transparent 0 24%, rgb(61 48 47 / 8%) 76%, rgb(52 42 43 / 18%) 100%);
+	display: none;
 }
 
 html[data-theme="light"] .cask-hero__eyebrow,

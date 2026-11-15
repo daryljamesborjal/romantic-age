@@ -1,0 +1,290 @@
+---
+// Decorative Carnival-to-catacomb scenery. Its shapes have no semantic content.
+const confetti = Array.from({ length: 18 }, (_, index) => index);
+const flags = Array.from({ length: 12 }, (_, index) => index);
+const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
+---
+
+<div class="cask-scene" aria-hidden="true">
+	<div class="cask-scene__sky"></div>
+	<div class="cask-scene__carnival">
+		<div class="cask-scene__bunting">
+			{flags.map((index) => (
+				<span class="cask-scene__flag" style={`--flag-x: ${(index * 100) / 11}%;`}></span>
+			))}
+		</div>
+		<div class="cask-scene__confetti">
+			{confetti.map((index) => (
+				<span
+					class="cask-scene__confetti-piece"
+					style={`--piece-x: ${(index * 53) % 100}%; --piece-delay: ${(index % 8) * -1.7}s; --piece-duration: ${9 + (index % 5) * 2}s; --piece-color: ${confettiColors[index % confettiColors.length]};`}
+				></span>
+			))}
+		</div>
+	</div>
+	<div class="cask-scene__catacombs">
+		<div class="cask-scene__arch cask-scene__arch--left"></div>
+		<div class="cask-scene__arch cask-scene__arch--right"></div>
+		<span class="cask-scene__drip cask-scene__drip--one"></span>
+		<span class="cask-scene__drip cask-scene__drip--two"></span>
+		<span class="cask-scene__drip cask-scene__drip--three"></span>
+		<span class="cask-scene__drip cask-scene__drip--four"></span>
+	</div>
+</div>
+
+<style>
+	/* This scene fills its positioned hero without creating a scrollable layer. */
+	.cask-scene {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.cask-scene__sky,
+	.cask-scene__carnival,
+	.cask-scene__catacombs {
+		position: absolute;
+		inset: 0;
+	}
+
+	.cask-scene__sky {
+		background: var(--cask-scene-background);
+	}
+
+	.cask-scene__carnival,
+	.cask-scene__catacombs {
+		transition: opacity 350ms ease;
+	}
+
+	.cask-scene__carnival {
+		background: var(--cask-carnival-light);
+		opacity: 1;
+	}
+
+	.cask-scene__bunting {
+		position: absolute;
+		top: 0;
+		left: 4%;
+		width: 92%;
+		height: 7rem;
+		transition: opacity 350ms ease;
+	}
+
+	.cask-scene__bunting::before {
+		position: absolute;
+		top: 1.4rem;
+		left: 0;
+		width: 100%;
+		transform: rotate(1.5deg);
+		border-top: 2px solid var(--cask-bunting-rope);
+		content: "";
+	}
+
+	.cask-scene__flag {
+		position: absolute;
+		top: 1.35rem;
+		left: var(--flag-x);
+		width: clamp(1.15rem, 3vw, 2.2rem);
+		height: 2.8rem;
+		transform: rotate(1.5deg);
+		clip-path: polygon(0 0, 100% 0, 50% 100%);
+		background: var(--cask-flag-one);
+		opacity: 0.78;
+	}
+
+	.cask-scene__flag:nth-child(3n + 2) {
+		background: var(--cask-flag-two);
+	}
+
+	.cask-scene__flag:nth-child(3n) {
+		background: var(--cask-flag-three);
+	}
+
+	.cask-scene__confetti {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	.cask-scene__confetti-piece {
+		position: absolute;
+		top: -1rem;
+		left: var(--piece-x);
+		width: 0.45rem;
+		height: 0.45rem;
+		transform: translateY(-1rem);
+		background: var(--piece-color);
+		animation: confetti-fall var(--piece-duration) linear infinite;
+		animation-delay: var(--piece-delay);
+		opacity: 0;
+	}
+
+	.cask-scene__confetti-piece:nth-child(3n) {
+		border-radius: 50%;
+	}
+
+	.cask-scene__confetti-piece:nth-child(4n) {
+		width: 0.3rem;
+		height: 0.6rem;
+	}
+
+	@keyframes confetti-fall {
+		0% {
+			transform: translateY(-1rem) rotate(0deg);
+			opacity: 0;
+		}
+
+		12% {
+			opacity: 0.9;
+		}
+
+		100% {
+			transform: translateY(75vh) rotate(320deg);
+			opacity: 0;
+		}
+	}
+
+	.cask-scene__catacombs {
+		background: linear-gradient(180deg, rgb(6 8 8 / 18%), rgb(5 7 7 / 42%));
+		opacity: 0;
+	}
+
+	.cask-scene__arch {
+		position: absolute;
+		bottom: -5%;
+		width: clamp(13rem, 30vw, 30rem);
+		height: 88%;
+		border: 1px solid var(--cask-arch-edge);
+		border-bottom: 0;
+		border-radius: 50% 50% 0 0 / 28% 28% 0 0;
+		background: linear-gradient(180deg, var(--cask-arch-fill), rgb(7 9 8 / 88%));
+		box-shadow: inset 0.8rem 0 1.4rem rgb(0 0 0 / 17%), inset -0.8rem 0 1.4rem rgb(0 0 0 / 17%);
+		opacity: 0.5;
+	}
+
+	.cask-scene__arch::before {
+		position: absolute;
+		top: 17%;
+		right: 16%;
+		bottom: 0;
+		left: 16%;
+		border: 1px solid rgb(255 255 255 / 4%);
+		border-bottom: 0;
+		border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+		background: var(--cask-arch-opening);
+		content: "";
+	}
+
+	.cask-scene__arch--left {
+		left: 8%;
+	}
+
+	.cask-scene__arch--right {
+		right: 7%;
+		transform: scale(0.82);
+		transform-origin: bottom center;
+	}
+
+	.cask-scene__drip {
+		position: absolute;
+		top: 24%;
+		width: 0.2rem;
+		height: 2.2rem;
+		transform: scaleY(0.35);
+		transform-origin: top center;
+		border-radius: 999px;
+		background: linear-gradient(180deg, var(--cask-drip), transparent);
+		animation: water-drip 5.5s ease-in infinite;
+		opacity: 0;
+	}
+
+	.cask-scene__drip--one {
+		left: 22%;
+		animation-delay: -1.2s;
+	}
+
+	.cask-scene__drip--two {
+		left: 36%;
+		top: 31%;
+		animation-delay: -3.7s;
+	}
+
+	.cask-scene__drip--three {
+		right: 34%;
+		top: 27%;
+		animation-delay: -2.4s;
+	}
+
+	.cask-scene__drip--four {
+		right: 19%;
+		top: 34%;
+		animation-delay: -4.5s;
+	}
+
+	@keyframes water-drip {
+		0% {
+			transform: translateY(0) scaleY(0.35);
+			opacity: 0;
+		}
+
+		18% {
+			opacity: 0.7;
+		}
+
+		85%,
+		100% {
+			transform: translateY(8rem) scaleY(1);
+			opacity: 0;
+		}
+	}
+
+	:global(html[data-theme="dark"]) .cask-scene__carnival {
+		opacity: 0;
+	}
+
+	:global(html[data-theme="dark"]) .cask-scene__confetti-piece {
+		animation-play-state: paused;
+	}
+
+	:global(html[data-theme="dark"]) .cask-scene__catacombs {
+		opacity: 1;
+	}
+
+	:global(html[data-theme="dark"]) .cask-scene__drip {
+		animation-play-state: running;
+	}
+
+	:global(html[data-theme="light"]) .cask-scene__catacombs {
+		opacity: 0;
+	}
+
+	:global(html[data-theme="light"]) .cask-scene__drip {
+		animation-play-state: paused;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cask-scene__carnival,
+		.cask-scene__catacombs,
+		.cask-scene__bunting {
+			transition: none;
+		}
+
+		.cask-scene__confetti-piece,
+		.cask-scene__drip {
+			animation: none;
+		}
+	}
+
+	:global(html.reduce-motion-active) .cask-scene__confetti-piece,
+	:global(html.reduce-motion-active) .cask-scene__drip {
+		animation-play-state: paused;
+	}
+
+	:global(html.reduce-motion-active) .cask-scene__carnival,
+	:global(html.reduce-motion-active) .cask-scene__catacombs,
+	:global(html.reduce-motion-active) .cask-scene__bunting {
+		transition: none;
+	}
+</style>
