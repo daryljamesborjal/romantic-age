@@ -2,6 +2,7 @@
 // Shared page shell. Individual routes provide a document title and page content.
 import "../styles/global.css";
 import ThemeToggle from "../components/shared/ThemeToggle.astro";
+import NavLinks from "../components/shared/NavLinks.astro";
 
 interface Props {
 	title?: string;
@@ -9,8 +10,6 @@ interface Props {
 }
 
 const { title = "Romantic Age", mainClass = "" } = Astro.props;
-const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === currentPath;
 ---
 
 <!doctype html>
@@ -56,14 +55,9 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<div class="site-header__inner">
 				<a class="site-name" href="/">Romantic Age</a>
 				<nav aria-label="Main navigation">
-					<ul class="site-nav">
-						<li><a href="/" aria-current={isCurrentPage("/") ? "page" : undefined}>Home</a></li>
-						<li><a href="/annabel-lee" aria-current={isCurrentPage("/annabel-lee") ? "page" : undefined}>Annabel Lee</a></li>
-						<li><a href="/cask-of-amontillado" aria-current={isCurrentPage("/cask-of-amontillado") ? "page" : undefined}>The Cask of Amontillado</a></li>
-						<li><a href="/daffodils" aria-current={isCurrentPage("/daffodils") ? "page" : undefined}>I Wandered Lonely as a Cloud</a></li>
-						<li><a href="/about" aria-current={isCurrentPage("/about") ? "page" : undefined}>About</a></li>
+					<NavLinks>
 						<li><ThemeToggle /></li>
-					</ul>
+					</NavLinks>
 				</nav>
 			</div>
 		</header>
