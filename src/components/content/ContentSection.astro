@@ -1,0 +1,30 @@
+---
+interface Props {
+	id: string;
+	title: string;
+	summary: string;
+	align?: "left" | "right";
+}
+
+const { id, title, summary, align = "left" } = Astro.props;
+const titleId = `${id}-title`;
+const contentId = `${id}-content`;
+---
+
+<!-- Native details/summary keeps each section keyboard-operable without JavaScript. -->
+<section class={`content-section content-section--${align}`} aria-labelledby={titleId}>
+	<details id={id} class="content-section__details">
+		<summary class="content-section__summary" aria-controls={contentId}>
+			<span class="content-section__intro">
+				<h2 class="content-section__title" id={titleId}>{title}</h2>
+				<span class="content-section__dek">{summary}</span>
+			</span>
+			<span class="content-section__icon" aria-hidden="true">+</span>
+		</summary>
+		<div class="content-section__body" id={contentId}>
+			<div class="content-section__body-inner">
+				<slot />
+			</div>
+		</div>
+	</details>
+</section>

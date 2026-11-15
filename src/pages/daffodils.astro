@@ -2,6 +2,7 @@
 // Daffodils reading and study page.
 import PoemLayout from "../layouts/PoemLayout.astro";
 import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
+import ContentSection from "../components/content/ContentSection.astro";
 ---
 
 <PoemLayout title="I Wandered Lonely as a Cloud | Romantic Age" themeClass="poem-page daffodils-theme">
@@ -61,40 +62,35 @@ import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 	</details>
 
 	<article class="daffodils-content" aria-label="I Wandered Lonely as a Cloud study sections">
-		<section class="daffodils-section" aria-labelledby="author-heading">
-			<h2 id="author-heading">Author</h2>
+		<ContentSection id="author" title="Author" summary="William Wordsworth was an English poet and one of the founders of the Romantic movement in British literature." align="left">
 			<p>William Wordsworth (1770–1850) was an English poet and one of the founders of the Romantic movement in British literature, born in the Lake District of England. In 1798, with his close friend Samuel Taylor Coleridge, he published <em>Lyrical Ballads</em>, widely seen as the book that launched English Romanticism. He later served as England's Poet Laureate from 1843 until his death. He lost both parents by age 13 and eventually settled back in the Lake District, living for decades alongside his sister Dorothy, whose journals directly influenced his poetry.</p>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="context-heading">
-			<h2 id="context-heading">Time, Era, and Societal Context</h2>
+		<ContentSection id="context" title="Time, Era, and Societal Context" summary="English Romanticism reacted against formal, ornate poetic diction and favored natural, accessible speech." align="right">
 			<ul>
 				<li><strong>Literary movement:</strong> English Romanticism, which reacted against the formal, ornate poetic diction of the 18th century. In the preface to <em>Lyrical Ballads</em>, Wordsworth argued poetry should use "the real language of men" — natural, accessible speech rather than performed elegance.</li>
 				<li><strong>Historical backdrop:</strong> The poem was composed in 1804 (published 1807, revised in 1815), during the early Industrial Revolution — a period of rapid urbanization that was pulling people away from rural life and, in Wordsworth's view, from a healthy relationship with nature.</li>
 				<li><strong>The real event behind the poem:</strong> On April 15, 1802, Wordsworth and his sister Dorothy were walking around Glencoyne Bay at Ullswater in the Lake District when they came across a long stretch of daffodils. Dorothy recorded the scene vividly in her journal, and William drew directly on her phrasing and imagery when he wrote the poem two years later. His wife, Mary Hutchinson, is credited with contributing the famous "inward eye" line.</li>
 				<li><strong>The 1815 revision:</strong> When arranging his works in 1815, Wordsworth added the second stanza (the Milky Way stanza), added a stanza between the first and second, and changed "laughing" to "jocund". The final stanza was left untouched and was already in the 1807 version.</li>
 			</ul>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="summary-heading">
-			<h2 id="summary-heading">Summary (Characters, Setting, Plot)</h2>
+		<ContentSection id="summary" title="Summary (Characters, Setting, Plot)" summary="The speaker is a solitary wanderer, though Wordsworth was accompanied by his sister Dorothy in real life." align="left">
 			<p><strong>Speaker:</strong> A solitary wanderer (a stand-in for the poet), though in real life Wordsworth was not alone — his sister Dorothy was with him.</p>
 			<p><strong>Setting:</strong> The Lake District countryside, beside a lake, among hills and trees.</p>
 			<p><strong>Plot:</strong> The speaker describes wandering alone, "lonely as a cloud" drifting over valleys and hills, when he suddenly comes upon a huge crowd of golden daffodils beside a lake, fluttering and dancing in the breeze. He compares their number to the endless stars of the Milky Way, stretching in a never-ending line along the shore. Even the nearby waves dance, but the daffodils outdo them in glee. In the final stanza, the poem shifts to the present: whenever he lies on his couch in an empty or thoughtful mood, the memory of the daffodils "flashes upon that inward eye which is the bliss of solitude," and his heart fills with pleasure and dances along with them.</p>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="analysis-heading">
-			<h2 id="analysis-heading">Analysis (Salient Points)</h2>
+		<ContentSection id="analysis" title="Analysis (Salient Points)" summary="The poem exemplifies Wordsworth’s definition of poetry as powerful feeling recollected in tranquillity." align="right">
 			<ul>
 				<li>The poem is a textbook example of Wordsworth's own definition of poetry: "the spontaneous overflow of powerful feelings," which "takes its origin from emotion recollected in tranquility." The poem isn't really about the moment of seeing the daffodils — it's about what happens later, when memory brings that moment back.</li>
 				<li>The speaker's "loneliness" at the start is not the anxious loneliness of isolation, but a receptive, meditative solitude — one that leaves him open to being struck by nature's beauty. By the end, that loneliness has been transformed into "the bliss of solitude."</li>
 				<li>Wordsworth intentionally removes his real-life companion (Dorothy) from the poem, making the speaker's transformation from isolation to joy feel more universal and personal to any solitary reader.</li>
 				<li>The poem values ordinary, everyday nature (a stretch of wild daffodils, not some grand mythic landscape) as a source of profound emotional and even spiritual nourishment.</li>
 			</ul>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="themes-heading">
-			<h2 id="themes-heading">Major Themes and Motifs</h2>
+		<ContentSection id="themes" title="Major Themes and Motifs" summary="Nature offers joy and healing, while memory allows that experience to endure." align="left">
 			<ul>
 				<li><strong>Nature as a source of joy and healing:</strong> The escalating, almost overwhelming imagery of the daffodils' number and movement.</li>
 				<li><strong>Memory and the "inward eye":</strong> The shift from past-tense narration to present-tense recollection in the final stanza.</li>
@@ -102,10 +98,9 @@ import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 				<li><strong>Nature and the human spirit in harmony:</strong> Repeated personification of the daffodils as dancing companions, rather than passive scenery.</li>
 			</ul>
 			<p><strong>Key recurring motif — dance:</strong> The daffodils dance, the waves dance, and finally the speaker's own heart dances — nature's motion becomes internalized as the speaker's emotional state.</p>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="symbols-heading">
-			<h2 id="symbols-heading">Major Symbols</h2>
+		<ContentSection id="symbols" title="Major Symbols" summary="The cloud symbolizes detached, drifting solitude—floating above the world and observing rather than participating." align="right">
 			<ul>
 				<li><strong>The cloud:</strong> Symbolizes detached, drifting solitude — floating above the world, observing rather than participating.</li>
 				<li><strong>The daffodils:</strong> Symbolize joy, vitality, and the abundance nature freely offers to anyone who pays attention.</li>
@@ -113,10 +108,9 @@ import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 				<li><strong>The "inward eye":</strong> A symbol for memory and imagination — the mind's ability to relive and re-experience beauty long after the original moment has passed.</li>
 				<li><strong>The couch:</strong> Symbolizes a return to ordinary, even weary, daily life — against which the memory of the daffodils becomes an escape or a lift.</li>
 			</ul>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="conventions-heading">
-			<h2 id="conventions-heading">Important Conventions</h2>
+		<ContentSection id="conventions" title="Important Conventions" summary="The drama conventions do not apply to this poem; it has no conflict, hero, or fall." align="left">
 			<p>The drama conventions (classical unities, noble birth, tragic flaw, free will) do not apply to this poem. It has no conflict, no hero, and no fall.</p>
 			<p>Instead, it uses the conventions of a <strong>Romantic lyric</strong>:</p>
 			<ul>
@@ -126,19 +120,17 @@ import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 				<li><strong>Plain language:</strong> The words are close to everyday speech, which is what the <em>Lyrical Ballads</em> preface called for.</li>
 				<li><strong>Personification of nature:</strong> The daffodils "dance," "toss their heads" and show "glee."</li>
 			</ul>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="resonance-heading">
-			<h2 id="resonance-heading">How the Text Resonates Today</h2>
+		<ContentSection id="resonance" title="How the Text Resonates Today" summary="Modern readers connect the poem’s remembered encounter with nature to mindfulness and emotional well-being." align="right">
 			<ul>
 				<li>The poem is frequently cited in modern psychology and mental-health writing as an early literary example of what we would now call mindfulness or the therapeutic use of memory — recalling a genuinely happy sensory memory to lift a low mood.</li>
 				<li>Wordsworth's general outlook anticipated 19th-century "nature cures" adopted by upscale asylums, which added tranquil landscapes to their therapeutic regimens.</li>
 				<li>In today's increasingly urbanized, screen-based world, the poem's core message — that time spent noticing nature can leave a lasting, positive emotional imprint — is often referenced in discussions of nature's benefits for stress, mood, and mental well-being. (The 19th-century philosopher John Stuart Mill also famously wrote that Wordsworth's poems in general served as "a medicine for my state of mind" during a period of depression).</li>
 			</ul>
-		</section>
+		</ContentSection>
 
-		<section class="daffodils-section" aria-labelledby="references-heading">
-			<h2 id="references-heading">References and Conclusion</h2>
+		<ContentSection id="references" title="References and Conclusion" summary="The poem endures because it captures an unplanned encounter with beauty that continues to offer comfort." align="left">
 			<p><strong>References:</strong></p>
 			<ul>
 				<li>Bate, J. (2020, April 6). Wordsworth in self-isolation. Yale University Press Blog.</li>
@@ -147,28 +139,11 @@ import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 				<li>Tearle, O. (2021, June). A summary and analysis of Wordsworth's 'I wandered lonely as a cloud'. Interesting Literature.</li>
 			</ul>
 			<p><strong>Conclusion:</strong> "I Wandered Lonely as a Cloud" endures because it captures something almost everyone has felt: a small, unplanned encounter with beauty that quietly keeps giving comfort long after the moment itself has passed.</p>
-		</section>
+		</ContentSection>
 	</article>
 </PoemLayout>
 
 <style>
-	/* List spacing keeps the study notes readable and easy to scan. */
-	.daffodils-section ul {
-		display: grid;
-		gap: 0.75rem;
-		margin: 0 0 1.25rem;
-		padding-inline-start: 1.4rem;
-	}
-
-	.daffodils-section li {
-		padding-inline-start: 0.25rem;
-		line-height: 1.7;
-	}
-
-	.daffodils-section strong {
-		color: var(--daffodils-accent, #365b2d);
-	}
-
 	.poem-stanzas {
 		max-width: 70ch;
 		margin-inline: auto;
