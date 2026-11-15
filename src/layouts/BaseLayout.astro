@@ -1,0 +1,48 @@
+---
+// Shared page shell. Individual routes provide a document title and page content.
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Romantic Age" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#151515" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<!-- A skip link lets keyboard users bypass repeated navigation. -->
+		<a class="skip-link" href="#main-content">Skip to main content</a>
+
+		<header class="site-header">
+			<div class="site-header__inner">
+				<a class="site-name" href="/">Romantic Age</a>
+				<nav aria-label="Main navigation">
+					<ul class="site-nav">
+						<li><a href="/">Home</a></li>
+						<li><a href="/annabel-lee">Annabel Lee</a></li>
+						<li><a href="/cask-of-amontillado">The Cask of Amontillado</a></li>
+						<li><a href="/daffodils">Daffodils</a></li>
+						<li><a href="/credits">Credits</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main id="main-content" class="site-main">
+			<slot />
+		</main>
+
+		<footer class="site-footer">
+			<p>Romantic Age | School project</p>
+		</footer>
+	</body>
+</html>

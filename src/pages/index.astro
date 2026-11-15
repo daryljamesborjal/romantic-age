@@ -1,16 +1,12 @@
 ---
+// Home route: content will be added in a later project phase.
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Romantic Age - Home">
+	<section class="page-intro" aria-labelledby="page-title">
+		<p class="eyebrow">Literature project</p>
+		<h1 id="page-title">Romantic Age</h1>
+		<p class="placeholder-note">Home page content will be added in a later phase.</p>
+	</section>
+</BaseLayout>
