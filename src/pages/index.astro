@@ -61,21 +61,21 @@ import Book from "../components/landing/Book.astro";
 
 	.landing-kicker {
 		margin: 0 0 0.75rem;
-		color: #fff8e9;
+		color: var(--landing-copy-color, #fff8e9);
 		font-family: system-ui, sans-serif;
 		font-size: 0.8rem;
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		text-shadow: 0 1px 0.75rem rgb(0 0 0 / 85%);
+		text-shadow: var(--landing-copy-shadow, 0 1px 0.75rem rgb(0 0 0 / 85%));
 	}
 
 	.landing-content h1 {
 		margin: 0;
-		color: #fff8e9;
+		color: var(--landing-copy-color, #fff8e9);
 		font-size: clamp(2rem, 5vw, 3.7rem);
 		font-weight: 500;
-		text-shadow: 0 2px 1.5rem rgb(0 0 0 / 55%);
+		text-shadow: var(--landing-copy-shadow, 0 2px 1.5rem rgb(0 0 0 / 55%));
 	}
 
 	.book-list {

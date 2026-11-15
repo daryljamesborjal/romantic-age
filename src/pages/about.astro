@@ -22,6 +22,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 				<li>Pancho, Rhona Mae R.</li>
 			</ul>
 		</section>
+
+		<section class="image-credits-section" aria-labelledby="image-credits-title">
+			<h2 id="image-credits-title">Image Credits</h2>
+			<p>Background image sourced from Unsplash.</p>
+		</section>
 	</div>
 </BaseLayout>
 
@@ -64,5 +69,24 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		margin: 0;
 		padding-left: 1.25rem;
 		color: var(--text-color);
+	}
+
+	.image-credits-section {
+		margin-top: clamp(2.5rem, 7vw, 4rem);
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--border-color);
+	}
+
+	.image-credits-section h2 {
+		margin: 0 0 0.5rem;
+		color: var(--color-accent);
+		font-size: clamp(1.35rem, 3vw, 1.7rem);
+	}
+
+	.image-credits-section p {
+		max-width: 65ch;
+		margin: 0;
+		color: var(--color-muted);
+		line-height: 1.8;
 	}
 </style>

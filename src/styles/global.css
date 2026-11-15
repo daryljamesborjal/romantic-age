@@ -20,11 +20,14 @@
 	--color-accent: #e8c98b;
 	--color-accent-hover: #fff0ca;
 	--color-focus: #fff19a;
-	/* Landing-only lighting stays behind the content and keeps a warm contrast. */
+	/* Dark landing scene keeps its warm lamplight vignette. */
 	--landing-overlay-top: rgb(20 15 10 / 40%);
 	--landing-overlay-bottom: rgb(10 5 0 / 70%);
 	--landing-vignette: rgb(0 0 0 / 60%);
 	--landing-book-glow: rgb(248 190 112 / 24%);
+	--landing-copy-color: #fff8e9;
+	--landing-copy-shadow: 0 2px 1.5rem rgb(0 0 0 / 72%);
+	--landing-focus-color: #fff19a;
 	/* Catacomb-safe fallbacks are replaced by each explicit theme below. */
 	--cask-scene-background: linear-gradient(180deg, #101311 0%, #1b1d1a 52%, #10120f 100%);
 	--cask-carnival-light: linear-gradient(180deg, #72162a 0%, #a6382c 43%, #c46a2e 72%, #d7a64b 100%);
@@ -58,6 +61,12 @@
 	--color-accent: #e8c98b;
 	--color-accent-hover: #fff0ca;
 	--color-focus: #fff19a;
+	--landing-overlay-top: rgb(20 15 10 / 40%);
+	--landing-overlay-bottom: rgb(10 5 0 / 70%);
+	--landing-vignette: rgb(0 0 0 / 60%);
+	--landing-copy-color: #fff8e9;
+	--landing-copy-shadow: 0 2px 1.5rem rgb(0 0 0 / 72%);
+	--landing-focus-color: #fff19a;
 	--daff-sky-top: #111b38;
 	--daff-sky-bottom: #292748;
 	--daff-sun-core: #f4ce7d;
@@ -138,9 +147,29 @@
 	--annabel-moon-core: #e9e6ed;
 	--annabel-fog-color: rgb(205 209 221 / 16%);
 	--annabel-fence-color: #080a12;
-	--landing-overlay-top: rgb(24 29 31 / 38%);
-	--landing-overlay-bottom: rgb(14 20 16 / 64%);
-	--landing-vignette: rgb(0 0 0 / 48%);
+	/* Sunlit overlay keeps the photograph bright while text switches to ink. */
+	--landing-overlay-top: rgb(40 25 10 / 30%);
+	--landing-overlay-bottom: rgb(20 10 5 / 60%);
+	--landing-vignette: rgb(30 18 8 / 36%);
+	--landing-copy-color: #302317;
+	--landing-copy-shadow: 0 1px 0 rgb(255 248 231 / 90%), 0 2px 12px rgb(255 239 210 / 75%);
+	--landing-focus-color: #3d2819;
+}
+
+.landing-page {
+	--landing-copy-color: #fff8e9;
+	--landing-copy-shadow: 0 2px 1.5rem rgb(0 0 0 / 72%);
+	--landing-focus-color: #fff19a;
+}
+
+html[data-theme="light"] .landing-page {
+	--landing-copy-color: #302317;
+	--landing-copy-shadow: 0 1px 0 rgb(255 248 231 / 90%), 0 2px 12px rgb(255 239 210 / 75%);
+	--landing-focus-color: #3d2819;
+}
+
+.landing-page .book-link:focus-visible {
+	outline-color: var(--landing-focus-color);
 }
 
 *,

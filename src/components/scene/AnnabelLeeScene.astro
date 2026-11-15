@@ -39,10 +39,24 @@ const bats = [
 				</span>
 			))}
 		</div>
-		<div class="annabel-scene__street-lamp" aria-hidden="true">
+		<div class="annabel-scene__seraphs" aria-hidden="true">
+			<span class="annabel-scene__seraph annabel-scene__seraph--one"></span>
+			<span class="annabel-scene__seraph annabel-scene__seraph--two"></span>
+			<span class="annabel-scene__seraph annabel-scene__seraph--three"></span>
+		</div>
+		<div class="annabel-scene__sea annabel-scene__sea--dark">
+			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--one"></span>
+			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--two"></span>
+			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--three"></span>
+		</div>
+		<div class="annabel-scene__fog"></div>
+	</div>
+	<!-- Shared foreground setting remains in both memory and mourning themes. -->
+	<div class="annabel-scene__shared" aria-hidden="true">
+		<div class="annabel-scene__street-lamp">
 			<span class="annabel-scene__lamp-post"></span>
 			<span class="annabel-scene__lamp-light"></span>
-			<div class="annabel-scene__raven" aria-hidden="true">
+			<div class="annabel-scene__raven">
 				<svg class="annabel-scene__raven-svg" viewBox="0 0 170 90" xmlns="http://www.w3.org/2000/svg" focusable="false">
 					<g class="annabel-scene__raven-body">
 						<path d="M39 57 7 79l42-8 15 17 17-4c18 7 43 7 56-4 12-1 20-7 24-13l-19 1c-8-13-22-20-42-20-23 0-43 7-61 16Z" />
@@ -57,17 +71,6 @@ const bats = [
 				</svg>
 			</div>
 		</div>
-		<div class="annabel-scene__seraphs" aria-hidden="true">
-			<span class="annabel-scene__seraph annabel-scene__seraph--one"></span>
-			<span class="annabel-scene__seraph annabel-scene__seraph--two"></span>
-			<span class="annabel-scene__seraph annabel-scene__seraph--three"></span>
-		</div>
-		<div class="annabel-scene__sea annabel-scene__sea--dark">
-			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--one"></span>
-			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--two"></span>
-			<span class="annabel-scene__sea-wave annabel-scene__sea-wave--three"></span>
-		</div>
-		<div class="annabel-scene__fog"></div>
 		<div class="annabel-scene__iron-fence"></div>
 		<div class="annabel-scene__gravestone"><span></span></div>
 	</div>
@@ -85,9 +88,15 @@ const bats = [
 
 	.annabel-scene__sky,
 	.annabel-scene__memory,
-	.annabel-scene__mourning {
+	.annabel-scene__mourning,
+	.annabel-scene__shared {
 		position: absolute;
 		inset: 0;
+	}
+
+	.annabel-scene__shared {
+		z-index: 3;
+		pointer-events: none;
 	}
 
 	.annabel-scene__sky {
@@ -573,6 +582,7 @@ const bats = [
 
 	.annabel-scene__iron-fence {
 		position: absolute;
+		z-index: 2;
 		right: 0;
 		bottom: 0;
 		left: 0;
@@ -598,6 +608,17 @@ const bats = [
 
 	:global(html[data-theme="light"]) .annabel-scene__mourning {
 		opacity: 0;
+	}
+
+	:global(html[data-theme="light"]) .annabel-scene__lamp-light {
+		border-color: rgb(42 37 32 / 65%);
+		background: linear-gradient(135deg, #5a5751, #302f2c);
+		box-shadow: none;
+	}
+
+	:global(html[data-theme="light"]) .annabel-scene__raven,
+	:global(html[data-theme="light"]) .annabel-scene__gravestone {
+		display: none;
 	}
 
 	:global(html[data-theme="light"]) .annabel-scene__raven,
