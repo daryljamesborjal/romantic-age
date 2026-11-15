@@ -37,6 +37,21 @@
 	--color-accent: #e8c98b;
 	--color-accent-hover: #fff0ca;
 	--color-focus: #fff19a;
+	--daff-sky-top: #111b38;
+	--daff-sky-bottom: #292748;
+	--daff-sun-core: #f4ce7d;
+	--daff-moon-core: #dce4ff;
+	--daff-cloud-color: rgb(205 216 238 / 22%);
+	--daff-lake-far: #314a61;
+	--daff-lake-middle: #263d50;
+	--daff-lake-near: #1b2f40;
+	--daff-lake-bottom: #111a19;
+	--daff-grass-blade: #334c39;
+	--daff-grass-ground: #18271f;
+	--daff-stem: #5e8156;
+	--daff-leaf: #527549;
+	--daff-flower: #d8b94b;
+	--daff-trumpet: #aa6c2e;
 }
 
 :root[data-theme="light"] {
@@ -49,6 +64,21 @@
 	--color-accent: #354c5a;
 	--color-accent-hover: #172e3b;
 	--color-focus: #713d00;
+	--daff-sky-top: #8ec5dc;
+	--daff-sky-bottom: #f5e7ae;
+	--daff-sun-core: #ffe99b;
+	--daff-moon-core: #dce4ff;
+	--daff-cloud-color: rgb(255 255 255 / 50%);
+	--daff-lake-far: #a8d3cf;
+	--daff-lake-middle: #80b5ad;
+	--daff-lake-near: #5f978c;
+	--daff-lake-bottom: #456f51;
+	--daff-grass-blade: #3f7043;
+	--daff-grass-ground: #3b7146;
+	--daff-stem: #507d43;
+	--daff-leaf: #3d7042;
+	--daff-flower: #f4cb4e;
+	--daff-trumpet: #df8423;
 	--landing-overlay-top: rgb(24 29 31 / 38%);
 	--landing-overlay-bottom: rgb(14 20 16 / 64%);
 	--landing-vignette: rgb(0 0 0 / 48%);
@@ -313,7 +343,7 @@ h1 {
 /* This final decorative layer fades each scene into its page's own background. */
 .hero-bottom-fade {
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 	inset: 0;
 	background: linear-gradient(to bottom, transparent 66%, var(--bg-color) 100%);
 	pointer-events: none;
@@ -568,6 +598,21 @@ h1 {
 
 /* Daffodils: open sky, warm sunlight, and soft green hills. */
 .daffodils-theme {
+	--daff-sky-top: #8ec5dc;
+	--daff-sky-bottom: #f5e7ae;
+	--daff-sun-core: #ffe99b;
+	--daff-moon-core: #dce4ff;
+	--daff-cloud-color: rgb(255 255 255 / 50%);
+	--daff-lake-far: #a8d3cf;
+	--daff-lake-middle: #80b5ad;
+	--daff-lake-near: #5f978c;
+	--daff-lake-bottom: #456f51;
+	--daff-grass-blade: #3f7043;
+	--daff-grass-ground: #3b7146;
+	--daff-stem: #507d43;
+	--daff-leaf: #3d7042;
+	--daff-flower: #f4cb4e;
+	--daff-trumpet: #df8423;
 	--bg-color: #f5f7ed;
 	--daff-background: #f5f7ed;
 	--daff-panel: #fffef7;
@@ -597,37 +642,19 @@ h1 {
 	isolation: isolate;
 	border: 0;
 	border-radius: 0;
-	background:
-		radial-gradient(circle at 76% 22%, #fff8c8 0 3.5rem, rgb(255 245 188 / 48%) 3.6rem 8rem, transparent 8.1rem),
-		linear-gradient(180deg, #9acbd9 0%, #cce4e2 53%, #edf1d9 100%);
+	background: transparent;
 	text-align: center;
 }
 
 /* Layered hill shapes keep the hero calm and entirely CSS-drawn. */
 .daffodils-hero::before,
 .daffodils-hero::after {
-	position: absolute;
-	right: -8%;
-	bottom: -12%;
-	left: -8%;
-	height: 45%;
-	border-radius: 50% 50% 0 0 / 25% 25% 0 0;
-	content: "";
-	pointer-events: none;
-}
-
-.daffodils-hero::before {
-	transform: rotate(-4deg) translateY(-1.5rem);
-	background: #91aa75;
-}
-
-.daffodils-hero::after {
-	transform: rotate(3deg) translateY(1rem);
-	background: linear-gradient(180deg, #72936b, #456e54);
+	display: none;
 }
 
 .daffodils-hero__decoration {
 	position: absolute;
+	z-index: 1;
 	inset: 0;
 	background: radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 34%), transparent 58%);
 }
@@ -637,16 +664,23 @@ h1 {
 }
 
 .daffodils-hero__content {
+	position: relative;
+	z-index: 10;
 	border: 0;
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
-	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+	text-shadow: none;
+}
+
+/* The scene provides its own low horizon fade behind the flower meadow. */
+.daffodils-hero > .hero-bottom-fade {
+	display: none;
 }
 
 .daffodils-hero h1 {
 	color: #203943;
-	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+	text-shadow: none;
 }
 
 .daffodils-hero__author {
@@ -753,6 +787,30 @@ html[data-theme="light"] .annabel-lee-theme {
 	color: #202a38;
 }
 
+html[data-theme="light"] .daffodils-theme {
+	--daff-sky-top: #8ec5dc;
+	--daff-sky-bottom: #f5e7ae;
+	--daff-sun-core: #ffe99b;
+	--daff-cloud-color: rgb(255 255 255 / 50%);
+	--daff-lake-far: #a8d3cf;
+	--daff-lake-middle: #80b5ad;
+	--daff-lake-near: #5f978c;
+	--daff-lake-bottom: #456f51;
+	--daff-grass-blade: #3f7043;
+	--daff-grass-ground: #3b7146;
+	--daff-stem: #507d43;
+	--daff-leaf: #3d7042;
+	--daff-flower: #f4cb4e;
+	--daff-trumpet: #df8423;
+}
+
+html[data-theme="light"] .daffodils-hero__content,
+html[data-theme="light"] .daffodils-hero__eyebrow,
+html[data-theme="light"] .daffodils-hero h1,
+html[data-theme="light"] .daffodils-hero__author {
+	text-shadow: none;
+}
+
 html[data-theme="light"] .annabel-section:nth-child(even) {
 	background: #e9eef6;
 }
@@ -855,6 +913,21 @@ html[data-theme="light"] .cask-theme .reading-panel {
 }
 
 html[data-theme="dark"] .daffodils-theme {
+	--daff-sky-top: #111b38;
+	--daff-sky-bottom: #292748;
+	--daff-sun-core: #f4ce7d;
+	--daff-moon-core: #dce4ff;
+	--daff-cloud-color: rgb(205 216 238 / 22%);
+	--daff-lake-far: #314a61;
+	--daff-lake-middle: #263d50;
+	--daff-lake-near: #1b2f40;
+	--daff-lake-bottom: #111a19;
+	--daff-grass-blade: #334c39;
+	--daff-grass-ground: #18271f;
+	--daff-stem: #5e8156;
+	--daff-leaf: #527549;
+	--daff-flower: #d8b94b;
+	--daff-trumpet: #aa6c2e;
 	--bg-color: #111a19;
 	--daff-background: #111a19;
 	--daff-panel: #1b2825;
@@ -881,18 +954,15 @@ html[data-theme="dark"] .daffodils-section:hover {
 }
 
 html[data-theme="dark"] .daffodils-hero {
-	border-color: #637b6a;
-	background:
-		radial-gradient(circle at 76% 22%, #e5d88d 0 3.5rem, rgb(210 192 115 / 36%) 3.6rem 8rem, transparent 8.1rem),
-		linear-gradient(180deg, #335b65 0%, #314f4d 53%, #374a3b 100%);
+	background: transparent;
 }
 
 html[data-theme="dark"] .daffodils-hero::before {
-	background: #536c4c;
+	display: none;
 }
 
 html[data-theme="dark"] .daffodils-hero::after {
-	background: linear-gradient(180deg, #465f45, #2b4939);
+	display: none;
 }
 
 html[data-theme="dark"] .daffodils-hero__content {
@@ -900,14 +970,14 @@ html[data-theme="dark"] .daffodils-hero__content {
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
-	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+	text-shadow: 0 4px 12px rgb(0 0 0 / 80%);
 }
 
 html[data-theme="dark"] .daffodils-hero__eyebrow,
 html[data-theme="dark"] .daffodils-hero h1,
 html[data-theme="dark"] .daffodils-hero__author {
 	color: #eff3e9;
-	text-shadow: 0 2px 10px rgb(0 0 0 / 80%);
+	text-shadow: 0 4px 12px rgb(0 0 0 / 80%);
 }
 
 html[data-theme="dark"] .daffodils-theme .reading-panel {
@@ -1110,7 +1180,7 @@ html[data-theme="dark"] .daffodils-theme .reading-panel {
 }
 
 /*
- * A visitor-controlled override. It disables motion while preserving static
+ * A visitor-controlled override. It pauses motion while preserving static
  * transforms that form the room and book geometry. Interactive book tilts
  * and the sticky-header slide are handled separately below.
  */
@@ -1118,7 +1188,7 @@ html.reduce-motion-active *,
 html.reduce-motion-active *::before,
 html.reduce-motion-active *::after {
 	scroll-behavior: auto !important;
-	animation: none !important;
+	animation-play-state: paused !important;
 	transition: none !important;
 }
 

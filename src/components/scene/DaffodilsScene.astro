@@ -1,0 +1,356 @@
+---
+// Decorative day-to-night sky; every layer is hidden from assistive technology.
+const flowers = Array.from({ length: 30 }, (_, index) => index);
+const flowerScales = [0.82, 1.08, 0.94, 1.16, 0.9, 1.03];
+const flowerDurations = [3.2, 4.4, 5.1, 3.7, 4.8, 4.0];
+---
+
+<div class="daffodils-scene" aria-hidden="true">
+	<div class="daffodils-scene__sky"></div>
+	<div class="daffodils-scene__celestials">
+		<div class="daffodils-scene__sun"></div>
+		<div class="daffodils-scene__moon"></div>
+	</div>
+	<div class="daffodils-scene__clouds">
+		<span class="daffodils-scene__cloud daffodils-scene__cloud--one"></span>
+		<span class="daffodils-scene__cloud daffodils-scene__cloud--two"></span>
+		<span class="daffodils-scene__cloud daffodils-scene__cloud--three"></span>
+	</div>
+	<div class="daffodils-scene__edge-fade"></div>
+	<div class="daffodils-scene__lake">
+		<span class="daffodils-scene__wave daffodils-scene__wave--far"></span>
+		<span class="daffodils-scene__wave daffodils-scene__wave--middle"></span>
+		<span class="daffodils-scene__wave daffodils-scene__wave--near"></span>
+	</div>
+	<div class="daffodils-scene__meadow">
+		<div class="daffodils-scene__grass" aria-hidden="true"></div>
+		{flowers.map((index) => (
+			<span
+				class="daffodils-scene__flower"
+				style={`--i: ${index}; --flower-x: ${(index * 96) / 29}%; --stem-height: ${4.2 + (index % 4) * 0.55}rem; --flower-bottom: ${0.2 + ((index * 3) % 6) * 0.2}rem; --flower-scale: ${flowerScales[index % flowerScales.length]}; --flower-duration: ${flowerDurations[index % flowerDurations.length]}s;`}
+			>
+				<span class="daffodils-scene__stem"></span>
+				<span class="daffodils-scene__blossom"></span>
+			</span>
+		))}
+	</div>
+</div>
+
+<style>
+	/* The hero owns positioning and clipping; this scene only fills that canvas. */
+	.daffodils-scene {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.daffodils-scene__sky {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+		background: linear-gradient(180deg, var(--daff-sky-top), var(--daff-sky-bottom));
+	}
+
+	.daffodils-scene__celestials {
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	.daffodils-scene__sun,
+	.daffodils-scene__moon {
+		position: absolute;
+		top: 10%;
+		right: clamp(2rem, 14vw, 13rem);
+		width: clamp(4.5rem, 10vw, 8rem);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		transition: transform 900ms ease, opacity 700ms ease;
+	}
+
+	.daffodils-scene__sun {
+		transform: translateY(0);
+		background: radial-gradient(circle at 42% 38%, #fffdf0 0 12%, var(--daff-sun-core) 48%, #f5c96c 100%);
+		box-shadow: 0 0 0 0.7rem rgb(255 244 188 / 14%), 0 0 2rem 0.6rem rgb(255 232 156 / 20%);
+		opacity: 1;
+	}
+
+	.daffodils-scene__moon {
+		transform: translateY(100vh);
+		background: radial-gradient(circle at 35% 30%, #fff 0, var(--daff-moon-core) 56%, #bfc9e8 100%);
+		box-shadow: 0 0 0 0.6rem rgb(222 231 255 / 8%), 0 0 1.5rem 0.35rem rgb(208 220 255 / 20%);
+		opacity: 0;
+	}
+
+	:global(html[data-theme="dark"]) .daffodils-scene__sun {
+		transform: translateY(100vh);
+		opacity: 0;
+	}
+
+	:global(html[data-theme="dark"]) .daffodils-scene__moon {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	.daffodils-scene__clouds {
+		position: absolute;
+		z-index: 2;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	/* A soft horizon blend remains behind the lake and foreground plants. */
+	.daffodils-scene__edge-fade {
+		position: absolute;
+		z-index: 3;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 36%;
+		background: linear-gradient(to bottom, transparent, var(--bg-color));
+		pointer-events: none;
+	}
+
+	.daffodils-scene__lake {
+		position: absolute;
+		z-index: 4;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	.daffodils-scene__wave {
+		position: absolute;
+		bottom: -17%;
+		left: -15%;
+		width: 130%;
+		border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+		background: linear-gradient(180deg, var(--daff-lake-far), var(--daff-lake-bottom));
+		animation: wave-drift 62s ease-in-out infinite alternate;
+	}
+
+	.daffodils-scene__wave--far {
+		height: 43%;
+		opacity: 0.58;
+	}
+
+	.daffodils-scene__wave--middle {
+		bottom: -20%;
+		height: 34%;
+		background: linear-gradient(180deg, var(--daff-lake-middle), var(--daff-lake-bottom));
+		animation-duration: 84s;
+		animation-direction: alternate-reverse;
+		opacity: 0.78;
+	}
+
+	.daffodils-scene__wave--near {
+		bottom: -24%;
+		height: 26%;
+		background: linear-gradient(180deg, var(--daff-lake-near), var(--daff-lake-bottom));
+		animation-duration: 108s;
+		opacity: 0.94;
+	}
+
+	@keyframes wave-drift {
+		from {
+			transform: translateX(-2%);
+		}
+
+		to {
+			transform: translateX(2%);
+		}
+	}
+
+	.daffodils-scene__meadow {
+		position: absolute;
+		z-index: 5;
+		inset: 0;
+	}
+
+	.daffodils-scene__grass {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 5rem;
+		background:
+			repeating-linear-gradient(104deg, transparent 0 0.45rem, var(--daff-grass-blade) 0.48rem 0.55rem, transparent 0.6rem 0.9rem),
+			linear-gradient(to bottom, transparent, var(--daff-grass-ground));
+		opacity: 0.85;
+	}
+
+	.daffodils-scene__flower {
+		position: absolute;
+		bottom: var(--flower-bottom, 0.65rem);
+		left: var(--flower-x);
+		width: clamp(1rem, 2.5vw, 1.75rem);
+		height: var(--stem-height);
+		transform-origin: bottom center;
+		animation: flower-sway var(--flower-duration, 4.8s) ease-in-out infinite alternate;
+		animation-delay: calc(var(--i) * -0.14s);
+	}
+
+	.daffodils-scene__stem {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: 0.12rem;
+		height: calc(100% - 0.75rem);
+		transform: translateX(-50%);
+		border-radius: 999px;
+		background: var(--daff-stem);
+	}
+
+	.daffodils-scene__flower::before,
+	.daffodils-scene__flower::after {
+		position: absolute;
+		bottom: 0.9rem;
+		width: 1rem;
+		height: 0.38rem;
+		border-radius: 100% 0 100% 0;
+		background: var(--daff-leaf);
+		content: "";
+	}
+
+	.daffodils-scene__flower::before {
+		left: 50%;
+		transform: rotate(-32deg);
+		transform-origin: left center;
+	}
+
+	.daffodils-scene__flower::after {
+		right: 50%;
+		bottom: 1.7rem;
+		transform: rotate(32deg) scaleX(-1);
+		transform-origin: right center;
+	}
+
+	.daffodils-scene__blossom {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		width: clamp(1.1rem, 2.7vw, 1.85rem);
+		aspect-ratio: 1;
+		transform: translateX(-50%);
+		border-radius: 50%;
+		background:
+			radial-gradient(circle at 50% 50%, var(--daff-trumpet) 0 19%, transparent 20%),
+			radial-gradient(ellipse 32% 25% at 50% 13%, var(--daff-flower) 88%, transparent 100%),
+			radial-gradient(ellipse 32% 25% at 50% 87%, var(--daff-flower) 88%, transparent 100%),
+			radial-gradient(ellipse 25% 32% at 13% 50%, var(--daff-flower) 88%, transparent 100%),
+			radial-gradient(ellipse 25% 32% at 87% 50%, var(--daff-flower) 88%, transparent 100%),
+			radial-gradient(ellipse 25% 31% at 24% 24%, var(--daff-flower) 88%, transparent 100%),
+			radial-gradient(ellipse 25% 31% at 76% 76%, var(--daff-flower) 88%, transparent 100%);
+	}
+
+	@keyframes flower-sway {
+		from {
+			transform: rotate(-8deg) scale(var(--flower-scale, 1));
+		}
+
+		to {
+			transform: rotate(8deg) scale(var(--flower-scale, 1));
+		}
+	}
+
+	.daffodils-scene__cloud {
+		position: absolute;
+		left: -18rem;
+		width: 10rem;
+		height: 2.5rem;
+		border-radius: 999px;
+		background: var(--daff-cloud-color);
+		animation: cloud-drift 78s linear infinite;
+	}
+
+	.daffodils-scene__cloud::before,
+	.daffodils-scene__cloud::after {
+		position: absolute;
+		bottom: 0.5rem;
+		border-radius: 50%;
+		background: inherit;
+		content: "";
+	}
+
+	.daffodils-scene__cloud::before {
+		left: 1.5rem;
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	.daffodils-scene__cloud::after {
+		right: 1.25rem;
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+
+	.daffodils-scene__cloud--one {
+		top: 25%;
+		animation-duration: 92s;
+	}
+
+	.daffodils-scene__cloud--two {
+		top: 43%;
+		--cloud-scale: 0.72;
+		animation-delay: -34s;
+		animation-duration: 112s;
+	}
+
+	.daffodils-scene__cloud--three {
+		top: 16%;
+		--cloud-scale: 0.52;
+		animation-delay: -68s;
+		animation-duration: 126s;
+	}
+
+	@keyframes cloud-drift {
+		from {
+			transform: translateX(0) scale(var(--cloud-scale, 1));
+		}
+
+		to {
+			transform: translateX(calc(100vw + 24rem)) scale(var(--cloud-scale, 1));
+		}
+	}
+
+	:global(html[data-theme="dark"]) .daffodils-scene__wave {
+		animation-duration: 92s;
+	}
+
+	:global(html[data-theme="dark"]) .daffodils-scene__wave--middle {
+		animation-duration: 120s;
+	}
+
+	:global(html[data-theme="dark"]) .daffodils-scene__wave--near {
+		animation-duration: 148s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.daffodils-scene__cloud,
+		.daffodils-scene__wave,
+		.daffodils-scene__flower {
+			animation: none;
+		}
+
+		.daffodils-scene__sun,
+		.daffodils-scene__moon {
+			transition: none;
+		}
+	}
+
+	:global(html.reduce-motion-active) .daffodils-scene__cloud {
+		animation-play-state: paused;
+	}
+
+	:global(html.reduce-motion-active) .daffodils-scene__wave,
+	:global(html.reduce-motion-active) .daffodils-scene__flower {
+		animation-play-state: paused;
+	}
+
+	:global(html.reduce-motion-active) .daffodils-scene__sun,
+	:global(html.reduce-motion-active) .daffodils-scene__moon {
+		transition: none;
+	}
+</style>

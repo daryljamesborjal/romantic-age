@@ -1,11 +1,13 @@
 ---
 // Daffodils reading and study page.
 import PoemLayout from "../layouts/PoemLayout.astro";
+import DaffodilsScene from "../components/scene/DaffodilsScene.astro";
 ---
 
 <PoemLayout title="I Wandered Lonely as a Cloud | Romantic Age" themeClass="poem-page daffodils-theme">
 	<!-- The sunshine and rolling hills are decorative CSS, with no JavaScript. -->
 	<section class="daffodils-hero" aria-labelledby="page-title">
+		<DaffodilsScene />
 		<div class="daffodils-hero__decoration" aria-hidden="true"></div>
 		<div class="hero-bottom-fade" aria-hidden="true"></div>
 		<div class="daffodils-hero__content">
