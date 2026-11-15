@@ -36,6 +36,16 @@
 	--cask-arch-edge: rgb(177 167 139 / 18%);
 	--cask-arch-opening: #111411;
 	--cask-drip: #9aab9b;
+	/* Midnight scene defaults also cover browsers with JavaScript disabled. */
+	--annabel-scene-sky: linear-gradient(180deg, #0d1430 0%, #21182f 48%, #10172a 66%, #0d1522 100%);
+	--annabel-sea-top: #17263a;
+	--annabel-sea-bottom: #080b14;
+	--annabel-wave-color: rgb(121 144 179 / 17%);
+	--annabel-memory-silhouette: #594b48;
+	--annabel-bird-color: #51464a;
+	--annabel-moon-core: #e9e6ed;
+	--annabel-fog-color: rgb(205 209 221 / 16%);
+	--annabel-fence-color: #080a12;
 }
 
 :root[data-theme="dark"] {
@@ -73,6 +83,15 @@
 	--cask-arch-edge: rgb(177 167 139 / 18%);
 	--cask-arch-opening: #111411;
 	--cask-drip: #9aab9b;
+	--annabel-scene-sky: linear-gradient(180deg, #0d1430 0%, #21182f 48%, #10172a 66%, #0d1522 100%);
+	--annabel-sea-top: #17263a;
+	--annabel-sea-bottom: #080b14;
+	--annabel-wave-color: rgb(121 144 179 / 17%);
+	--annabel-memory-silhouette: #594b48;
+	--annabel-bird-color: #51464a;
+	--annabel-moon-core: #e9e6ed;
+	--annabel-fog-color: rgb(205 209 221 / 16%);
+	--annabel-fence-color: #080a12;
 }
 
 :root[data-theme="light"] {
@@ -110,6 +129,15 @@
 	--cask-arch-edge: rgb(177 167 139 / 18%);
 	--cask-arch-opening: #111411;
 	--cask-drip: #9aab9b;
+	--annabel-scene-sky: linear-gradient(180deg, #f4b99c 0%, #f3c58e 40%, #ffe4a0 62%, #dfad95 66%, #d8a993 100%);
+	--annabel-sea-top: #819eaa;
+	--annabel-sea-bottom: #526f78;
+	--annabel-wave-color: rgb(238 228 199 / 28%);
+	--annabel-memory-silhouette: #594b48;
+	--annabel-bird-color: #51464a;
+	--annabel-moon-core: #e9e6ed;
+	--annabel-fog-color: rgb(205 209 221 / 16%);
+	--annabel-fence-color: #080a12;
 	--landing-overlay-top: rgb(24 29 31 / 38%);
 	--landing-overlay-bottom: rgb(14 20 16 / 64%);
 	--landing-vignette: rgb(0 0 0 / 48%);
@@ -365,9 +393,7 @@ h1 {
 	isolation: isolate;
 	border: 0;
 	border-radius: 0;
-	background:
-		radial-gradient(ellipse at 50% 100%, #252440 0, #121625 38%, #090b14 75%),
-		linear-gradient(180deg, #0b0d17, #101526);
+	background: transparent;
 	text-align: center;
 }
 
@@ -380,61 +406,12 @@ h1 {
 	pointer-events: none;
 }
 
-/* The moon glow and layered waves are decorative CSS, with no script needed. */
-.annabel-hero::before,
-.annabel-hero::after,
-.annabel-hero__decoration::before,
-.annabel-hero__decoration::after {
-	position: absolute;
-	content: "";
-	pointer-events: none;
-}
-
-.annabel-hero::before {
-	top: 10%;
-	left: 50%;
-	width: clamp(8rem, 22vw, 14rem);
-	aspect-ratio: 1;
-	transform: translateX(-50%);
-	border: 1px solid rgb(224 232 248 / 65%);
-	border-radius: 50%;
-	background: radial-gradient(circle at 38% 35%, #f4f1e8 0, #d4d7df 42%, #919bb0 75%, #69718a 100%);
-	box-shadow: 0 0 2rem 0.75rem rgb(190 204 232 / 16%), 0 0 6rem 2rem rgb(135 147 190 / 12%);
-}
-
-.annabel-hero::after {
-	right: -8%;
-	bottom: -2.5rem;
-	left: -8%;
-	height: 42%;
-	border-top: 1px solid rgb(197 211 236 / 40%);
-	border-radius: 50% 50% 0 0 / 18% 18% 0 0;
-	background:
-		radial-gradient(ellipse at 18% 0%, transparent 0 33%, rgb(173 191 222 / 12%) 34% 35%, transparent 36%),
-		radial-gradient(ellipse at 72% 5%, transparent 0 38%, rgb(173 191 222 / 10%) 39% 40%, transparent 41%),
-		linear-gradient(180deg, rgb(22 33 56 / 68%), #080b14 86%);
-}
-
-.annabel-hero__decoration::before {
-	z-index: -1;
-	inset: 0;
-	background: radial-gradient(ellipse at center 36%, transparent 0 18%, rgb(8 10 18 / 18%) 58%, rgb(8 10 18 / 62%) 100%);
-}
-
-.annabel-hero__decoration::after {
-	right: 8%;
-	bottom: 13%;
-	left: 8%;
-	height: 1px;
-	background: linear-gradient(90deg, transparent, rgb(214 225 245 / 50%), transparent);
-}
-
 .annabel-hero__content {
 	position: relative;
-	z-index: 2;
+	z-index: 10;
 	width: min(100% - 2rem, 48rem);
 	padding-block: 10rem 6rem;
-	text-shadow: 0 2px 1.25rem #050710;
+	text-shadow: none;
 }
 
 .annabel-hero__eyebrow {
@@ -841,29 +818,24 @@ html[data-theme="light"] .annabel-section:hover {
 
 html[data-theme="light"] .annabel-hero {
 	border-color: #8997aa;
-	background: radial-gradient(ellipse at 50% 100%, #cbd7e9 0, #e1e7f0 45%, #f1f3f7 82%),
-		linear-gradient(180deg, #e7edf5, #dfe6f0);
-}
-
-html[data-theme="light"] .annabel-hero::after {
-	background:
-		radial-gradient(ellipse at 18% 0%, transparent 0 33%, rgb(87 111 151 / 14%) 34% 35%, transparent 36%),
-		radial-gradient(ellipse at 72% 5%, transparent 0 38%, rgb(87 111 151 / 12%) 39% 40%, transparent 41%),
-		linear-gradient(180deg, rgb(171 188 214 / 46%), #d8e0eb 86%);
-}
-
-html[data-theme="light"] .annabel-hero__decoration::before {
-	background: radial-gradient(ellipse at center 36%, transparent 0 18%, rgb(239 243 249 / 10%) 58%, rgb(239 243 249 / 34%) 100%);
+	background: transparent;
 }
 
 html[data-theme="light"] .annabel-hero__content {
-	text-shadow: 0 1px 1rem rgb(255 255 255 / 75%);
+	text-shadow: none;
 }
 
 html[data-theme="light"] .annabel-hero__eyebrow,
 html[data-theme="light"] .annabel-hero h1,
 html[data-theme="light"] .annabel-hero__author {
 	color: #26374f;
+}
+
+html[data-theme="dark"] .annabel-hero__content,
+html[data-theme="dark"] .annabel-hero__eyebrow,
+html[data-theme="dark"] .annabel-hero h1,
+html[data-theme="dark"] .annabel-hero__author {
+	text-shadow: 0 4px 12px rgb(0 0 0 / 80%);
 }
 
 html[data-theme="light"] .annabel-lee-theme .reading-panel {
@@ -1161,10 +1133,6 @@ html[data-theme="dark"] .daffodils-theme .reading-panel {
 
 	.annabel-hero {
 		min-height: 29rem;
-	}
-
-	.annabel-hero::before {
-		top: 12%;
 	}
 
 	.annabel-section:nth-child(even) {
