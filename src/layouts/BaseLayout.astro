@@ -44,6 +44,11 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 		</script>
 	</head>
 	<body>
+		<!-- Decorative reading progress indicator; it never intercepts input. -->
+		<div class="progress-container" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+			<div class="progress-bar"></div>
+		</div>
+
 		<!-- A skip link lets keyboard users bypass repeated navigation. -->
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 
@@ -111,6 +116,8 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			const motionRoot = document.documentElement;
 			const motionToggle = document.querySelector<HTMLButtonElement>("#motion-toggle");
 			const stickyHeader = document.querySelector<HTMLElement>(".site-header");
+			const progressContainer = document.querySelector<HTMLElement>(".progress-container");
+			const progressBar = document.querySelector<HTMLElement>(".progress-bar");
 			const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 			let hasSavedMotionChoice = false;
 			let savedMotionChoice: string | null = null;
@@ -186,6 +193,34 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			stickyHeader?.addEventListener("focusin", () => {
 				stickyHeader?.classList.remove("header-hidden");
 			});
+
+			// Scale the reading indicator in one animation frame per scroll batch.
+			let progressUpdateQueued = false;
+			function updateReadingProgress() {
+				progressUpdateQueued = false;
+				if (!progressContainer || !progressBar) return;
+
+				const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+				const hasScrollableContent = scrollableHeight > 0;
+				progressContainer.hidden = !hasScrollableContent;
+
+				if (!hasScrollableContent) return;
+
+				const percentage = Math.min(100, Math.max(0, (window.scrollY / scrollableHeight) * 100));
+				progressBar.style.transform = `scaleX(${percentage / 100})`;
+				progressContainer.setAttribute("aria-valuenow", String(Math.round(percentage)));
+			}
+
+			function queueReadingProgressUpdate() {
+				if (progressUpdateQueued) return;
+				progressUpdateQueued = true;
+				window.requestAnimationFrame(updateReadingProgress);
+			}
+
+			window.addEventListener("scroll", queueReadingProgressUpdate, { passive: true });
+			window.addEventListener("resize", queueReadingProgressUpdate, { passive: true });
+			window.addEventListener("load", queueReadingProgressUpdate, { once: true });
+			queueReadingProgressUpdate();
 		</script>
 	</body>
 </html>

@@ -1,0 +1,18 @@
+---
+interface Props {
+	title: string;
+	link: string;
+	theme: "gothic-sea" | "gothic-catacombs" | "daffodils";
+}
+
+const { title, link, theme } = Astro.props;
+---
+
+<!-- Editorial navigation to the next work; the theme class supplies its accent. -->
+<nav class:list={["next-work", `next-work--${theme}`]} aria-label="Continue to another work">
+	<a class="next-work__link" href={link}>
+		<span class="next-work__eyebrow">Next work</span>
+		<span class="next-work__title">Continue to {title}</span>
+		<span class="next-work__arrow" aria-hidden="true">→</span>
+	</a>
+</nav>
