@@ -1,0 +1,15 @@
+---
+// Poem pages share the site's base shell and receive a page-specific theme class.
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+	title: string;
+	themeClass?: string;
+}
+
+const { title, themeClass = "poem-page" } = Astro.props;
+---
+
+<BaseLayout title={title} mainClass={themeClass}>
+	<slot />
+</BaseLayout>

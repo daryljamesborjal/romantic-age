@@ -1,11 +1,63 @@
 ---
-// Placeholder route for the work; no analysis is included in Phase 1.
-import BaseLayout from "../layouts/BaseLayout.astro";
+// Annabel Lee page structure; literary content remains placeholder text for now.
+import PoemLayout from "../layouts/PoemLayout.astro";
 ---
 
-<BaseLayout title="Annabel Lee | Romantic Age">
-	<section class="page-intro" aria-labelledby="page-title">
-		<h1 id="page-title">Annabel Lee</h1>
-		<p class="placeholder-note">Work content will be added in a later phase.</p>
+<PoemLayout title="Annabel Lee | Romantic Age" themeClass="poem-page annabel-lee-theme">
+	<!-- The decorative moon and wave layers are CSS-only and hidden from assistive technology. -->
+	<section class="annabel-hero" aria-labelledby="page-title">
+		<div class="annabel-hero__decoration" aria-hidden="true"></div>
+		<div class="annabel-hero__content">
+			<p class="annabel-hero__eyebrow">A poem by Edgar Allan Poe</p>
+			<h1 id="page-title">Annabel Lee</h1>
+			<p class="annabel-hero__author">Edgar Allan Poe</p>
+		</div>
 	</section>
-</BaseLayout>
+
+	<article class="annabel-content" aria-label="Annabel Lee study sections">
+		<section class="annabel-section" aria-labelledby="author-heading">
+			<h2 id="author-heading">Author</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="context-heading">
+			<h2 id="context-heading">Time, Era, and Societal Context</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="summary-heading">
+			<h2 id="summary-heading">Summary (Characters, Setting, Plot)</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="analysis-heading">
+			<h2 id="analysis-heading">Analysis (Salient Points)</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="themes-heading">
+			<h2 id="themes-heading">Major Themes and Motifs</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="symbols-heading">
+			<h2 id="symbols-heading">Major Symbols</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="conventions-heading">
+			<h2 id="conventions-heading">Important Conventions</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="resonance-heading">
+			<h2 id="resonance-heading">How the Text Resonates Today</h2>
+			<p>Content coming soon...</p>
+		</section>
+
+		<section class="annabel-section" aria-labelledby="references-heading">
+			<h2 id="references-heading">References and Conclusion</h2>
+			<p>Content coming soon...</p>
+		</section>
+	</article>
+</PoemLayout>

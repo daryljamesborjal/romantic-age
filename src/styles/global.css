@@ -1,6 +1,6 @@
 ﻿/*
- * Phase 1 global styles: readable defaults, a restrained dark palette,
- * responsive navigation, and visible keyboard focus indicators.
+ * Global styles: readable defaults, responsive navigation, and visible
+ * keyboard focus indicators. The Annabel Lee theme is scoped to its page.
  */
 :root {
 	color-scheme: dark;
@@ -92,7 +92,7 @@ button:focus-visible {
 
 .site-nav {
 	display: flex;
-	fâ€‹â€‹lex-wrap: wrap;
+	flex-wrap: wrap;
 	justify-content: flex-end;
 	gap: 0.5rem 1.25rem;
 	margin: 0;
@@ -163,6 +163,421 @@ h1 {
 	font-size: 0.9rem;
 }
 
+/* Annabel Lee: cold moonlight, deep water, and restrained gothic detail. */
+.annabel-lee-theme {
+	--al-background: #080a12;
+	--al-panel: #111624;
+	--al-panel-hover: #171e2e;
+	--al-text: #f2f4fa;
+	--al-muted: #d2d8e5;
+	--al-silver: #d7e1f2;
+	--al-border: #48536d;
+	--al-focus: #fff0a8;
+	background: var(--al-background);
+	color: var(--al-text);
+}
+
+.annabel-hero {
+	position: relative;
+	display: grid;
+	min-height: clamp(25rem, 65vh, 42rem);
+	place-items: center;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid var(--al-border);
+	border-radius: 1.25rem;
+	background:
+		radial-gradient(ellipse at 50% 100%, #252440 0, #121625 38%, #090b14 75%),
+		linear-gradient(180deg, #0b0d17, #101526);
+	text-align: center;
+}
+
+/* The moon glow and layered waves are decorative CSS, with no script needed. */
+.annabel-hero::before,
+.annabel-hero::after,
+.annabel-hero__decoration::before,
+.annabel-hero__decoration::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
+}
+
+.annabel-hero::before {
+	top: 10%;
+	left: 50%;
+	width: clamp(8rem, 22vw, 14rem);
+	aspect-ratio: 1;
+	transform: translateX(-50%);
+	border: 1px solid rgb(224 232 248 / 65%);
+	border-radius: 50%;
+	background: radial-gradient(circle at 38% 35%, #f4f1e8 0, #d4d7df 42%, #919bb0 75%, #69718a 100%);
+	box-shadow: 0 0 2rem 0.75rem rgb(190 204 232 / 16%), 0 0 6rem 2rem rgb(135 147 190 / 12%);
+}
+
+.annabel-hero::after {
+	right: -8%;
+	bottom: -2.5rem;
+	left: -8%;
+	height: 42%;
+	border-top: 1px solid rgb(197 211 236 / 40%);
+	border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+	background:
+		radial-gradient(ellipse at 18% 0%, transparent 0 33%, rgb(173 191 222 / 12%) 34% 35%, transparent 36%),
+		radial-gradient(ellipse at 72% 5%, transparent 0 38%, rgb(173 191 222 / 10%) 39% 40%, transparent 41%),
+		linear-gradient(180deg, rgb(22 33 56 / 68%), #080b14 86%);
+}
+
+.annabel-hero__decoration::before {
+	z-index: -1;
+	inset: 0;
+	background: radial-gradient(ellipse at center 36%, transparent 0 18%, rgb(8 10 18 / 18%) 58%, rgb(8 10 18 / 62%) 100%);
+}
+
+.annabel-hero__decoration::after {
+	right: 8%;
+	bottom: 13%;
+	left: 8%;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, rgb(214 225 245 / 50%), transparent);
+}
+
+.annabel-hero__content {
+	position: relative;
+	z-index: 1;
+	width: min(100% - 2rem, 48rem);
+	padding-block: 10rem 6rem;
+	text-shadow: 0 2px 1.25rem #050710;
+}
+
+.annabel-hero__eyebrow {
+	margin: 0 0 1rem;
+	color: var(--al-silver);
+	font-family: system-ui, sans-serif;
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: 0.17em;
+	text-transform: uppercase;
+}
+
+.annabel-hero h1 {
+	margin: 0;
+	color: #f6f4f0;
+	font-size: clamp(3.25rem, 11vw, 7.5rem);
+	font-weight: 500;
+	letter-spacing: 0.015em;
+}
+
+.annabel-hero__author {
+	margin: 1rem 0 0;
+	color: var(--al-muted);
+	font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+	letter-spacing: 0.08em;
+}
+
+.annabel-content {
+	width: min(100%, 70ch);
+	margin: clamp(3rem, 8vw, 6rem) auto 0;
+}
+
+.annabel-section {
+	margin-block: 1.25rem;
+	padding: clamp(1.25rem, 4vw, 2rem);
+	border: 1px solid var(--al-border);
+	border-radius: 0.75rem;
+	background: var(--al-panel);
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.annabel-section:nth-child(even) {
+	margin-left: clamp(0rem, 4vw, 2rem);
+	background: #101522;
+}
+
+.annabel-section:hover {
+	border-color: #74819c;
+	background: var(--al-panel-hover);
+}
+
+.annabel-section h2 {
+	margin: 0 0 0.75rem;
+	color: var(--al-silver);
+	font-size: clamp(1.3rem, 3vw, 1.7rem);
+}
+
+.annabel-section p {
+	max-width: 70ch;
+	margin: 0;
+	color: var(--al-muted);
+	font-size: 1.05rem;
+	line-height: 1.6;
+}
+
+.annabel-lee-theme :focus-visible {
+	outline-color: var(--al-focus);
+}
+
+/* Cask of Amontillado: a warm Carnival welcome above cold catacombs. */
+.cask-theme {
+	--cask-background: #0b0a0c;
+	--cask-panel: #191719;
+	--cask-panel-alt: #211d20;
+	--cask-text: #f4f0eb;
+	--cask-muted: #d9d2cd;
+	--cask-gold: #f2d28d;
+	--cask-border: #65504b;
+	--cask-focus: #fff0a8;
+	background: var(--cask-background);
+	color: var(--cask-text);
+}
+
+.cask-hero {
+	position: relative;
+	display: grid;
+	min-height: clamp(25rem, 65vh, 42rem);
+	place-items: center;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid #795c3f;
+	border-radius: 1.25rem;
+	background:
+		radial-gradient(ellipse at 50% 2%, rgb(255 206 114 / 22%), transparent 28%),
+		linear-gradient(180deg, #681f2b 0%, #39151f 39%, #191316 68%, #09090b 100%);
+	text-align: center;
+}
+
+/* A low contrast arch suggests the catacombs beneath the Carnival scene. */
+.cask-hero::before {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: min(48%, 27rem);
+	height: 78%;
+	transform: translateX(-50%);
+	border: 1px solid rgb(220 186 132 / 32%);
+	border-bottom: 0;
+	border-radius: 50% 50% 0 0 / 32% 32% 0 0;
+	background: linear-gradient(180deg, rgb(11 10 12 / 15%), rgb(5 5 7 / 84%));
+	box-shadow: 0 0 4rem rgb(7 6 9 / 42%);
+	content: "";
+	pointer-events: none;
+}
+
+.cask-hero::after {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse at 50% 42%, transparent 0 24%, rgb(7 6 8 / 30%) 76%, rgb(5 5 7 / 55%) 100%);
+	content: "";
+	pointer-events: none;
+}
+
+.cask-hero__decoration {
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(110deg, transparent 0 12rem, rgb(255 220 160 / 3%) 12.1rem 12.2rem, transparent 12.3rem 24rem);
+}
+
+.cask-hero__content,
+.daffodils-hero__content {
+	position: relative;
+	z-index: 1;
+	width: min(100% - 2rem, 52rem);
+	padding-block: 8rem 5rem;
+}
+
+.cask-hero__eyebrow,
+.daffodils-hero__eyebrow {
+	margin: 0 0 1rem;
+	font-family: system-ui, sans-serif;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+.cask-hero__eyebrow {
+	color: var(--cask-gold);
+}
+
+.cask-hero h1,
+.daffodils-hero h1 {
+	margin: 0;
+	font-size: clamp(2.75rem, 9vw, 6.25rem);
+	font-weight: 500;
+}
+
+.cask-hero h1 {
+	color: #fff8ec;
+	text-shadow: 0 2px 1.5rem #080607;
+}
+
+.cask-hero__author {
+	margin: 1rem 0 0;
+	color: var(--cask-muted);
+	font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+	letter-spacing: 0.06em;
+}
+
+/* Daffodils: open sky, warm sunlight, and soft green hills. */
+.daffodils-theme {
+	--daff-background: #f5f7ed;
+	--daff-panel: #fffef7;
+	--daff-panel-alt: #edf3e5;
+	--daff-text: #20343a;
+	--daff-muted: #344d50;
+	--daff-green: #355b40;
+	--daff-border: #9eaf91;
+	--daff-focus: #6c3500;
+	background: var(--daff-background);
+	color: var(--daff-text);
+}
+
+.daffodils-hero {
+	position: relative;
+	display: grid;
+	min-height: clamp(25rem, 65vh, 42rem);
+	place-items: center;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid #9fb8bd;
+	border-radius: 1.25rem;
+	background:
+		radial-gradient(circle at 76% 22%, #fff8c8 0 3.5rem, rgb(255 245 188 / 48%) 3.6rem 8rem, transparent 8.1rem),
+		linear-gradient(180deg, #9acbd9 0%, #cce4e2 53%, #edf1d9 100%);
+	text-align: center;
+}
+
+/* Layered hill shapes keep the hero calm and entirely CSS-drawn. */
+.daffodils-hero::before,
+.daffodils-hero::after {
+	position: absolute;
+	right: -8%;
+	bottom: -12%;
+	left: -8%;
+	height: 45%;
+	border-radius: 50% 50% 0 0 / 25% 25% 0 0;
+	content: "";
+	pointer-events: none;
+}
+
+.daffodils-hero::before {
+	transform: rotate(-4deg) translateY(-1.5rem);
+	background: #91aa75;
+}
+
+.daffodils-hero::after {
+	transform: rotate(3deg) translateY(1rem);
+	background: linear-gradient(180deg, #72936b, #456e54);
+}
+
+.daffodils-hero__decoration {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 34%), transparent 58%);
+}
+
+.daffodils-hero__eyebrow {
+	color: #264a4e;
+}
+
+.daffodils-hero__content {
+	border: 1px solid rgb(48 78 79 / 24%);
+	border-radius: 1rem;
+	background: rgb(245 247 237 / 90%);
+	box-shadow: 0 1rem 3rem rgb(39 77 83 / 12%);
+}
+
+.daffodils-hero h1 {
+	color: #203943;
+	text-shadow: 0 1px 0 rgb(255 255 255 / 35%);
+}
+
+.daffodils-hero__author {
+	margin: 1rem 0 0;
+	color: #304c4a;
+	font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+	letter-spacing: 0.06em;
+}
+
+/* Both new poem pages share the same comfortable reading column and panels. */
+.cask-content,
+.daffodils-content {
+	width: min(100%, 70ch);
+	margin: clamp(3rem, 8vw, 6rem) auto 0;
+}
+
+.cask-section,
+.daffodils-section {
+	margin-block: 1.25rem;
+	padding: clamp(1.25rem, 4vw, 2rem);
+	border: 1px solid;
+	border-radius: 0.75rem;
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.cask-section {
+	border-color: var(--cask-border);
+	background: var(--cask-panel);
+}
+
+.cask-section:nth-child(even) {
+	margin-left: clamp(0rem, 4vw, 2rem);
+	background: var(--cask-panel-alt);
+}
+
+.cask-section:hover {
+	border-color: #b58c5f;
+	background: #292326;
+}
+
+.cask-section h2 {
+	color: var(--cask-gold);
+}
+
+.cask-section p {
+	color: var(--cask-muted);
+}
+
+.daffodils-section {
+	border-color: var(--daff-border);
+	background: var(--daff-panel);
+}
+
+.daffodils-section:nth-child(even) {
+	margin-left: clamp(0rem, 4vw, 2rem);
+	background: var(--daff-panel-alt);
+}
+
+.daffodils-section:hover {
+	border-color: #66866a;
+	background: #e5efdc;
+}
+
+.daffodils-section h2 {
+	color: var(--daff-green);
+}
+
+.daffodils-section p {
+	color: var(--daff-muted);
+}
+
+.cask-section h2,
+.daffodils-section h2 {
+	margin: 0 0 0.75rem;
+	font-size: clamp(1.3rem, 3vw, 1.7rem);
+}
+
+.cask-section p,
+.daffodils-section p {
+	max-width: 70ch;
+	margin: 0;
+	font-size: 1.05rem;
+	line-height: 1.6;
+}
+
+.daffodils-theme :focus-visible {
+	outline-color: var(--daff-focus);
+}
+
 @media (max-width: 48rem) {
 	.site-header__inner {
 		align-items: flex-start;
@@ -173,6 +588,28 @@ h1 {
 	.site-nav {
 		justify-content: flex-start;
 		gap: 0.35rem 1rem;
+	}
+
+	.annabel-hero {
+		min-height: 29rem;
+	}
+
+	.annabel-hero::before {
+		top: 12%;
+	}
+
+	.annabel-section:nth-child(even) {
+		margin-left: 0;
+	}
+
+	.cask-hero,
+	.daffodils-hero {
+		min-height: 29rem;
+	}
+
+	.cask-section:nth-child(even),
+	.daffodils-section:nth-child(even) {
+		margin-left: 0;
 	}
 }
 
