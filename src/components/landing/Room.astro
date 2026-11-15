@@ -1,0 +1,201 @@
+---
+// Atmospheric reading room built from CSS gradients and simple geometric shapes.
+---
+
+<div class="reading-room">
+	<!-- Decorative room details are omitted from the accessibility tree. -->
+	<div class="room-backdrop" aria-hidden="true">
+		<div class="room-sunbeam"></div>
+		<div class="room-window">
+			<div class="room-window__trees"></div>
+			<div class="room-window__crossbar"></div>
+		</div>
+		<div class="room-bookshelf room-bookshelf--left"></div>
+		<div class="room-bookshelf room-bookshelf--right"></div>
+		<div class="room-dust"></div>
+	</div>
+	<div class="reading-room__content">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.reading-room {
+		position: relative;
+		isolation: isolate;
+		min-height: clamp(38rem, 74vh, 54rem);
+		overflow: hidden;
+		border: 1px solid #574b3e;
+		border-radius: 1.25rem;
+		background:
+			radial-gradient(ellipse at 50% 0%, rgb(244 192 103 / 15%), transparent 38%),
+			linear-gradient(180deg, #272326 0%, #1b1b20 58%, #17181d 100%);
+		box-shadow: inset 0 0 5rem rgb(0 0 0 / 22%);
+	}
+
+	.room-backdrop,
+	.reading-room__content {
+		position: absolute;
+		inset: 0;
+	}
+
+	.room-backdrop {
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.room-sunbeam {
+		position: absolute;
+		top: -25%;
+		left: 27%;
+		width: 50%;
+		height: 80%;
+		transform: rotate(12deg);
+		background: linear-gradient(180deg, rgb(255 220 157 / 17%), rgb(255 219 150 / 5%) 55%, transparent);
+		filter: blur(1.6rem);
+	}
+
+	/* A bright sky and soft tree silhouettes create a sunny window at right. */
+	.room-window {
+		position: absolute;
+		top: 8%;
+		right: 5%;
+		width: clamp(8rem, 22%, 16rem);
+		aspect-ratio: 0.78;
+		overflow: hidden;
+		border: 0.65rem solid #342a27;
+		border-radius: 0.15rem;
+		background:
+			radial-gradient(circle at 25% 30%, #fff6cc 0 0.7rem, transparent 0.75rem),
+			linear-gradient(180deg, #7fc5dc 0%, #c6e7dd 62%, #bbd18a 100%);
+		box-shadow: 0 0 0 2px rgb(226 199 147 / 36%), 0 0 2rem rgb(241 190 103 / 14%);
+	}
+
+	.room-window__trees {
+		position: absolute;
+		right: -8%;
+		bottom: -5%;
+		left: -8%;
+		height: 44%;
+		background:
+			radial-gradient(ellipse at 18% 78%, #3f734b 0 1.8rem, transparent 1.9rem),
+			radial-gradient(ellipse at 43% 60%, #55804c 0 2.2rem, transparent 2.3rem),
+			radial-gradient(ellipse at 73% 75%, #356746 0 2.5rem, transparent 2.6rem),
+			linear-gradient(180deg, transparent 35%, #557548 36% 100%);
+	}
+
+	.room-window__crossbar {
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(90deg, transparent calc(50% - 0.2rem), #342a27 calc(50% - 0.2rem) calc(50% + 0.2rem), transparent calc(50% + 0.2rem)),
+			linear-gradient(180deg, transparent calc(48% - 0.2rem), #342a27 calc(48% - 0.2rem) calc(48% + 0.2rem), transparent calc(48% + 0.2rem));
+	}
+
+	/* Shelf edges and book spines are built from repeating CSS gradients. */
+	.room-bookshelf {
+		position: absolute;
+		bottom: 0;
+		width: 23%;
+		height: 72%;
+		top: 18%;
+		border: 0.45rem solid #17171b;
+		background:
+			repeating-linear-gradient(90deg, #332a29 0 0.55rem, #4a352d 0.55rem 0.85rem, #22232a 0.85rem 1.25rem, #594332 1.25rem 1.55rem),
+			#282326;
+		box-shadow: inset 0 0 0 0.25rem #514138, 0.5rem 0.75rem 2rem rgb(0 0 0 / 34%);
+		opacity: 0.6;
+	}
+
+	.room-bookshelf::before {
+		position: absolute;
+		inset: 25% -0.45rem auto;
+		height: 0.75rem;
+		background: #17171b;
+		box-shadow: 0 calc(var(--shelf-gap, 8rem)) 0 #17171b, 0 calc(var(--shelf-gap, 8rem) + 0.2rem) 0.6rem rgb(0 0 0 / 30%);
+		content: "";
+	}
+
+	.room-bookshelf--left {
+		left: -13%;
+		--shelf-gap: 8rem;
+	}
+
+	.room-bookshelf--right {
+		right: -17%;
+		--shelf-gap: 8rem;
+		opacity: 0.38;
+	}
+
+	.room-dust {
+		position: absolute;
+		inset: 0;
+		background-image:
+			radial-gradient(circle, rgb(255 239 193 / 40%) 0 1px, transparent 1.5px),
+			radial-gradient(circle, rgb(255 239 193 / 26%) 0 1px, transparent 1.5px),
+			radial-gradient(circle, rgb(255 239 193 / 22%) 0 1px, transparent 1.5px);
+		background-position: 12% 35%, 65% 62%, 84% 28%;
+		background-size: 15rem 12rem, 18rem 14rem, 21rem 17rem;
+		animation: dust-drift 18s ease-in-out infinite alternate;
+		opacity: 0.35;
+	}
+
+	.reading-room__content {
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		padding: clamp(1.5rem, 4vw, 3rem);
+	}
+
+	@keyframes dust-drift {
+		from {
+			transform: translate3d(0, 0, 0);
+			opacity: 0.2;
+		}
+
+		to {
+			transform: translate3d(0.3rem, -0.55rem, 0);
+			opacity: 0.42;
+		}
+	}
+
+	@media (max-width: 48rem) {
+		.reading-room {
+			min-height: 72rem;
+		}
+
+		.room-window {
+			top: 4%;
+			right: 5%;
+			width: 7.5rem;
+			border-width: 0.45rem;
+			opacity: 0.72;
+		}
+
+		.room-bookshelf {
+			top: 28%;
+			width: 28%;
+			height: 60%;
+			opacity: 0.36;
+		}
+
+		.room-bookshelf--left {
+			left: -20%;
+		}
+
+		.room-bookshelf--right {
+			right: -23%;
+		}
+
+		.reading-room__content {
+			padding: 1.5rem 1rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.room-dust {
+			animation: none;
+		}
+	}
+</style>

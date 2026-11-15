@@ -1,12 +1,125 @@
 ---
-// Home route: content will be added in a later project phase.
+// Landing page: select a book to open its corresponding work page.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Room from "../components/landing/Room.astro";
+import Book from "../components/landing/Book.astro";
 ---
 
-<BaseLayout title="Romantic Age - Home">
-	<section class="page-intro" aria-labelledby="page-title">
-		<p class="eyebrow">Literature project</p>
-		<h1 id="page-title">Romantic Age</h1>
-		<p class="placeholder-note">Home page content will be added in a later phase.</p>
-	</section>
+<BaseLayout title="Romantic Age - Home" mainClass="landing-page">
+	<Room>
+		<section class="landing-content" aria-labelledby="page-title">
+			<p class="landing-kicker">A collection of literary works</p>
+			<h1 id="page-title">Choose a Text to Explore</h1>
+
+			<ul class="book-list" aria-label="Choose a work">
+				<li class="book-list__item">
+					<Book
+						title="Annabel Lee"
+						author="Edgar Allan Poe"
+						link="/annabel-lee"
+						theme="gothic-sea"
+						ariaLabel="Read Annabel Lee by Edgar Allan Poe"
+					/>
+				</li>
+				<li class="book-list__item">
+					<Book
+						title="The Cask of Amontillado"
+						author="Edgar Allan Poe"
+						link="/cask-of-amontillado"
+						theme="gothic-catacombs"
+						ariaLabel="Read The Cask of Amontillado by Edgar Allan Poe"
+					/>
+				</li>
+				<li class="book-list__item">
+					<Book
+						title="I Wandered Lonely as a Cloud"
+						author="William Wordsworth"
+						link="/daffodils"
+						theme="daffodils"
+						ariaLabel="Read I Wandered Lonely as a Cloud by William Wordsworth"
+					/>
+				</li>
+			</ul>
+		</section>
+	</Room>
 </BaseLayout>
+
+<style>
+	:global(main.site-main.landing-page) {
+		width: min(100% - 2rem, 88rem);
+		padding-block: clamp(1rem, 3vw, 2rem);
+	}
+
+	.landing-content {
+		width: min(100%, 68rem);
+		margin: auto;
+		text-align: center;
+	}
+
+	.landing-kicker {
+		margin: 0 0 0.75rem;
+		color: #e9c997;
+		font-family: system-ui, sans-serif;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.landing-content h1 {
+		margin: 0;
+		color: #fff8e9;
+		font-size: clamp(2rem, 5vw, 3.7rem);
+		font-weight: 500;
+		text-shadow: 0 2px 1.5rem rgb(0 0 0 / 55%);
+	}
+
+	.book-list {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		align-items: start;
+		gap: clamp(1rem, 4vw, 3.5rem);
+		margin: clamp(1.5rem, 4vh, 3rem) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.book-list__item {
+		min-width: 0;
+		animation: book-enter 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+	}
+
+	.book-list__item:nth-child(2) {
+		animation-delay: 130ms;
+	}
+
+	.book-list__item:nth-child(3) {
+		animation-delay: 260ms;
+	}
+
+	@keyframes book-enter {
+		from {
+			transform: translateY(1.25rem);
+			opacity: 0;
+		}
+
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@media (max-width: 48rem) {
+		.book-list {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.75rem;
+			margin-top: 1rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.book-list__item {
+			animation: none;
+		}
+	}
+</style>
