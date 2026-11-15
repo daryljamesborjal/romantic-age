@@ -15,6 +15,11 @@
 	--color-muted: #c4bfb6;
 	--color-accent: #e8c98b;
 	--color-focus: #fff19a;
+	/* Landing-only lighting stays behind the content and keeps a warm contrast. */
+	--landing-overlay-top: rgb(20 15 10 / 72%);
+	--landing-overlay-bottom: rgb(10 5 0 / 90%);
+	--landing-vignette: rgb(0 0 0 / 80%);
+	--landing-book-glow: rgb(248 190 112 / 24%);
 }
 
 *,

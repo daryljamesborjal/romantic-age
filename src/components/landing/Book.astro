@@ -63,16 +63,16 @@ const { title, author, link, theme, ariaLabel } = Astro.props;
 		z-index: 0;
 		bottom: 1.1rem;
 		left: 50%;
-		width: min(82%, 10rem);
-		height: 1.15rem;
+		width: min(100%, 13rem);
+		height: 1.65rem;
 		transform: translateX(-50%) rotateX(70deg);
 		border-radius: 50%;
-		background: radial-gradient(ellipse, rgb(0 0 0 / 67%) 0%, rgb(0 0 0 / 36%) 45%, transparent 75%);
-		filter: blur(0.45rem);
+		background: radial-gradient(ellipse, rgb(0 0 0 / 88%) 0%, rgb(0 0 0 / 54%) 48%, transparent 78%);
+		filter: blur(0.8rem);
 		content: "";
 		pointer-events: none;
 		transition: opacity 450ms ease, transform 450ms ease;
-		opacity: 0.72;
+		opacity: 0.9;
 	}
 
 	.book {
@@ -90,7 +90,9 @@ const { title, author, link, theme, ariaLabel } = Astro.props;
 	.book-link:hover .book,
 	.book-link:focus-visible .book {
 		transform: rotateY(-7deg) rotateX(1deg) translateZ(1rem) translateY(-0.35rem);
-		filter: drop-shadow(0.5rem 0.8rem 0.7rem rgb(0 0 0 / 31%));
+		filter:
+			drop-shadow(0.5rem 0.8rem 0.7rem rgb(0 0 0 / 31%))
+			drop-shadow(0 0 0.65rem var(--landing-book-glow));
 	}
 
 	.book-link:hover .book-link__art::after,
@@ -246,7 +248,7 @@ const { title, author, link, theme, ariaLabel } = Astro.props;
 		.book-link:hover .book-link__art::after,
 		.book-link:focus-visible .book-link__art::after {
 			transform: translateX(-50%) rotateX(70deg);
-			opacity: 0.72;
+			opacity: 0.9;
 		}
 	}
 </style>
