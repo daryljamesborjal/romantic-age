@@ -9,7 +9,7 @@ interface Props {
 	mainClass?: string;
 }
 
-const { title = "Romantic Age", mainClass = "" } = Astro.props;
+const { title = "Romantic Age | Great Books Project", mainClass = "" } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,6 +19,10 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#151515" />
+		<meta name="description" content="Explore the Romantic Age through Edgar Allan Poe's 'Annabel Lee' and 'The Cask of Amontillado', and William Wordsworth's 'I Wandered Lonely as a Cloud'. A Great Books project." />
+		<meta property="og:title" content="Romantic Age - Literature Project" />
+		<meta property="og:description" content="An interactive exploration of Romantic Age literature." />
+		<meta property="og:type" content="website" />
 		<title>{title}</title>
 		<!-- Apply the saved or system theme before the page paints to avoid a flash. -->
 		<script is:inline>
@@ -90,6 +94,9 @@ const { title = "Romantic Age", mainClass = "" } = Astro.props;
 			function setTheme(theme: "dark" | "light", saveChoice = false) {
 				themeRoot.setAttribute("data-theme", theme);
 				themeToggle?.setAttribute("aria-pressed", String(theme === "dark"));
+				themeToggle?.setAttribute("aria-label", theme === "dark" ? "Switch to day mode" : "Switch to night mode");
+				const themeToggleLabel = themeToggle?.querySelector<HTMLElement>(".theme-toggle__label");
+				if (themeToggleLabel) themeToggleLabel.textContent = theme === "dark" ? "Day" : "Night";
 
 				if (saveChoice) {
 					try {

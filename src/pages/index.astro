@@ -2,128 +2,325 @@
 // Landing page: select a book to open its corresponding work page.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Room from "../components/landing/Room.astro";
-import Book from "../components/landing/Book.astro";
+import Book3D from "../components/landing/Book3D.astro";
+import { landing } from "../data/landing.js";
+import { works } from "../data/works.js";
 ---
 
 <BaseLayout title="Romantic Age - Home" mainClass="landing-page">
-	<Room>
+	<Room backgroundImage={landing.backgroundImage}>
 		<section class="landing-content" aria-labelledby="page-title">
-			<p class="landing-kicker">A collection of literary works</p>
-			<h1 id="page-title">Choose a Text to Explore</h1>
+			<div class="landing-copy">
+				<p class="landing-kicker">A collection of literary works</p>
+				<h1 id="page-title">Choose a Text to Explore</h1>
+				<p class="landing-welcome">Three works of the Romantic Age. Pick a book to open it.</p>
+			</div>
 
-			<ul class="book-list" aria-label="Choose a work">
-				<li class="book-list__item">
-					<Book
-						title="Annabel Lee"
-						author="Edgar Allan Poe"
-						link="/annabel-lee"
-						theme="gothic-sea"
-						ariaLabel="Read Annabel Lee by Edgar Allan Poe"
-					/>
-				</li>
-				<li class="book-list__item">
-					<Book
-						title="The Cask of Amontillado"
-						author="Edgar Allan Poe"
-						link="/cask-of-amontillado"
-						theme="gothic-catacombs"
-						ariaLabel="Read The Cask of Amontillado by Edgar Allan Poe"
-					/>
-				</li>
-				<li class="book-list__item">
-					<Book
-						title="I Wandered Lonely as a Cloud"
-						author="William Wordsworth"
-						link="/daffodils"
-						theme="daffodils"
-						ariaLabel="Read I Wandered Lonely as a Cloud by William Wordsworth"
-					/>
-				</li>
+			<ul
+				id="book-carousel"
+				class:list={["book-list", works.length > 4 && "book-list--scrollable"]}
+				tabindex="0"
+				aria-label="Choose a work. Scroll horizontally to browse."
+			>
+				{works.map((work, index) => (
+					<li class="book-list__item" id={`book-slide-${work.id}`}>
+						<Book3D
+							work={work}
+							delay={index * 0.55}
+							forward={index === Math.floor(works.length / 2) ? 16 : 0}
+						/>
+					</li>
+				))}
 			</ul>
+			{works.length > 1 && (
+				<div class="book-pagination" role="group" aria-label="Choose a book">
+					{works.map((work, index) => (
+						<button
+							class="book-pagination__dot"
+							type="button"
+							data-slide-index={index}
+							aria-label={`Show ${work.title}`}
+							aria-current={index === 0 ? "true" : undefined}
+						></button>
+					))}
+				</div>
+			)}
 		</section>
 	</Room>
 </BaseLayout>
 
+<script>
+	const bookCarousel = document.querySelector<HTMLUListElement>("#book-carousel");
+	const bookSlides = Array.from(bookCarousel?.querySelectorAll<HTMLElement>(".book-list__item") ?? []);
+	const bookDots = Array.from(document.querySelectorAll<HTMLButtonElement>(".book-pagination__dot"));
+	const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	if (bookCarousel && bookSlides.length > 0 && bookDots.length > 0) {
+		let scrollFrame = 0;
+
+		const updateActiveDot = () => {
+			scrollFrame = 0;
+			const carouselCenter = bookCarousel.getBoundingClientRect().left + bookCarousel.clientWidth / 2;
+			let activeIndex = 0;
+			let closestDistance = Number.POSITIVE_INFINITY;
+
+			bookSlides.forEach((slide, index) => {
+				const bounds = slide.getBoundingClientRect();
+				const distance = Math.abs(bounds.left + bounds.width / 2 - carouselCenter);
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					activeIndex = index;
+				}
+			});
+
+			bookDots.forEach((dot, index) => {
+				if (index === activeIndex) dot.setAttribute("aria-current", "true");
+				else dot.removeAttribute("aria-current");
+			});
+		};
+
+		const queueDotUpdate = () => {
+			if (scrollFrame) return;
+			scrollFrame = window.requestAnimationFrame(updateActiveDot);
+		};
+
+		bookCarousel.addEventListener("scroll", queueDotUpdate, { passive: true });
+		window.addEventListener("resize", queueDotUpdate, { passive: true });
+		bookDots.forEach((dot, index) => {
+				dot.addEventListener("click", () => {
+					bookSlides[index]?.scrollIntoView({ behavior: "auto", block: "nearest", inline: "center" });
+				});
+		});
+		updateActiveDot();
+	}
+
+	// Update the cover sheen once per animation frame on hover-capable devices only.
+	if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+		document.querySelectorAll<HTMLAnchorElement>(".book-link").forEach((book) => {
+			let pointerX = 0;
+			let pointerY = 0;
+			let pointerFrame = 0;
+
+			book.addEventListener("pointermove", (event) => {
+				pointerX = event.clientX;
+				pointerY = event.clientY;
+				if (
+					pointerFrame ||
+					motionPreference.matches ||
+					document.documentElement.classList.contains("reduce-motion-active")
+				) return;
+
+				pointerFrame = window.requestAnimationFrame(() => {
+					pointerFrame = 0;
+					if (
+						motionPreference.matches ||
+						document.documentElement.classList.contains("reduce-motion-active")
+					) return;
+					const bounds = book.getBoundingClientRect();
+					book.style.setProperty("--mx", `${((pointerX - bounds.left) / bounds.width) * 100}%`);
+					book.style.setProperty("--my", `${((pointerY - bounds.top) / bounds.height) * 100}%`);
+				});
+			}, { passive: true });
+		});
+	}
+</script>
+
 <style>
 	:global(main.site-main.landing-page) {
 		width: 100%;
-		max-width: none;
+		min-width: 0;
+		max-width: 100%;
 		margin: 0;
 		padding: 0;
 		min-height: 0;
 	}
 
+	:global(main.site-main.landing-page .reading-room),
+	:global(main.site-main.landing-page .reading-room__content) {
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+	}
+
 	.landing-content {
-		width: min(100%, 68rem);
+		--book-h: clamp(300px, 46vh, 480px);
+		width: min(100%, 75rem);
+		min-width: 0;
+		max-width: 100%;
 		margin: auto;
 		text-align: center;
 	}
 
+	.landing-copy {
+		position: relative;
+		z-index: 0;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		isolation: isolate;
+		padding: 0.75rem 1rem;
+	}
+
 	.landing-kicker {
 		margin: 0 0 0.75rem;
-		color: var(--landing-copy-color, #fff8e9);
+		color: #fff8e9;
 		font-family: system-ui, sans-serif;
 		font-size: 0.8rem;
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		text-shadow: var(--landing-copy-shadow, 0 1px 0.75rem rgb(0 0 0 / 85%));
+		text-shadow: 0 1px 0.2rem rgb(0 0 0 / 95%), 0 0 1rem rgb(0 0 0 / 85%);
 	}
 
 	.landing-content h1 {
 		margin: 0;
-		color: var(--landing-copy-color, #fff8e9);
+		color: #fff8e9;
 		font-size: clamp(2rem, 5vw, 3.7rem);
 		font-weight: 500;
-		text-shadow: var(--landing-copy-shadow, 0 2px 1.5rem rgb(0 0 0 / 55%));
+		text-shadow: 0 2px 0.3rem rgb(0 0 0 / 95%), 0 0 1.4rem rgb(0 0 0 / 90%);
+	}
+
+	.landing-welcome {
+		max-width: 45ch;
+		margin: 0.5rem auto 0;
+		color: #fff8e9;
+		font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+		text-shadow: 0 1px 0.2rem rgb(0 0 0 / 95%), 0 0 1rem rgb(0 0 0 / 85%);
+		text-wrap: balance;
 	}
 
 	.book-list {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		align-items: start;
-		gap: clamp(1rem, 4vw, 3.5rem);
-		margin: clamp(1.5rem, 4vh, 3rem) 0 0;
-		padding: 0;
+		--bob: 6px;
+		--lift: 10px;
+		--ribbon: 48px;
+		--shadow: 24px;
+		--float-pad: calc(var(--bob) + var(--lift) + var(--ribbon) + var(--shadow) + 8px);
+		--book-list-gap: clamp(1rem, 3vh, 2rem);
+		display: flex;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(1rem, 3vw, 3rem);
+		margin-block: calc(var(--book-list-gap) - var(--float-pad)) calc(0px - var(--float-pad) + var(--ribbon) + 8px);
+		margin-inline: 0;
+		padding-block: var(--float-pad);
+		padding-inline: 0;
+		overflow-x: auto;
+		overflow-y: hidden;
 		list-style: none;
 	}
 
 	.book-list__item {
+		flex: 0 1 clamp(204px, 31.28vh, 326px);
 		min-width: 0;
-		animation: book-enter 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+		scroll-snap-align: center;
 	}
 
-	.book-list__item:nth-child(2) {
-		animation-delay: 130ms;
+	.book-list--scrollable {
+		justify-content: flex-start;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: thin;
 	}
 
-	.book-list__item:nth-child(3) {
-		animation-delay: 260ms;
+	.book-list--scrollable .book-list__item {
+		flex: 0 0 clamp(204px, 31.28vh, 326px);
 	}
 
-	@keyframes book-enter {
-		from {
-			transform: translateY(1.25rem);
-			opacity: 0;
-		}
+	.book-pagination {
+		display: none;
+	}
 
-		to {
-			transform: translateY(0);
-			opacity: 1;
-		}
+	.book-pagination__dot {
+		display: grid;
+		width: 44px;
+		height: 44px;
+		place-items: center;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	.book-pagination__dot::before {
+		width: 0.5rem;
+		height: 0.5rem;
+		transform: scale(1);
+		border-radius: 999px;
+		background: rgb(255 248 233 / 70%);
+		content: "";
+		transition: transform 180ms ease, opacity 180ms ease;
+	}
+
+	.book-pagination__dot[aria-current="true"]::before {
+		transform: scaleX(1.55);
+		background: #fff0ca;
+	}
+
+	.book-pagination__dot:focus-visible {
+		outline: 2px solid #fff19a;
+		outline-offset: 1px;
 	}
 
 	@media (max-width: 48rem) {
+		.landing-copy {
+			padding: 0.25rem 0.75rem;
+		}
+
+		.landing-kicker {
+			margin-bottom: 0.4rem;
+		}
+
+		.landing-content h1 {
+			line-height: 1.15;
+		}
+
+		.landing-welcome {
+			line-height: 1.4;
+		}
+
 		.book-list {
-			grid-template-columns: minmax(0, 1fr);
+			justify-content: flex-start;
 			gap: 0.75rem;
-			margin-top: 1rem;
+			--book-list-gap: 0.5rem;
+			margin-inline: 0;
+			padding-inline: 52px;
+			scroll-padding-inline: 52px;
+			scroll-snap-type: x mandatory;
+			overscroll-behavior-x: contain;
+			scrollbar-width: none;
+		}
+
+		.book-list::-webkit-scrollbar {
+			display: none;
+		}
+
+		.book-list__item,
+		.book-list--scrollable .book-list__item {
+			flex: 0 0 auto;
+			width: 100%;
+			scroll-snap-align: center;
+		}
+
+		.book-pagination {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.15rem;
+			margin-top: -0.25rem;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.book-list__item {
-			animation: none;
+		.book-pagination__dot::before {
+			transition: none;
 		}
+	}
+
+	:global(html.reduce-motion-active) .book-pagination__dot::before {
+		transition: none;
 	}
 </style>

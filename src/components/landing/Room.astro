@@ -1,8 +1,13 @@
 ---
 // Full-screen photographic reading room with theme-aware light and subtle dust.
+interface Props {
+	backgroundImage?: string;
+}
+
+const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 ---
 
-<div class="reading-room">
+<div class="reading-room" style={`--room-background-image: url("${backgroundImage}")`}>
 	<!-- The photograph, contrast overlay, and dust are purely decorative. -->
 	<div class="room-backdrop" aria-hidden="true">
 		<div class="room-dust"></div>
@@ -20,13 +25,28 @@
 		padding: 0;
 		place-items: center;
 		isolation: isolate;
-		min-height: 100vh;
-		min-height: 100dvh;
-		overflow: hidden;
+		min-height: calc(100vh - 5rem);
+		min-height: calc(100dvh - 5rem);
 		background-color: #171513;
-		background-image: url('/images/library-room.jpg');
+		background-image: var(--room-background-image);
 		background-position: center;
 		background-size: cover;
+	}
+
+	/* Start the heading scrim at the room's top edge to avoid a visible seam. */
+	.reading-room::after {
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgb(10 6 4 / 82%) 0%,
+			rgb(10 6 4 / 58%) 34%,
+			rgb(10 6 4 / 28%) 58%,
+			transparent 76%
+		);
+		content: "";
+		pointer-events: none;
 	}
 
 	.room-backdrop {
@@ -71,7 +91,7 @@
 		width: 100%;
 		min-height: inherit;
 		place-items: center;
-		padding: clamp(1.5rem, 4vw, 3rem) 0;
+		padding: clamp(0.5rem, 2vh, 1.5rem) 0;
 	}
 
 	@keyframes dust-drift {
@@ -87,8 +107,13 @@
 	}
 
 	@media (max-width: 48rem) {
+		.reading-room {
+			min-height: calc(100vh - 7.5rem);
+			min-height: calc(100dvh - 7.5rem);
+		}
+
 		.reading-room__content {
-			padding: 1.5rem 0;
+			padding: 0.5rem 0;
 		}
 	}
 

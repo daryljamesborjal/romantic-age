@@ -6,7 +6,7 @@
 	class="theme-toggle"
 	id="theme-toggle"
 	type="button"
-	aria-label="Toggle dark mode"
+	aria-label="Switch to night mode"
 	aria-pressed="false"
 >
 	<svg class="theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -24,7 +24,8 @@
 			stroke-width="1.7"
 		/>
 	</svg>
-	<span class="sr-only">Toggle Dark Mode</span>
+	<span class="sr-only">Toggle day and night mode</span>
+	<span class="theme-toggle__label" aria-hidden="true">Night</span>
 </button>
 
 <style>
@@ -49,6 +50,10 @@
 		display: block;
 		width: 1.25rem;
 		height: 1.25rem;
+	}
+
+	.theme-toggle__label {
+		display: none;
 	}
 
 	.theme-toggle__moon {

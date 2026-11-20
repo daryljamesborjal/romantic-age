@@ -126,11 +126,11 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 		overflow: hidden;
 	}
 
-	/* A restrained, static fairground wheel sits behind the foreground text. */
+	/* Keep the wheel beyond the hero text column at every viewport width. */
 	.cask-scene__ferris-wheel {
 		position: absolute;
 		top: 20%;
-		right: 8%;
+		left: max(calc((100% + min(100% - 2rem, 52rem)) / 2 + 1px), calc(100% - clamp(1rem, 10vw, 14rem)));
 		width: clamp(8rem, 23vw, 19rem);
 		aspect-ratio: 1;
 		border: 2px solid rgb(39 18 17 / 32%);
@@ -239,17 +239,36 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 		opacity: 0;
 	}
 
+	.cask-scene__catacombs::before {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+		background: radial-gradient(ellipse at 0% 55%, rgb(237 151 75 / 38%) 0%, rgb(173 83 39 / 20%) 28%, transparent 62%);
+		content: "";
+		animation: torch-flicker 8s ease-in-out infinite alternate;
+		pointer-events: none;
+	}
+
+	@keyframes torch-flicker {
+		from { opacity: 0.48; }
+		to { opacity: 0.88; }
+	}
+
 	.cask-scene__arch {
 		position: absolute;
+		z-index: 1;
 		bottom: -5%;
 		width: clamp(13rem, 30vw, 30rem);
 		height: 88%;
 		border: 1px solid var(--cask-arch-edge);
 		border-bottom: 0;
 		border-radius: 50% 50% 0 0 / 28% 28% 0 0;
-		background: linear-gradient(180deg, var(--cask-arch-fill), rgb(7 9 8 / 88%));
+		background:
+			repeating-linear-gradient(0deg, transparent 0 2.6rem, rgb(220 199 163 / 7%) 2.65rem 2.72rem, transparent 2.78rem 3.1rem),
+			linear-gradient(112deg, rgb(215 192 155 / 7%), transparent 34% 68%, rgb(0 0 0 / 17%)),
+			linear-gradient(180deg, var(--cask-arch-fill), rgb(7 9 8 / 88%));
 		box-shadow: inset 0.8rem 0 1.4rem rgb(0 0 0 / 17%), inset -0.8rem 0 1.4rem rgb(0 0 0 / 17%);
-		opacity: 0.5;
+		opacity: 0.78;
 	}
 
 	.cask-scene__arch::before {
@@ -291,11 +310,12 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 	/* Low, dark barrel stacks appear only with the catacomb layer. */
 	.cask-scene__barrels {
 		position: absolute;
+		z-index: 1;
 		bottom: -1rem;
 		display: flex;
 		align-items: flex-end;
 		gap: 0.35rem;
-		opacity: 0.62;
+		opacity: 0.9;
 	}
 
 	.cask-scene__barrels--left { left: 2%; }
@@ -305,9 +325,9 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 		position: relative;
 		width: clamp(2.5rem, 5vw, 4rem);
 		height: clamp(3.5rem, 8vw, 5.5rem);
-		border: 2px solid rgb(175 157 124 / 34%);
+		border: 2px solid rgb(206 183 142 / 60%);
 		border-radius: 24% / 12%;
-		background: repeating-linear-gradient(to bottom, transparent 0 22%, rgb(180 162 131 / 27%) 23% 26%, transparent 27% 48%), linear-gradient(90deg, #171614, #39342d 48%, #171614);
+		background: repeating-linear-gradient(to bottom, transparent 0 22%, rgb(220 193 149 / 48%) 23% 26%, transparent 27% 48%), linear-gradient(90deg, #27231d, #554632 48%, #28231d);
 	}
 
 	.cask-scene__barrel + .cask-scene__barrel {
@@ -368,6 +388,9 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 	}
 
 	:global(html[data-theme="dark"]) .cask-scene__catacombs {
+		--cask-arch-fill: #514b3d;
+		--cask-arch-edge: rgb(224 199 153 / 48%);
+		--cask-arch-opening: #181713;
 		opacity: 1;
 	}
 
@@ -383,6 +406,11 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 		animation-play-state: paused;
 	}
 
+	:global(html.reduce-motion-active) .cask-scene__catacombs::before {
+		animation: none;
+		opacity: 0.68;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.cask-scene__carnival,
 		.cask-scene__catacombs,
@@ -392,7 +420,8 @@ const confettiColors = ["#ffe184", "#f7b14a", "#f4e9cc", "#8ec5b0", "#d87052"];
 
 		.cask-scene__confetti-piece,
 		.cask-scene__drip,
-		.cask-scene__firework {
+		.cask-scene__firework,
+		.cask-scene__catacombs::before {
 			animation: none;
 		}
 	}

@@ -14,7 +14,7 @@ const contentId = `${id}-content`;
 <!-- Native details/summary keeps each section keyboard-operable without JavaScript. -->
 <section class={`content-section content-section--${align}`} aria-labelledby={titleId}>
 	<details id={id} class="content-section__details">
-		<summary class="content-section__summary" aria-controls={contentId}>
+		<summary class="content-section__summary" aria-controls={contentId} aria-expanded="false">
 			<span class="content-section__intro">
 				<h2 class="content-section__title" id={titleId}>{title}</h2>
 				<span class="content-section__dek">{summary}</span>
@@ -28,3 +28,18 @@ const contentId = `${id}-content`;
 		</div>
 	</details>
 </section>
+
+<script>
+	// Keep the explicit expanded state in sync with each native disclosure.
+	document.querySelectorAll<HTMLDetailsElement>(".content-section__details").forEach((details) => {
+		const summary = details.querySelector<HTMLElement>(".content-section__summary");
+		if (!summary) return;
+
+		const syncExpandedState = () => {
+			summary.setAttribute("aria-expanded", String(details.open));
+		};
+
+		syncExpandedState();
+		details.addEventListener("toggle", syncExpandedState);
+	});
+</script>
