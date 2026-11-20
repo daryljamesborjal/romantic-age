@@ -4,6 +4,10 @@ const flowers = Array.from({ length: 40 }, (_, index) => index);
 const reflectionDashes = Array.from({ length: 12 }, (_, index) => index);
 const waterSparkles = Array.from({ length: 10 }, (_, index) => index);
 const stonePositions = [8, 24, 41, 59, 76, 92];
+const fireflies = [
+	[8, 74], [17, 84], [25, 69], [33, 80], [42, 87], [49, 72], [57, 82],
+	[64, 68], [71, 88], [78, 77], [84, 85], [91, 70], [96, 81], [38, 73], [69, 79],
+];
 ---
 
 <div class="daffodils-scene" aria-hidden="true">
@@ -41,15 +45,26 @@ const stonePositions = [8, 24, 41, 59, 76, 92];
 		<circle cx="60" cy="60" r="60" fill="url(#daff-sun-glow)"/><circle cx="60" cy="60" r="49" fill="url(#daff-sun)"/>
 	</svg>
 	<svg class="daffodils-scene__orb daffodils-scene__moon night-only" viewBox="0 0 120 120" focusable="false">
-		<defs><radialGradient id="daff-moon"><stop stop-color="#fff"/><stop offset="1" stop-color="var(--daff-moon-core)"/></radialGradient><radialGradient id="daff-moon-glow"><stop stop-color="#dce7ff" stop-opacity=".22"/><stop offset="1" stop-color="#dce7ff" stop-opacity="0"/></radialGradient></defs>
+		<defs>
+			<radialGradient id="daff-moon" cx="32%" cy="28%" r="86%" fx="32%" fy="28%"><stop offset="0" stop-color="#fffefb"/><stop offset=".48" stop-color="#f0f2f7"/><stop offset="1" stop-color="var(--daff-moon-core)"/></radialGradient>
+			<radialGradient id="daff-moon-glow"><stop stop-color="#dce7ff" stop-opacity=".22"/><stop offset="1" stop-color="#dce7ff" stop-opacity="0"/></radialGradient>
+			<clipPath id="daff-moon-disk"><circle cx="60" cy="60" r="49"/></clipPath>
+		</defs>
 		<circle cx="60" cy="60" r="60" fill="url(#daff-moon-glow)"/><circle cx="60" cy="60" r="49" fill="url(#daff-moon)"/>
+		<g clip-path="url(#daff-moon-disk)" fill="#aebbd5" opacity=".16"><circle cx="43" cy="39" r="5"/><circle cx="76" cy="51" r="3.5"/><circle cx="58" cy="78" r="4.5"/><circle cx="83" cy="81" r="2.5"/></g>
 	</svg>
 
 	{[0, 1, 2].map((index) => (
-		<svg class={`daffodils-scene__cloud daffodils-scene__cloud--${index + 1}`} viewBox="0 0 180 80" focusable="false">
+		<svg class={`daffodils-scene__cloud daffodils-scene__cloud--${index + 1}`} style={`--cloud-rest-x:${[14, 48, 76][index]}vw;--cloud-delay:${[-13, -47, -91][index]}s`} viewBox="0 0 180 80" focusable="false">
 			<path d="M18 67C-1 65 0 42 18 37c2-24 35-34 50-14 21-14 51-2 50 21 25-1 40 9 40 23z" />
 		</svg>
 	))}
+
+	<div class="daffodils-scene__firefly-field">
+		{fireflies.map(([x, y], index) => (
+			<span class="daffodils-scene__firefly" style={`--firefly-x:${x}%;--firefly-y:${y}%;--firefly-delay:${-(index * 1.17 % 14)}s;--firefly-pulse-delay:${-(index * 0.73 % 4)}s;--firefly-duration:${8 + index % 8}s;--firefly-pulse-duration:${2 + index % 3}s`} />
+		))}
+	</div>
 
 	<svg class="daffodils-scene__tree daffodils-scene__tree--left" viewBox="0 0 180 300" focusable="false">
 		<path class="daffodils-scene__trunk" d="M42 300q18-62 12-123l-18-47 28 39 22-47-8 57q-3 57 18 121z" />
@@ -105,11 +120,16 @@ const stonePositions = [8, 24, 41, 59, 76, 92];
 	.day-only { display:block; }
 	.night-only { display:none; }
 	.daffodils-scene__orb { position:absolute; z-index:2; top:10%; right:9%; width:clamp(136px,8vw,164px); aspect-ratio:1; height:auto; }
-	.daffodils-scene__cloud { position:absolute; z-index:3; width:clamp(5rem,10vw,10rem); height:auto; fill:rgb(255 255 255 / 52%); animation:daff-cloud-float 34s ease-in-out infinite alternate; }
-	.daffodils-scene__cloud--1 { top:8%; left:14%; }
-	.daffodils-scene__cloud--2 { top:13%; left:48%; animation-duration:42s; animation-direction:alternate-reverse; }
-	.daffodils-scene__cloud--3 { top:9%; right:21%; animation-duration:50s; }
-	@keyframes daff-cloud-float { to { transform:translateX(12px); } }
+	.daffodils-scene__cloud { position:absolute; z-index:3; left:0; width:clamp(5rem,10vw,10rem); height:auto; fill:var(--daff-cloud-color); transform:translateX(var(--cloud-rest-x)); animation:daff-cloud-cross var(--cloud-duration, 90s) linear infinite; animation-delay:var(--cloud-delay); }
+	.daffodils-scene__cloud--1 { top:5%; --cloud-duration:64s; }
+	.daffodils-scene__cloud--2 { top:10%; --cloud-duration:91s; }
+	.daffodils-scene__cloud--3 { top:4%; --cloud-duration:118s; }
+	@keyframes daff-cloud-cross { from { transform:translateX(calc(-100% - 1px)); } to { transform:translateX(calc(100vw + 1px)); } }
+	.daffodils-scene__firefly-field { position:absolute; z-index:7; inset:0; display:none; pointer-events:none; }
+	.daffodils-scene__firefly { position:absolute; top:var(--firefly-y); left:var(--firefly-x); width:14px; height:14px; transform:translate(-50%,-50%); animation:daff-firefly-wander var(--firefly-duration) ease-in-out infinite; animation-delay:var(--firefly-delay); }
+	.daffodils-scene__firefly::before { position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle, #f5ffd1 0 17%, rgb(220 244 135 / 88%) 24%, rgb(194 225 91 / 34%) 48%, transparent 75%); content:""; animation:daff-firefly-pulse var(--firefly-pulse-duration) ease-in-out infinite; animation-delay:var(--firefly-pulse-delay); }
+	@keyframes daff-firefly-wander { 0%,100% { transform:translate(-50%,-50%); } 25% { transform:translate(calc(-50% + 10px),calc(-50% - 7px)); } 50% { transform:translate(calc(-50% + 2px),calc(-50% + 8px)); } 75% { transform:translate(calc(-50% - 8px),calc(-50% + 2px)); } }
+	@keyframes daff-firefly-pulse { 0%,100% { opacity:.35; } 50% { opacity:1; } }
 	.daffodils-scene__tree { position:absolute; z-index:5; bottom:6%; width:clamp(6rem,12vw,10rem); height:auto; }
 	.daffodils-scene__tree--left { left:-2.5rem; }
 	.daffodils-scene__tree--right { right:-2.5rem; }
@@ -133,6 +153,7 @@ const stonePositions = [8, 24, 41, 59, 76, 92];
 	:global(html[data-theme="dark"]) .daffodils-scene__reflection { stroke:#dce7ff; }
 	:global(html[data-theme="dark"]) .daffodils-scene__sparkles { fill:#e8efff; }
 	:global(html[data-theme="dark"]) .daffodils-scene__cloud { fill:rgb(206 218 238 / 28%); }
+	:global(html[data-theme="dark"]) .daffodils-scene__firefly-field { display:block; }
 	:global(html[data-theme="dark"]) .daffodils-scene__tree { --daff-tree:#0c1521; }
 	:global(html[data-theme="dark"]) .daffodils-scene__stone ellipse { fill:#4a5350; }
 	:global(html[data-theme="dark"]) .daffodils-scene__stone path { fill:#627b58; }
@@ -141,7 +162,8 @@ const stonePositions = [8, 24, 41, 59, 76, 92];
 		.daffodils-scene__orb { top:7%; right:8%; width:86px; }
 		.daffodils-scene__cloud { width:5rem; }
 		.daffodils-scene__cloud--3 { display:none; }
-		.daffodils-scene__cloud--2 { left:54%; top:12%; }
+		.daffodils-scene__cloud--2 { top:9%; }
+		.daffodils-scene__firefly:nth-child(n + 8) { display:none; }
 		.daffodils-scene__tree { width:6rem; bottom:5%; }
 		.daffodils-scene__tree--left { left:-3rem; }
 		.daffodils-scene__tree--right { right:-3rem; }
@@ -150,12 +172,14 @@ const stonePositions = [8, 24, 41, 59, 76, 92];
 		.daffodils-scene__flower:nth-of-type(n + 15) { display:none; }
 	}
 	@media (prefers-reduced-motion:reduce) {
-		.daffodils-scene__reflection-dash,.daffodils-scene__wave,.daffodils-scene__sparkle,.daffodils-scene__leaves,.daffodils-scene__cloud,.daffodils-scene__flower { animation:none !important; }
+		.daffodils-scene__reflection-dash,.daffodils-scene__wave,.daffodils-scene__sparkle,.daffodils-scene__leaves,.daffodils-scene__cloud,.daffodils-scene__flower,.daffodils-scene__firefly,.daffodils-scene__firefly::before { animation:none !important; }
 	}
 	:global(html.reduce-motion-active) .daffodils-scene__reflection-dash,
 	:global(html.reduce-motion-active) .daffodils-scene__wave,
 	:global(html.reduce-motion-active) .daffodils-scene__sparkle,
 	:global(html.reduce-motion-active) .daffodils-scene__leaves,
 	:global(html.reduce-motion-active) .daffodils-scene__cloud,
-	:global(html.reduce-motion-active) .daffodils-scene__flower { animation-play-state:paused !important; }
+	:global(html.reduce-motion-active) .daffodils-scene__flower,
+	:global(html.reduce-motion-active) .daffodils-scene__firefly,
+	:global(html.reduce-motion-active) .daffodils-scene__firefly::before { animation-play-state:paused !important; }
 </style>
