@@ -24,7 +24,12 @@ const bats = [
 		</div>
 	</div>
 	<div class="annabel-scene__mourning">
-		<div class="annabel-scene__moon"></div>
+		<div class="annabel-scene__moon">
+			<span class="annabel-scene__moon-crater annabel-scene__moon-crater--one"></span>
+			<span class="annabel-scene__moon-crater annabel-scene__moon-crater--two"></span>
+			<span class="annabel-scene__moon-crater annabel-scene__moon-crater--three"></span>
+			<span class="annabel-scene__moon-crater annabel-scene__moon-crater--four"></span>
+		</div>
 		<div class="annabel-scene__bats" aria-hidden="true">
 			{bats.map((bat) => (
 				<span
@@ -235,8 +240,45 @@ const bats = [
 		aspect-ratio: 1;
 		border: 1px solid rgb(241 239 248 / 72%);
 		border-radius: 50%;
-		background: radial-gradient(circle at 37% 34%, #fffdf4 0, var(--annabel-moon-core) 48%, #aab2cf 100%);
+		background: radial-gradient(circle at 34% 30%, #fffef8 0%, #f1f0eb 32%, var(--annabel-moon-core) 66%, #a4aec9 100%);
 		box-shadow: 0 0 0 0.75rem rgb(211 219 244 / 8%), 0 0 2rem 0.5rem rgb(202 210 244 / 16%);
+		overflow: hidden;
+	}
+
+	.annabel-scene__moon-crater {
+		position: absolute;
+		border-radius: 50%;
+		background: radial-gradient(circle at 34% 32%, rgb(103 112 137 / 23%) 0 12%, rgb(103 112 137 / 13%) 50%, transparent 76%);
+		box-shadow: inset 1px 1px 2px rgb(93 103 128 / 14%);
+		opacity: 0.65;
+	}
+
+	.annabel-scene__moon-crater--one {
+		top: 24%;
+		left: 57%;
+		width: 17%;
+		aspect-ratio: 1;
+	}
+
+	.annabel-scene__moon-crater--two {
+		top: 55%;
+		left: 29%;
+		width: 23%;
+		aspect-ratio: 1;
+	}
+
+	.annabel-scene__moon-crater--three {
+		top: 68%;
+		left: 66%;
+		width: 11%;
+		aspect-ratio: 1;
+	}
+
+	.annabel-scene__moon-crater--four {
+		top: 42%;
+		left: 16%;
+		width: 9%;
+		aspect-ratio: 1;
 	}
 
 	/* Five small silhouettes orbit near the moon without obscuring it. */
@@ -505,11 +547,11 @@ const bats = [
 		left: 22%;
 		width: clamp(2rem, 4vw, 3.4rem);
 		height: clamp(3rem, 8vh, 5rem);
-		border: 1px solid rgb(218 222 235 / 22%);
+		border: 1px solid rgb(218 222 235 / 42%);
 		border-radius: 48% 48% 0.15rem 0.15rem;
-		background: linear-gradient(90deg, var(--annabel-fence-color), #171a2b 72%);
+		background: linear-gradient(90deg, #181c2b, #30364a 72%, #1b1f30);
 		box-shadow: 0 0.35rem 0 rgb(0 0 0 / 22%);
-		opacity: 0.72;
+		opacity: 0.88;
 	}
 
 	.annabel-scene__gravestone span {
@@ -519,7 +561,7 @@ const bats = [
 		width: 0.3rem;
 		height: 1.2rem;
 		transform: translateX(-50%);
-		background: rgb(220 224 235 / 22%);
+		background: rgb(220 224 235 / 40%);
 	}
 
 	.annabel-scene__gravestone span::before {
@@ -618,6 +660,11 @@ const bats = [
 
 	:global(html[data-theme="light"]) .annabel-scene__raven,
 	:global(html[data-theme="light"]) .annabel-scene__gravestone {
+		display: none;
+	}
+
+	:global(html[data-theme="light"]) .annabel-scene__street-lamp,
+	:global(html[data-theme="light"]) .annabel-scene__iron-fence {
 		display: none;
 	}
 

@@ -19,7 +19,11 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="M6 20V10a6 6 0 0 1 12 0v10M5 20h14M9 20v-5h6v5M12 5.5v4m-2-2h4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
 			</svg>
-			<span class="nav-text">Annabel Lee</span>
+			<span class="nav-text">Annabel Lee<span class="nav-annabel-fence" aria-hidden="true">
+				<svg viewBox="0 0 120 16" focusable="false">
+					<path d="M0 13h120M5 13V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8m9 0V5l3-4 3 4v8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+				</svg>
+			</span></span>
 			<span class="nav-mobile-label" aria-hidden="true">Annabel</span>
 		</a>
 	</li>
@@ -38,7 +42,9 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 				<path d="M12 12v9m0-5c-3 0-4.5-1.5-5-4 3 0 4.5 1.2 5 4Zm0-2c0-2.5 1.5-4 4-4-.2 2.7-1.5 4-4 4Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
 				<path d="M12 4.4c1.1-2.5 3.8-1.6 3.5.4 2.8-1 4.1 1.6 2.1 3.1 2.1 1.9.2 4.1-2.2 2.8-.5 2.6-3.3 2.8-3.8.3-1.5 2.2-4.2 1-3.2-1.6-2.8-.6-2.7-3.6 0-4-1.1-2.7 1.7-4.2 3.6-1Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" />
 			</svg>
+			<span class="nav-daffodil nav-daffodil--one" aria-hidden="true"><svg viewBox="0 0 64 52"><g fill="#f7e27a"><path d="M29 27C20 16 20 7 27 2c7 4 9 14 7 25z"/><path d="M29 27C17 20 8 18 5 24c3 8 13 11 25 8z"/><path d="M31 29c-5 11-2 20 5 22 7-5 5-14-1-23z"/><path d="M34 27c10 7 19 7 23 1-2-8-12-11-24-6z"/></g><path d="M28 21c9-3 16-1 21 4l10-4 4 4-9 6c-8 2-17 0-26-3z" fill="#f2b632"/><ellipse cx="60" cy="25" rx="3.3" ry="4.4" fill="#c98716"/></svg></span>
 			<span class="nav-text">I Wandered Lonely as a Cloud<span class="nav-petal" aria-hidden="true"></span></span>
+			<span class="nav-daffodil nav-daffodil--two" aria-hidden="true"><svg viewBox="0 0 64 52"><g fill="#f7e27a"><path d="M29 27C20 16 20 7 27 2c7 4 9 14 7 25z"/><path d="M29 27C17 20 8 18 5 24c3 8 13 11 25 8z"/><path d="M31 29c-5 11-2 20 5 22 7-5 5-14-1-23z"/><path d="M34 27c10 7 19 7 23 1-2-8-12-11-24-6z"/></g><path d="M28 21c9-3 16-1 21 4l10-4 4 4-9 6c-8 2-17 0-26-3z" fill="#f2b632"/><ellipse cx="60" cy="25" rx="3.3" ry="4.4" fill="#c98716"/></svg></span>
 			<span class="nav-mobile-label" aria-hidden="true">Daffodils</span>
 		</a>
 	</li>

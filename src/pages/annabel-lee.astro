@@ -11,10 +11,37 @@ import NextWork from "../components/shared/NextWork.astro";
 	<section class="annabel-hero" aria-labelledby="page-title">
 		<AnnabelLeeScene />
 		<div class="hero-bottom-fade" aria-hidden="true"></div>
+		<div class="annabel-memory-foreground" aria-hidden="true">
+			<div class="annabel-memory-shoreline">
+				<svg class="annabel-memory-shoreline__sand" viewBox="0 0 1440 180" preserveAspectRatio="none" focusable="false">
+					<defs>
+						<linearGradient id="annabel-shore-gradient" x1="0" x2="0" y1="0" y2="1">
+							<stop offset="0%" stop-color="var(--annabel-shore-sand)"></stop>
+							<stop offset="100%" stop-color="var(--bg-color)"></stop>
+						</linearGradient>
+					</defs>
+					<path d="M0 40C140 22 235 58 370 42S610 52 740 34s240 26 360 5 220-2 340 7v134H0Z" fill="url(#annabel-shore-gradient)"></path>
+				</svg>
+				<span class="annabel-memory-shoreline__wave annabel-memory-shoreline__wave--one"></span>
+				<span class="annabel-memory-shoreline__wave annabel-memory-shoreline__wave--two"></span>
+				<span class="annabel-memory-shoreline__wave annabel-memory-shoreline__wave--three"></span>
+			</div>
+			<svg class="annabel-memory-children" viewBox="0 0 112 92" focusable="false">
+				<g fill="var(--annabel-child-silhouette)">
+					<circle cx="31" cy="18" r="7"></circle>
+					<path d="M25 27h13l7 28H19zM25 53l-2 23h6l5-17 4 17h6l-3-23z"></path>
+					<path d="m36 31 21 8-1 5-24-7z"></path>
+					<circle cx="76" cy="16" r="7"></circle>
+					<path d="M70 25h12l7 28H63zM68 52l-4 24h6l6-17 4 17h6l-3-24z"></path>
+					<path d="m71 29-12 10 3 5 15-11z"></path>
+					<circle cx="58" cy="42" r="3"></circle>
+				</g>
+			</svg>
+		</div>
 		<div class="annabel-hero__content">
 			<p class="annabel-hero__eyebrow">A poem by Edgar Allan Poe</p>
 			<h1 id="page-title">Annabel Lee</h1>
-			<p class="annabel-hero__author">Edgar Allan Poe</p>
+			<p class="annabel-hero__author">1849 · A love the grave could not end</p>
 		</div>
 	</section>
 
