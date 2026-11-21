@@ -2,7 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { romanticAge } from "../data/romantic-age.js";
 
-const initialsFor = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+const initialsFor = (name: string) => {
+	const words = name.split(/\s+/).filter(Boolean);
+	return `${words[0]?.[0] || ""}${words.at(-1)?.[0] || ""}`.toUpperCase();
+};
 const escapeHtml = (text: string) => text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 const renderInline = (text: string) => escapeHtml(text)
 	.replace(/\*([^*]+)\*/g, "<em>$1</em>")
@@ -81,10 +84,11 @@ const firstTimelineEntry = romanticAge.timeline[0];
 				<ol class="age-timeline">
 					{romanticAge.timeline.map((event, index) => (
 						<li class="age-timeline__item">
-							<button class="age-timeline__trigger" type="button" aria-expanded={index === 0 ? "true" : "false"} aria-controls="age-timeline-detail">
+							<button class="age-timeline__trigger" type="button" aria-expanded={index === 0 ? "true" : "false"} aria-controls={`age-timeline-detail age-timeline-inline-${index}`}>
 								<span class="age-timeline__year">{event.year}</span><span class="age-timeline__title" set:html={renderInline(event.title)} />
 							</button>
 							<p class="age-timeline__detail-source" hidden set:html={renderInline(event.text)} />
+							<div class="age-timeline__inline-detail" id={`age-timeline-inline-${index}`} hidden={index !== 0} aria-live="polite"><p set:html={renderInline(event.text)} /></div>
 						</li>
 					))}
 				</ol>
@@ -137,7 +141,7 @@ const firstTimelineEntry = romanticAge.timeline[0];
 				<ul class="age-voices">
 					{romanticAge.keyVoices.map((voice) => (
 						<li class="age-voice">
-							<span class="age-voice__monogram" aria-hidden="true">{initialsFor(voice.name)}</span>
+							<span class="age-voice__monogram" aria-hidden="true">{voice.initials || initialsFor(voice.name)}</span>
 							<div><h3>{voice.name}</h3><p class="age-voice__meta">{voice.years} · {voice.country}</p><p set:html={renderInline(voice.text)} /></div>
 						</li>
 					))}
@@ -256,14 +260,37 @@ const firstTimelineEntry = romanticAge.timeline[0];
 		pageSections.forEach((section) => section.classList.add("is-visible"));
 	}
 
+	const isPhone = window.matchMedia("(max-width: 767px)");
 	const timelineItems = Array.from(document.querySelectorAll<HTMLElement>(".age-timeline__item"));
 	const timelineDetail = document.querySelector<HTMLElement>("#age-timeline-detail p");
+	const timelinePanel = document.querySelector<HTMLElement>("#age-timeline-detail");
+	function syncTimelineLayout() {
+		const selectedIndex = timelineItems.findIndex((item) => item.querySelector(".age-timeline__trigger")?.getAttribute("aria-expanded") === "true");
+		if (timelinePanel) timelinePanel.hidden = isPhone.matches;
+		timelineItems.forEach((item, index) => {
+			const inlinePanel = item.querySelector<HTMLElement>(".age-timeline__inline-detail");
+			if (inlinePanel) inlinePanel.hidden = !isPhone.matches || index !== selectedIndex;
+		});
+	}
+	syncTimelineLayout();
+	isPhone.addEventListener("change", syncTimelineLayout);
 	timelineItems.forEach((item) => {
 		const button = item.querySelector<HTMLButtonElement>(".age-timeline__trigger");
 		button?.addEventListener("click", () => {
-			if (button.getAttribute("aria-expanded") === "true") return;
-			const sourceText = item.querySelector<HTMLElement>(".age-timeline__detail-source")?.textContent?.trim();
-			if (timelineDetail && sourceText) timelineDetail.innerHTML = item.querySelector<HTMLElement>(".age-timeline__detail-source")?.innerHTML || "";
+			const wasExpanded = button.getAttribute("aria-expanded") === "true";
+			if (isPhone.matches) {
+				timelineItems.forEach((other) => {
+					const otherButton = other.querySelector<HTMLButtonElement>(".age-timeline__trigger");
+					const selected = other === item && !wasExpanded;
+					otherButton?.setAttribute("aria-expanded", String(selected));
+					const inlinePanel = other.querySelector<HTMLElement>(".age-timeline__inline-detail");
+					if (inlinePanel) inlinePanel.hidden = !selected;
+				});
+				return;
+			}
+			if (wasExpanded) return;
+			const source = item.querySelector<HTMLElement>(".age-timeline__detail-source");
+			if (timelineDetail && source) timelineDetail.innerHTML = source.innerHTML;
 			timelineItems.forEach((other) => {
 				const otherButton = other.querySelector<HTMLButtonElement>(".age-timeline__trigger");
 				const selected = other === item;
@@ -283,7 +310,6 @@ const firstTimelineEntry = romanticAge.timeline[0];
 
 	const tabButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".age-comparison-tabs [role=tab]"));
 	const tabList = document.querySelector<HTMLElement>(".age-comparison-tabs");
-	const isPhone = window.matchMedia("(max-width: 767px)");
 	function selectRegionTab(selected: HTMLButtonElement, moveFocus = false) {
 		if (tabList) {
 			if (isPhone.matches) {
@@ -350,7 +376,7 @@ const firstTimelineEntry = romanticAge.timeline[0];
 	.romantic-age-content { transform-origin: top center; animation: age-scroll-unroll 700ms cubic-bezier(.2,.7,.25,1) both; }
 	.romantic-age-content { width: min(calc(100% - 4rem), 65rem); margin-inline: auto; }
 	@keyframes age-scroll-unroll { from { transform: scaleY(.96); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
-	.age-section-nav { position: sticky; z-index: 5; top: var(--age-sticky-top, 5rem); padding: .35rem max(1.5rem, calc((100% - 65rem) / 2)); border-bottom: 1px solid var(--age-rule); background: color-mix(in srgb, var(--age-paper) 94%, transparent); }
+	.age-section-nav { position: sticky; z-index: 5; top: var(--age-sticky-top, 5rem); padding: .35rem max(1.5rem, calc((100% - 65rem) / 2)); border-bottom: 1px solid var(--age-rule); background: var(--age-paper); }
 	.age-section-nav__scroller { display: flex; width: 100%; gap: .35rem; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
 	.age-section-nav a { display: inline-flex; min-height: 44px; flex: 0 0 auto; align-items: center; padding: .35rem .72rem; border-radius: 999px; color: var(--age-muted); font: 600 .92rem/1.25 system-ui, sans-serif; text-decoration: none; }
 	.age-section-nav a[aria-current="true"] { background: color-mix(in srgb, var(--age-gold) 15%, transparent); color: var(--age-gold); }
@@ -399,12 +425,15 @@ const firstTimelineEntry = romanticAge.timeline[0];
 	.age-timeline__detail { max-width: 70ch; min-height: 4.3rem; padding: .9rem 1rem; border-left: 2px solid var(--age-gold); background: color-mix(in srgb,var(--age-gold) 8%,transparent); color: var(--age-muted); line-height: 1.7; }
 	.age-timeline__detail p { margin: 0; }
 	.age-timeline__detail[hidden] { display: none; }
+	.age-timeline__inline-detail { display: none; max-width: 70ch; margin: 0 0 1rem; padding: .9rem 1rem; border-left: 2px solid var(--age-gold); background: color-mix(in srgb,var(--age-gold) 8%,transparent); color: var(--age-muted); line-height: 1.7; }
+	.age-timeline__inline-detail p { margin: 0; }
+	.age-timeline__inline-detail[hidden] { display: none; }
 	.age-ideas { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.15rem; }
 	.age-idea { min-width: 0; border-top: 1px solid var(--age-rule); border-bottom: 1px solid var(--age-rule); }
 	.age-idea__trigger { position: relative; display: flex; width: 100%; min-height: 10.5rem; flex-direction: column; align-items: flex-start; padding: 1rem 2.2rem 1rem .25rem; border: 0; background: transparent; color: var(--age-ink); text-align: left; cursor: pointer; }
 	.age-idea__icon { width: 2.2rem; height: 2.2rem; margin-bottom: .65rem; fill: none; stroke: var(--age-gold); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 	.age-idea__term { font-family: Georgia, "Times New Roman", serif; font-size: 1.16rem; font-weight: 600; line-height: 1.35; }
-	.age-idea__summary { margin-top: .35rem; color: var(--age-muted); font-size: .94rem; line-height: 1.5; }
+	.age-idea__summary { margin-top: .35rem; color: var(--age-muted); font-family: Georgia, "Times New Roman", serif; font-size: .94rem; line-height: 1.5; }
 	.age-idea__plus { position: absolute; top: 1rem; right: .3rem; color: var(--age-gold); font: 1.5rem/1 system-ui,sans-serif; }
 	.age-idea__trigger[aria-expanded="true"] .age-idea__plus { transform: rotate(45deg); }
 	.age-idea__detail { padding: 0 .25rem 1rem; color: var(--age-muted); line-height: 1.7; }
@@ -428,6 +457,7 @@ const firstTimelineEntry = romanticAge.timeline[0];
 	.age-sources summary:focus-visible { outline: 3px solid var(--age-gold); outline-offset: 3px; }
 	.age-sources ul { padding-left: 1.35rem; color: var(--age-muted); font-size: .9rem; line-height: 1.75; }
 	.age-sources li { padding-left: .35rem; text-indent: -0.35rem; }
+	@media (min-width: 1200px) { .age-voices { grid-template-columns: repeat(4,minmax(0,1fr)); } }
 	@media (min-width: 768px) and (max-width: 1050px) { .age-ideas { grid-template-columns: repeat(2,minmax(0,1fr)); } .age-voices { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 	@media (max-width: 767px) {
 		.romantic-age-content { width: calc(100% - 3rem); }
@@ -444,6 +474,8 @@ const firstTimelineEntry = romanticAge.timeline[0];
 		.age-timeline__trigger { min-height: 4.7rem; padding-top: .7rem; }
 		.age-timeline__trigger::before { top: .9rem; left: -1.08rem; }
 		.age-timeline__detail { margin: 0 0 1rem; }
+		.age-timeline__detail { display: none; }
+		.age-timeline__inline-detail { display: block; }
 		.age-ideas { grid-template-columns: 1fr; gap: .8rem; }
 		.age-idea__trigger { min-height: 8rem; }
 		.age-comparison-tabs { display: flex; gap: .4rem; margin-bottom: 1rem; padding: .25rem; border: 1px solid var(--age-rule); border-radius: 999px; }

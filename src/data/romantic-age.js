@@ -45,14 +45,14 @@ export const britishVsAmerican = {
 };
 
 export const keyVoices = [
-	{ name: "William Blake", years: "1757–1827", country: "England", text: "Poet and painter of visionary, prophetic works." },
-	{ name: "William Wordsworth", years: "1770–1850", country: "England", text: "Poet of nature, memory and everyday life." },
-	{ name: "Samuel Taylor Coleridge", years: "1772–1834", country: "England", text: "Poet of the strange and supernatural." },
-	{ name: "Lord Byron", years: "1788–1824", country: "England", text: "Created the brooding, rebellious \"Byronic hero.\"" },
-	{ name: "Mary Shelley", years: "1797–1851", country: "England", text: "Author of *Frankenstein*." },
-	{ name: "John Keats", years: "1795–1821", country: "England", text: "Poet of beauty, the senses and short life." },
-	{ name: "Ralph Waldo Emerson", years: "1803–1882", country: "United States", text: "Leader of the Transcendentalist movement." },
-	{ name: "Edgar Allan Poe", years: "1809–1849", country: "United States", text: "Master of Gothic poetry and the short story." },
+	{ name: "William Blake", initials: "WB", years: "1757–1827", country: "England", text: "Poet and painter of visionary, prophetic works." },
+	{ name: "William Wordsworth", initials: "WW", years: "1770–1850", country: "England", text: "Poet of nature, memory and everyday life." },
+	{ name: "Samuel Taylor Coleridge", initials: "SC", years: "1772–1834", country: "England", text: "Poet of the strange and supernatural." },
+	{ name: "Lord Byron", initials: "LB", years: "1788–1824", country: "England", text: "Created the brooding, rebellious \"Byronic hero.\"" },
+	{ name: "Mary Shelley", initials: "MS", years: "1797–1851", country: "England", text: "Author of *Frankenstein*." },
+	{ name: "John Keats", initials: "JK", years: "1795–1821", country: "England", text: "Poet of beauty, the senses and short life." },
+	{ name: "Ralph Waldo Emerson", initials: "RE", years: "1803–1882", country: "United States", text: "Leader of the Transcendentalist movement." },
+	{ name: "Edgar Allan Poe", initials: "EP", years: "1809–1849", country: "United States", text: "Master of Gothic poetry and the short story." },
 ];
 
 export const whyItMatters = [
