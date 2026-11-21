@@ -3,6 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { romanticAge } from "../data/romantic-age.js";
 
 const initialsFor = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+const escapeHtml = (text: string) => text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+const renderInline = (text: string) => escapeHtml(text)
+	.replace(/\*([^*]+)\*/g, "<em>$1</em>")
+	.replace(/https?:\/\/[^\s<]+/g, (url) => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`);
 const firstTimelineEntry = romanticAge.timeline[0];
 ---
 
@@ -64,12 +68,12 @@ const firstTimelineEntry = romanticAge.timeline[0];
 		<div class="romantic-age-content">
 
 			<section id="at-a-glance" class="age-glance" aria-label="At a glance">
-				{romanticAge.atAGlance.map((fact) => <div class="age-glance__fact"><h2>{fact.label}</h2><p>{fact.value}</p></div>)}
+				{romanticAge.atAGlance.map((fact) => <div class="age-glance__fact"><h2>{fact.label}</h2><p set:html={renderInline(fact.value)} /></div>)}
 			</section>
 
 			<section id="overview" class="romantic-age-section" data-age-section aria-labelledby="overview-title">
 				<h2 id="overview-title">Overview</h2>
-				<div class="age-prose">{romanticAge.overview.map((paragraph) => <p>{paragraph}</p>)}</div>
+				<div class="age-prose">{romanticAge.overview.map((paragraph) => <p set:html={renderInline(paragraph)} />)}</div>
 			</section>
 
 			<section id="timeline" class="romantic-age-section" data-age-section aria-labelledby="timeline-title">
@@ -78,13 +82,13 @@ const firstTimelineEntry = romanticAge.timeline[0];
 					{romanticAge.timeline.map((event, index) => (
 						<li class="age-timeline__item">
 							<button class="age-timeline__trigger" type="button" aria-expanded={index === 0 ? "true" : "false"} aria-controls="age-timeline-detail">
-								<span class="age-timeline__year">{event.year}</span><span class="age-timeline__title">{event.title}</span>
+								<span class="age-timeline__year">{event.year}</span><span class="age-timeline__title" set:html={renderInline(event.title)} />
 							</button>
-							<p class="age-timeline__detail-source" hidden>{event.text}</p>
+							<p class="age-timeline__detail-source" hidden set:html={renderInline(event.text)} />
 						</li>
 					))}
 				</ol>
-				<div class="age-timeline__detail" id="age-timeline-detail" aria-live="polite"><p>{firstTimelineEntry.text}</p></div>
+				<div class="age-timeline__detail" id="age-timeline-detail" aria-live="polite"><p set:html={renderInline(firstTimelineEntry.text)} /></div>
 			</section>
 
 			<section id="ideas" class="romantic-age-section" data-age-section aria-labelledby="ideas-title">
@@ -101,11 +105,11 @@ const firstTimelineEntry = romanticAge.timeline[0];
 									{idea.icon === "mountain" && <><path d="m4 39 13-25 8 14 7-11 12 22H4Z"/><path d="m17 14 5 10 4-5m6-2-4 8 5 2"/></>}
 									{idea.icon === "arch" && <><path d="M8 42V21a16 16 0 0 1 32 0v21M15 42V22a9 9 0 0 1 18 0v20M4 42h40M24 5l-3 7h6l-3 6"/></>}
 								</svg>
-									<span class="age-idea__term">{idea.term}</span>
-									<span class="age-idea__summary">{idea.summary}</span>
+									<span class="age-idea__term" set:html={renderInline(idea.term)} />
+									<span class="age-idea__summary" set:html={renderInline(idea.summary)} />
 									<span class="age-idea__plus" aria-hidden="true">+</span>
 							</button>
-							<div class="age-idea__detail" id={`age-idea-detail-${index}`} hidden><p>{idea.text}</p></div>
+							<div class="age-idea__detail" id={`age-idea-detail-${index}`} hidden><p set:html={renderInline(idea.text)} /></div>
 						</article>
 					))}
 				</div>
@@ -119,13 +123,13 @@ const firstTimelineEntry = romanticAge.timeline[0];
 				</div>
 				<div class="age-comparison">
 					<section id="age-panel-britain" class="age-comparison__panel" role="tabpanel" aria-labelledby="age-tab-britain" tabindex="0">
-						<h3>British Romanticism</h3>{romanticAge.britishVsAmerican.british.map((paragraph) => <p>{paragraph}</p>)}
+						<h3>British Romanticism</h3>{romanticAge.britishVsAmerican.british.map((paragraph) => <p set:html={renderInline(paragraph)} />)}
 					</section>
 					<section id="age-panel-america" class="age-comparison__panel" role="tabpanel" aria-labelledby="age-tab-america" tabindex="0" hidden>
-						<h3>American Romanticism</h3>{romanticAge.britishVsAmerican.american.map((paragraph) => <p>{paragraph}</p>)}
+						<h3>American Romanticism</h3>{romanticAge.britishVsAmerican.american.map((paragraph) => <p set:html={renderInline(paragraph)} />)}
 					</section>
 				</div>
-				<p class="age-shared"><strong>Shared ground</strong> {romanticAge.britishVsAmerican.shared}</p>
+				<p class="age-shared"><strong>Shared ground</strong> <span set:html={renderInline(romanticAge.britishVsAmerican.shared)} /></p>
 			</section>
 
 			<section id="voices" class="romantic-age-section" data-age-section aria-labelledby="voices-title">
@@ -134,7 +138,7 @@ const firstTimelineEntry = romanticAge.timeline[0];
 					{romanticAge.keyVoices.map((voice) => (
 						<li class="age-voice">
 							<span class="age-voice__monogram" aria-hidden="true">{initialsFor(voice.name)}</span>
-							<div><h3>{voice.name}</h3><p class="age-voice__meta">{voice.years} · {voice.country}</p><p>{voice.text}</p></div>
+							<div><h3>{voice.name}</h3><p class="age-voice__meta">{voice.years} · {voice.country}</p><p set:html={renderInline(voice.text)} /></div>
 						</li>
 					))}
 				</ul>
@@ -142,14 +146,14 @@ const firstTimelineEntry = romanticAge.timeline[0];
 
 			<section id="why-it-matters" class="romantic-age-section" data-age-section aria-labelledby="why-title">
 				<h2 id="why-title">Why it still matters</h2>
-				<div class="age-prose">{romanticAge.whyItMatters.map((paragraph) => <p>{paragraph}</p>)}</div>
+				<div class="age-prose">{romanticAge.whyItMatters.map((paragraph) => <p set:html={renderInline(paragraph)} />)}</div>
 			</section>
 
 			<section id="sources" class="romantic-age-section age-sources" data-age-section aria-labelledby="sources-title">
 				<h2 id="sources-title">Sources</h2>
 				<details>
 					<summary>Show sources</summary>
-					<ul>{romanticAge.references.map((reference) => <li>{reference}</li>)}</ul>
+					<ul>{romanticAge.references.map((reference) => <li set:html={renderInline(reference)} />)}</ul>
 				</details>
 			</section>
 		</div>
@@ -259,7 +263,7 @@ const firstTimelineEntry = romanticAge.timeline[0];
 		button?.addEventListener("click", () => {
 			if (button.getAttribute("aria-expanded") === "true") return;
 			const sourceText = item.querySelector<HTMLElement>(".age-timeline__detail-source")?.textContent?.trim();
-			if (timelineDetail && sourceText) timelineDetail.textContent = sourceText;
+			if (timelineDetail && sourceText) timelineDetail.innerHTML = item.querySelector<HTMLElement>(".age-timeline__detail-source")?.innerHTML || "";
 			timelineItems.forEach((other) => {
 				const otherButton = other.querySelector<HTMLButtonElement>(".age-timeline__trigger");
 				const selected = other === item;
