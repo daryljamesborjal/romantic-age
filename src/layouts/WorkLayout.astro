@@ -14,7 +14,7 @@ const isPoem = Array.isArray(work.text[0]);
 const chips = [
 	{ label: isPoem ? "Poem" : "Story", id: "text" },
 	...sections.map((section: any) => ({
-		label: section.id === "resonance" ? "Today" : section.id === "references" ? "Sources" : section.heading,
+		label: section.chipLabel || (section.id === "resonance" ? "Today" : section.id === "references" ? "Sources" : section.heading),
 		id: section.id,
 	})),
 ];

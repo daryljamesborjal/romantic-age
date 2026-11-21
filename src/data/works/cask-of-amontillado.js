@@ -107,7 +107,8 @@ const work = {
           "type": "paragraph",
           "text": "Edgar Allan Poe (1809–1849) was an American writer, poet, editor and critic, and a central figure of American Romanticism and Gothic literature. Orphaned young and raised by John Allan, a Richmond merchant, he tried to live entirely by writing and editing, which kept him in constant financial hardship. This story appeared in *Godey's Magazine and Lady's Book* in November 1846, a few years before \"Annabel Lee,\" during the late period when he was refining his theory of the short story: that every sentence should serve a single, unified emotional effect."
         }
-      ]
+      ],
+      "chipLabel": "Author"
     },
     {
       "id": "context",
@@ -140,7 +141,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Context"
     },
     {
       "id": "summary",
@@ -180,7 +182,8 @@ const work = {
           "text": "Montresor tells us he has vowed revenge on Fortunato for an unspecified insult. During Carnival, he approaches the already-drunk Fortunato and tells him he has acquired a cask of rare Amontillado sherry but is unsure if it's genuine — and mentions he was about to ask Luchesi to verify it instead. Fortunato's pride is provoked; he insists on tasting it himself. Montresor leads him down into the family catacombs, plying him with more wine along the way. At a small crypt, Montresor suddenly chains Fortunato to the wall and walls him into a niche with stone and mortar, ignoring his cries and pleas. Fifty years later, Montresor tells us, no one has disturbed the bones. \"In pace requiescat\" — may he rest in peace.",
           "label": "Plot"
         }
-      ]
+      ],
+      "chipLabel": "Summary"
     },
     {
       "id": "analysis",
@@ -213,7 +216,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Analysis"
     },
     {
       "id": "themes",
@@ -246,7 +250,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Themes"
     },
     {
       "id": "symbols",
@@ -279,7 +284,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Symbols"
     },
     {
       "id": "conventions",
@@ -332,7 +338,8 @@ const work = {
           "label": "Dramatic irony",
           "text": "The reader knows more than Fortunato does."
         }
-      ]
+      ],
+      "chipLabel": "Conventions"
     },
     {
       "id": "resonance",
@@ -354,7 +361,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Today"
     },
     {
       "id": "references",
@@ -391,7 +399,8 @@ const work = {
           "text": "\"The Cask of Amontillado\" is Poe's coldest story precisely because it refuses to give us a satisfying moral. Montresor \"wins,\" but Poe leaves enough cracks in his fifty-years-later confession to suggest that unpunished revenge may still be its own kind of prison.",
           "label": "Conclusion"
         }
-      ]
+      ],
+      "chipLabel": "Sources"
     }
   ]
 };

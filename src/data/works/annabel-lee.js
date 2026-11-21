@@ -71,7 +71,8 @@ const work = {
           "type": "paragraph",
           "text": "Edgar Allan Poe (1809–1849) was an American writer, poet, editor, and critic, and one of the central figures of American Romanticism and Gothic literature. He was orphaned young and raised by John Allan, a Richmond merchant. Poe is generally credited as the first well-known American author who tried to support himself entirely through writing and editing, which kept him in near-constant financial hardship. He married his young cousin, Virginia Clemm, in 1836; her long, slow loss to tuberculosis in 1847 devastated him. Poe himself died in Baltimore in 1849 under mysterious circumstances. \"Annabel Lee\" is considered the last poem he completed, written in the months before he died and published two days after his death."
         }
-      ]
+      ],
+      "chipLabel": "Author"
     },
     {
       "id": "context",
@@ -97,7 +98,8 @@ const work = {
           "text": "Poe wrote it not long after losing his wife Virginia. Grief over this loss is widely believed to have shaped the poem, even though scholars still debate exactly who (if anyone specific) \"Annabel Lee\" represents.",
           "label": "Biographical backdrop"
         }
-      ]
+      ],
+      "chipLabel": "Context"
     },
     {
       "id": "summary",
@@ -124,7 +126,8 @@ const work = {
           "text": "Many years ago, in a kingdom by the sea, a maiden named Annabel Lee lived with no thought except loving and being loved by the speaker. Their love was so complete that even winged angels in heaven envied it. Because of that envy, a wind blew out of a cloud one night and chilled Annabel Lee, and her highborn relatives came and shut her away in a tomb by the sea. The speaker insists that neither angels above nor demons below the sea can ever separate his soul from hers. Every night, he says, the moon and stars bring him dreams and visions of her eyes, and he lies down beside her in her tomb by the sea.",
           "label": "Plot"
         }
-      ]
+      ],
+      "chipLabel": "Summary"
     },
     {
       "id": "analysis",
@@ -149,7 +152,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Analysis"
     },
     {
       "id": "themes",
@@ -187,7 +191,8 @@ const work = {
           "text": "The repetition of \"Annabel Lee\" and \"kingdom by the sea\" functions like a chant or incantation, reinforcing how fixated the speaker is on both the woman and the place where he lost her.",
           "label": "Key recurring motif — the refrain"
         }
-      ]
+      ],
+      "chipLabel": "Themes"
     },
     {
       "id": "symbols",
@@ -220,7 +225,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Symbols"
     },
     {
       "id": "conventions",
@@ -268,7 +274,8 @@ const work = {
           "label": "Doesn't apply",
           "text": "Tragic flaw and the classical unities."
         }
-      ]
+      ],
+      "chipLabel": "Conventions"
     },
     {
       "id": "resonance",
@@ -287,7 +294,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Today"
     },
     {
       "id": "references",
@@ -327,7 +335,8 @@ const work = {
           "text": "\"Annabel Lee\" endures because it takes a universal wound — losing someone you loved before you were ready to — and elevates it into myth. Poe strips away time and place so that any reader, in any era, can pour their own grief into the speaker's voice.",
           "label": "Conclusion"
         }
-      ]
+      ],
+      "chipLabel": "Sources"
     }
   ]
 };

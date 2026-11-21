@@ -1439,6 +1439,16 @@ html.reduce-motion-active .next-work__arrow {
 	--work-focus: var(--al-focus);
 }
 
+html[data-theme="light"] .annabel-lee-theme .work-content {
+	--work-accent: #304563;
+	--work-text: #1f2a44;
+	--work-muted: #1f2a44;
+	--work-border: #8997aa;
+	--work-focus: #6b3f00;
+	--work-paper: #fffefa;
+	--work-paper-text: #1f2a44;
+}
+
 .cask-theme .work-content {
 	--work-accent: var(--cask-gold);
 	--work-text: var(--cask-text);

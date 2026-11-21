@@ -50,7 +50,8 @@ const work = {
           "type": "paragraph",
           "text": "William Wordsworth (1770–1850) was an English poet and one of the founders of the Romantic movement in British literature, born in the Lake District of England. In 1798, with his close friend Samuel Taylor Coleridge, he published *Lyrical Ballads*, widely seen as the book that launched English Romanticism. He later served as England's Poet Laureate from 1843 until his death. He lost both parents by age 13 and eventually settled back in the Lake District, living for decades alongside his sister Dorothy, whose journals directly influenced his poetry."
         }
-      ]
+      ],
+      "chipLabel": "Author"
     },
     {
       "id": "context",
@@ -79,7 +80,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Context"
     },
     {
       "id": "summary",
@@ -101,7 +103,8 @@ const work = {
           "text": "The speaker describes wandering alone, \"lonely as a cloud\" drifting over valleys and hills, when he suddenly comes upon a huge crowd of golden daffodils beside a lake, fluttering and dancing in the breeze. He compares their number to the endless stars of the Milky Way, stretching in a never-ending line along the shore. Even the nearby waves dance, but the daffodils outdo them in glee. In the final stanza, the poem shifts to the present: whenever he lies on his couch in an empty or thoughtful mood, the memory of the daffodils \"flashes upon that inward eye which is the bliss of solitude,\" and his heart fills with pleasure and dances along with them.",
           "label": "Plot"
         }
-      ]
+      ],
+      "chipLabel": "Summary"
     },
     {
       "id": "analysis",
@@ -126,7 +129,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Analysis"
     },
     {
       "id": "themes",
@@ -160,7 +164,8 @@ const work = {
           "text": "The daffodils dance, the waves dance, and finally the speaker's own heart dances — nature's motion becomes internalized as the speaker's emotional state.",
           "label": "Key recurring motif — dance"
         }
-      ]
+      ],
+      "chipLabel": "Themes"
     },
     {
       "id": "symbols",
@@ -193,7 +198,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Symbols"
     },
     {
       "id": "conventions",
@@ -232,7 +238,8 @@ const work = {
           "text": "The daffodils \"dance,\" \"toss their heads\" and show \"glee.\""
         }
       ],
-      "dramaNote": "The drama conventions (classical unities, noble birth, tragic flaw, free will) do not apply to this poem. It has no conflict, no hero, and no fall."
+      "dramaNote": "The drama conventions (classical unities, noble birth, tragic flaw, free will) do not apply to this poem. It has no conflict, no hero, and no fall.",
+      "chipLabel": "Conventions"
     },
     {
       "id": "resonance",
@@ -254,7 +261,8 @@ const work = {
           ],
           "ordered": false
         }
-      ]
+      ],
+      "chipLabel": "Today"
     },
     {
       "id": "references",
@@ -301,7 +309,8 @@ const work = {
           "text": "\"I Wandered Lonely as a Cloud\" endures because it captures something almost everyone has felt: a small, unplanned encounter with beauty that quietly keeps giving comfort long after the moment itself has passed.",
           "label": "Conclusion"
         }
-      ]
+      ],
+      "chipLabel": "Sources"
     }
   ]
 };

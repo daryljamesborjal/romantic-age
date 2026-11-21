@@ -14,7 +14,7 @@ const { items, ariaLabel = "On this page" } = Astro.props;
 
 <nav class="section-chips" data-section-chips aria-label={ariaLabel}>
 	<div class="section-chips__scroller">
-		{items.map((item, index) => <a href={`#${item.id}`} aria-current={index === 0 ? "true" : undefined}>{item.label}</a>)}
+		{items.filter((item) => item.label.trim() && item.label.trim() !== "|" && item.id.trim()).map((item, index) => <a href={`#${item.id}`} aria-current={index === 0 ? "true" : undefined}>{item.label.trim()}</a>)}
 	</div>
 </nav>
 
