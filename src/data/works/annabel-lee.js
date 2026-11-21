@@ -105,29 +105,28 @@ const work = {
       "id": "summary",
       "heading": "Summary (Characters, Setting, Plot)",
       "preview": "A grieving speaker remembers his childhood love, Annabel Lee, whose death he blames on the envy of angels.",
-      "body": [
+      "body": [],
+      "chipLabel": "Summary",
+      "summaryItems": [
         {
-          "type": "paragraph",
-          "text": "An unnamed man, the former lover of Annabel Lee, now grieving her death.",
-          "label": "Speaker/Narrator"
+          "type": "character",
+          "label": "Speaker/Narrator",
+          "text": "An unnamed man, the former lover of Annabel Lee, now grieving her death."
         },
         {
-          "type": "paragraph",
-          "text": "A maiden the speaker loved since childhood; she dies young.",
-          "label": "Annabel Lee"
+          "type": "character",
+          "label": "Annabel Lee",
+          "text": "A maiden the speaker loved since childhood; she dies young."
         },
         {
-          "type": "paragraph",
-          "text": "A vague, legendary \"kingdom by the sea\" — deliberately timeless and placeless, like a fairy tale.",
-          "label": "Setting"
+          "type": "setting",
+          "text": "A vague, legendary \"kingdom by the sea\" — deliberately timeless and placeless, like a fairy tale."
         },
         {
-          "type": "paragraph",
-          "text": "Many years ago, in a kingdom by the sea, a maiden named Annabel Lee lived with no thought except loving and being loved by the speaker. Their love was so complete that even winged angels in heaven envied it. Because of that envy, a wind blew out of a cloud one night and chilled Annabel Lee, and her highborn relatives came and shut her away in a tomb by the sea. The speaker insists that neither angels above nor demons below the sea can ever separate his soul from hers. Every night, he says, the moon and stars bring him dreams and visions of her eyes, and he lies down beside her in her tomb by the sea.",
-          "label": "Plot"
+          "type": "plot",
+          "text": "Many years ago, in a kingdom by the sea, a maiden named Annabel Lee lived with no thought except loving and being loved by the speaker. Their love was so complete that even winged angels in heaven envied it. Because of that envy, a wind blew out of a cloud one night and chilled Annabel Lee, and her highborn relatives came and shut her away in a tomb by the sea. The speaker insists that neither angels above nor demons below the sea can ever separate his soul from hers. Every night, he says, the moon and stars bring him dreams and visions of her eyes, and he lies down beside her in her tomb by the sea."
         }
-      ],
-      "chipLabel": "Summary"
+      ]
     },
     {
       "id": "analysis",
@@ -204,23 +203,28 @@ const work = {
           "items": [
             {
               "text": "Represents vastness, isolation, and the boundary between the world of the living and the world of the dead.",
-              "label": "The sea"
+              "label": "The sea",
+              "icon": "waves"
             },
             {
               "text": "A symbol of illness and death as forces outside human control. The speaker turns a natural death into something done to her.",
-              "label": "The wind/cloud that kills her"
+              "label": "The wind/cloud that kills her",
+              "icon": "wind"
             },
             {
               "text": "Symbolize both divine judgment and — in the speaker's paranoid logic — divine jealousy of human happiness.",
-              "label": "Angels/\"winged seraphs\""
+              "label": "Angels/\"winged seraphs\"",
+              "icon": "wings"
             },
             {
               "text": "Symbolizes both the finality of death and the speaker's refusal to accept that finality.",
-              "label": "The tomb/sepulchre"
+              "label": "The tomb/sepulchre",
+              "icon": "gravestone"
             },
             {
               "text": "Symbolize memory and the persistence of the beloved's presence in the speaker's mind.",
-              "label": "The moon and stars"
+              "label": "The moon and stars",
+              "icon": "moon-star"
             }
           ],
           "ordered": false
@@ -337,6 +341,50 @@ const work = {
         }
       ],
       "chipLabel": "Sources"
+    }
+  ],
+  "authorTimeline": [
+    {
+      "year": "1809",
+      "text": "Born in Boston"
+    },
+    {
+      "year": "1811",
+      "text": "Orphaned; taken in by John and Frances Allan"
+    },
+    {
+      "year": "1836",
+      "text": "Marries Virginia Clemm"
+    },
+    {
+      "year": "1845",
+      "text": "\"The Raven\" brings fame"
+    },
+    {
+      "year": "1846",
+      "text": "\"The Cask of Amontillado\" published"
+    },
+    {
+      "year": "1847",
+      "text": "Virginia dies of tuberculosis"
+    },
+    {
+      "year": "1849",
+      "text": "Dies in Baltimore; \"Annabel Lee\" published two days later"
+    }
+  ],
+  "contextGlance": [
+    {
+      "label": "Movement",
+      "value": "American Romanticism / Dark Romanticism"
+    },
+    {
+      "label": "Published",
+      "value": "1849, two days after Poe's death"
+    },
+    {
+      "label": "Setting",
+      "value": "A timeless \"kingdom by the sea\""
     }
   ]
 };

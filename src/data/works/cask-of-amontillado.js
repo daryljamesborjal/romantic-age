@@ -148,42 +148,33 @@ const work = {
       "id": "summary",
       "heading": "Summary (Characters, Setting, Plot)",
       "preview": "Montresor lures his enemy Fortunato into the catacombs with the promise of rare wine, and walls him up alive.",
-      "body": [
+      "body": [],
+      "chipLabel": "Summary",
+      "summaryItems": [
         {
-          "type": "paragraph",
-          "text": "",
-          "label": "Characters"
+          "type": "character",
+          "label": "Montresor",
+          "text": "The narrator. A proud nobleman driven to murder by a series of \"injuries\" and one final \"insult\" from Fortunato (never specified). Calm, calculating, and remorseless."
         },
         {
-          "type": "list",
-          "items": [
-            {
-              "text": "The narrator. A proud nobleman driven to murder by a series of \"injuries\" and one final \"insult\" from Fortunato (never specified). Calm, calculating, and remorseless.",
-              "label": "Montresor"
-            },
-            {
-              "text": "Montresor's acquaintance, a wealthy wine connoisseur with one major weakness: pride. Ironically, his name means \"the fortunate one.\"",
-              "label": "Fortunato"
-            },
-            {
-              "text": "A rival wine expert mentioned but never seen; Montresor uses him as a psychological trigger to make Fortunato insist on going to taste the wine himself.",
-              "label": "Luchesi"
-            }
-          ],
-          "ordered": false
+          "type": "character",
+          "label": "Fortunato",
+          "text": "Montresor's acquaintance, a wealthy wine connoisseur with one major weakness: pride. Ironically, his name means \"the fortunate one.\""
         },
         {
-          "type": "paragraph",
-          "text": "An unnamed Italian city during Carnival, moving from the noisy streets down into the cold, damp catacombs beneath the Montresor family palace.",
-          "label": "Setting"
+          "type": "character",
+          "label": "Luchesi",
+          "text": "A rival wine expert mentioned but never seen; Montresor uses him as a psychological trigger to make Fortunato insist on going to taste the wine himself."
         },
         {
-          "type": "paragraph",
-          "text": "Montresor tells us he has vowed revenge on Fortunato for an unspecified insult. During Carnival, he approaches the already-drunk Fortunato and tells him he has acquired a cask of rare Amontillado sherry but is unsure if it's genuine — and mentions he was about to ask Luchesi to verify it instead. Fortunato's pride is provoked; he insists on tasting it himself. Montresor leads him down into the family catacombs, plying him with more wine along the way. At a small crypt, Montresor suddenly chains Fortunato to the wall and walls him into a niche with stone and mortar, ignoring his cries and pleas. Fifty years later, Montresor tells us, no one has disturbed the bones. \"In pace requiescat\" — may he rest in peace.",
-          "label": "Plot"
+          "type": "setting",
+          "text": "An unnamed Italian city during Carnival, moving from the noisy streets down into the cold, damp catacombs beneath the Montresor family palace."
+        },
+        {
+          "type": "plot",
+          "text": "Montresor tells us he has vowed revenge on Fortunato for an unspecified insult. During Carnival, he approaches the already-drunk Fortunato and tells him he has acquired a cask of rare Amontillado sherry but is unsure if it's genuine — and mentions he was about to ask Luchesi to verify it instead. Fortunato's pride is provoked; he insists on tasting it himself. Montresor leads him down into the family catacombs, plying him with more wine along the way. At a small crypt, Montresor suddenly chains Fortunato to the wall and walls him into a niche with stone and mortar, ignoring his cries and pleas. Fifty years later, Montresor tells us, no one has disturbed the bones. \"In pace requiescat\" — may he rest in peace."
         }
-      ],
-      "chipLabel": "Summary"
+      ]
     },
     {
       "id": "analysis",
@@ -263,23 +254,28 @@ const work = {
           "items": [
             {
               "text": "Marks him as \"the fool\" of the story — someone easily manipulated, whose good fortune is about to be reversed.",
-              "label": "Fortunato's jester costume"
+              "label": "Fortunato's jester costume",
+              "icon": "jester"
             },
             {
               "text": "Symbolizes Montresor's family code of vengeance — but ironically, the serpent still bites the heel even as it's crushed.",
-              "label": "Montresor's coat of arms (a golden foot crushing a serpent that is biting the heel) and family motto, \"Nemo me impune lacessit\" (\"No one provokes me with impunity\")"
+              "label": "Montresor's coat of arms (a golden foot crushing a serpent that is biting the heel) and family motto, \"Nemo me impune lacessit\" (\"No one provokes me with impunity\")",
+              "icon": "shield"
             },
             {
               "text": "Symbolize both literal death (ancestral bones) and the buried, decaying state of Montresor's own conscience.",
-              "label": "The catacombs / niter-crusted walls"
+              "label": "The catacombs / niter-crusted walls",
+              "icon": "arch"
             },
             {
               "text": "A symbol of Montresor's true, hidden identity — not a Mason in the fraternal sense, but literally the \"mason\" who will wall Fortunato up.",
-              "label": "The trowel"
+              "label": "The trowel",
+              "icon": "trowel"
             },
             {
               "text": "A symbol of concealment and duplicity — the surface gaiety of the festival hiding Montresor's true, murderous purpose.",
-              "label": "The carnival mask"
+              "label": "The carnival mask",
+              "icon": "mask"
             }
           ],
           "ordered": false
@@ -401,6 +397,50 @@ const work = {
         }
       ],
       "chipLabel": "Sources"
+    }
+  ],
+  "authorTimeline": [
+    {
+      "year": "1809",
+      "text": "Born in Boston"
+    },
+    {
+      "year": "1811",
+      "text": "Orphaned; taken in by John and Frances Allan"
+    },
+    {
+      "year": "1836",
+      "text": "Marries Virginia Clemm"
+    },
+    {
+      "year": "1845",
+      "text": "\"The Raven\" brings fame"
+    },
+    {
+      "year": "1846",
+      "text": "\"The Cask of Amontillado\" published"
+    },
+    {
+      "year": "1847",
+      "text": "Virginia dies of tuberculosis"
+    },
+    {
+      "year": "1849",
+      "text": "Dies in Baltimore; \"Annabel Lee\" published two days later"
+    }
+  ],
+  "contextGlance": [
+    {
+      "label": "Movement",
+      "value": "American Dark Romanticism (Gothic)"
+    },
+    {
+      "label": "Published",
+      "value": "November 1846, *Godey's Magazine and Lady's Book*"
+    },
+    {
+      "label": "Setting",
+      "value": "An unnamed Italian city during Carnival"
     }
   ]
 };

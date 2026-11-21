@@ -87,24 +87,23 @@ const work = {
       "id": "summary",
       "heading": "Summary (Characters, Setting, Plot)",
       "preview": "The speaker is a solitary wanderer, though Wordsworth was accompanied by his sister Dorothy in real life.",
-      "body": [
+      "body": [],
+      "chipLabel": "Summary",
+      "summaryItems": [
         {
-          "type": "paragraph",
-          "text": "A solitary wanderer (a stand-in for the poet), though in real life Wordsworth was not alone — his sister Dorothy was with him.",
-          "label": "Speaker"
+          "type": "character",
+          "label": "Speaker",
+          "text": "A solitary wanderer (a stand-in for the poet), though in real life Wordsworth was not alone — his sister Dorothy was with him."
         },
         {
-          "type": "paragraph",
-          "text": "The Lake District countryside, beside a lake, among hills and trees.",
-          "label": "Setting"
+          "type": "setting",
+          "text": "The Lake District countryside, beside a lake, among hills and trees."
         },
         {
-          "type": "paragraph",
-          "text": "The speaker describes wandering alone, \"lonely as a cloud\" drifting over valleys and hills, when he suddenly comes upon a huge crowd of golden daffodils beside a lake, fluttering and dancing in the breeze. He compares their number to the endless stars of the Milky Way, stretching in a never-ending line along the shore. Even the nearby waves dance, but the daffodils outdo them in glee. In the final stanza, the poem shifts to the present: whenever he lies on his couch in an empty or thoughtful mood, the memory of the daffodils \"flashes upon that inward eye which is the bliss of solitude,\" and his heart fills with pleasure and dances along with them.",
-          "label": "Plot"
+          "type": "plot",
+          "text": "The speaker describes wandering alone, \"lonely as a cloud\" drifting over valleys and hills, when he suddenly comes upon a huge crowd of golden daffodils beside a lake, fluttering and dancing in the breeze. He compares their number to the endless stars of the Milky Way, stretching in a never-ending line along the shore. Even the nearby waves dance, but the daffodils outdo them in glee. In the final stanza, the poem shifts to the present: whenever he lies on his couch in an empty or thoughtful mood, the memory of the daffodils \"flashes upon that inward eye which is the bliss of solitude,\" and his heart fills with pleasure and dances along with them."
         }
-      ],
-      "chipLabel": "Summary"
+      ]
     },
     {
       "id": "analysis",
@@ -177,23 +176,28 @@ const work = {
           "items": [
             {
               "text": "Symbolizes detached, drifting solitude — floating above the world, observing rather than participating.",
-              "label": "The cloud"
+              "label": "The cloud",
+              "icon": "cloud"
             },
             {
               "text": "Symbolize joy, vitality, and the abundance nature freely offers to anyone who pays attention.",
-              "label": "The daffodils"
+              "label": "The daffodils",
+              "icon": "flower"
             },
             {
               "text": "Symbolizes something vast, continuous, and almost infinite — elevating a simple field of flowers to a cosmic scale.",
-              "label": "The stars/Milky Way comparison"
+              "label": "The stars/Milky Way comparison",
+              "icon": "star"
             },
             {
               "text": "A symbol for memory and imagination — the mind's ability to relive and re-experience beauty long after the original moment has passed.",
-              "label": "The \"inward eye\""
+              "label": "The \"inward eye\"",
+              "icon": "eye"
             },
             {
               "text": "Symbolizes a return to ordinary, even weary, daily life — against which the memory of the daffodils becomes an escape or a lift.",
-              "label": "The couch"
+              "label": "The couch",
+              "icon": "couch"
             }
           ],
           "ordered": false
@@ -208,7 +212,7 @@ const work = {
       "body": [
         {
           "type": "paragraph",
-          "text": "Instead, it uses the conventions of a **Romantic lyric**:"
+          "text": "This poem uses the conventions of a **Romantic lyric**."
         }
       ],
       "conventionItems": [
@@ -311,6 +315,50 @@ const work = {
         }
       ],
       "chipLabel": "Sources"
+    }
+  ],
+  "authorTimeline": [
+    {
+      "year": "1770",
+      "text": "Born in Cockermouth, Cumberland"
+    },
+    {
+      "year": "1798",
+      "text": "*Lyrical Ballads* with Coleridge"
+    },
+    {
+      "year": "1802",
+      "text": "Sees the daffodils at Ullswater with Dorothy"
+    },
+    {
+      "year": "1807",
+      "text": "Poem published in *Poems, in Two Volumes*"
+    },
+    {
+      "year": "1815",
+      "text": "Revised version published"
+    },
+    {
+      "year": "1843",
+      "text": "Becomes Poet Laureate"
+    },
+    {
+      "year": "1850",
+      "text": "Dies"
+    }
+  ],
+  "contextGlance": [
+    {
+      "label": "Movement",
+      "value": "English Romanticism"
+    },
+    {
+      "label": "Written",
+      "value": "1804; published 1807; revised 1815"
+    },
+    {
+      "label": "Setting",
+      "value": "Glencoyne Bay, Ullswater, Lake District"
     }
   ]
 };

@@ -73,18 +73,36 @@ const { items, ariaLabel = "On this page" } = Astro.props;
 			history.replaceState(null, "", link.hash);
 		}));
 
-		if (!("IntersectionObserver" in window)) continue;
-		const targets = links.map((link) => document.querySelector<HTMLElement>(link.hash)).filter((target): target is HTMLElement => Boolean(target));
-		const observer = new IntersectionObserver((entries) => {
+		const targets = links.map((link) => {
+			const section = document.querySelector<HTMLElement>(link.hash);
+			return section ? { link, heading: section.querySelector<HTMLElement>("h1, h2") || section } : null;
+		}).filter((target): target is { link: HTMLAnchorElement; heading: HTMLElement } => Boolean(target));
+		let scrollFrame = 0;
+		function updateActiveFromScroll() {
+			scrollFrame = 0;
 			if (!hasUserScrolledPage) return;
-			const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-			if (!visible) return;
-			const next = links.find((link) => link.hash === `#${visible.target.id}`);
+			const headerHeight = siteHeader?.classList.contains("header-hidden") ? 0 : siteHeader?.getBoundingClientRect().height || 0;
+			const chipHeight = nav.getBoundingClientRect().height;
+			const clearTop = headerHeight + chipHeight;
+			const readingLine = clearTop + Math.max(0, window.innerHeight - clearTop) * 0.35;
+			let next = targets[0]?.link;
+			for (const target of targets) {
+				if (target.heading.getBoundingClientRect().top <= readingLine) next = target.link;
+				else break;
+			}
 			if (!next || next === activeLink) return;
 			activeLink = next;
 			links.forEach((link) => link === next ? link.setAttribute("aria-current", "true") : link.removeAttribute("aria-current"));
 			revealActiveLink(next);
-		}, { rootMargin: "-18% 0px -62% 0px", threshold: [0, 0.15, 0.35, 0.6] });
-		targets.forEach((target) => observer.observe(target));
+		}
+		function scheduleActiveUpdate() {
+			if (!scrollFrame) scrollFrame = requestAnimationFrame(updateActiveFromScroll);
+		}
+		window.addEventListener("scroll", () => {
+			if (window.scrollY > 0) hasUserScrolledPage = true;
+			scheduleActiveUpdate();
+		}, { passive: true });
+		window.addEventListener("resize", scheduleActiveUpdate, { passive: true });
+		requestAnimationFrame(scheduleActiveUpdate);
 	}
 </script>
