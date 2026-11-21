@@ -289,44 +289,48 @@ const work = {
         {
           "type": "paragraph",
           "text": "\"The Cask of Amontillado\" is the work where the drama conventions fit best."
+        }
+      ],
+      "conventionItems": [
+        {
+          "type": "drama",
+          "label": "Classical unities (loosely kept)",
+          "text": "The time is one evening during Carnival. The place is mostly the Montresor vaults. The action is one plot, the revenge."
         },
         {
-          "type": "list",
-          "items": [
-            {
-              "text": "The time is one evening during Carnival. The place is mostly the Montresor vaults. The action is one plot, the revenge.",
-              "label": "Classical unities (loosely kept)"
-            },
-            {
-              "text": "Montresor comes from an old family with a coat of arms and a motto. He tells Fortunato, \"The Montresors were a great and numerous family.\"",
-              "label": "Noble birth"
-            },
-            {
-              "text": "Fortunato's pride in his wine expertise is what leads him to his death.",
-              "label": "Tragic flaw"
-            },
-            {
-              "text": "Fortunato keeps choosing to go deeper, even when Montresor offers (falsely) to turn back.",
-              "label": "Free will"
-            },
-            {
-              "text": "It has catacombs, bones, darkness, a decaying aristocratic family, and live burial.",
-              "label": "Gothic"
-            },
-            {
-              "text": "This is Poe's short story rule: every detail builds toward one single feeling, which here is dread.",
-              "label": "Unity of effect"
-            },
-            {
-              "text": "The murderer tells his own story fifty years later.",
-              "label": "First-person confessional narrator"
-            },
-            {
-              "text": "The reader knows more than Fortunato does.",
-              "label": "Dramatic irony"
-            }
-          ],
-          "ordered": false
+          "type": "drama",
+          "label": "Noble birth",
+          "text": "Montresor comes from an old family with a coat of arms and a motto. He tells Fortunato, \"The Montresors were a great and numerous family.\""
+        },
+        {
+          "type": "drama",
+          "label": "Tragic flaw",
+          "text": "Fortunato's pride in his wine expertise is what leads him to his death."
+        },
+        {
+          "type": "drama",
+          "label": "Free will",
+          "text": "Fortunato keeps choosing to go deeper, even when Montresor offers (falsely) to turn back."
+        },
+        {
+          "type": "genre",
+          "label": "Gothic",
+          "text": "It has catacombs, bones, darkness, a decaying aristocratic family, and live burial."
+        },
+        {
+          "type": "genre",
+          "label": "Unity of effect",
+          "text": "This is Poe's short story rule: every detail builds toward one single feeling, which here is dread."
+        },
+        {
+          "type": "genre",
+          "label": "First-person confessional narrator",
+          "text": "The murderer tells his own story fifty years later."
+        },
+        {
+          "type": "genre",
+          "label": "Dramatic irony",
+          "text": "The reader knows more than Fortunato does."
         }
       ]
     },

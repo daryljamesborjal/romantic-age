@@ -1,0 +1,90 @@
+---
+interface Chip {
+	label: string;
+	id: string;
+}
+
+interface Props {
+	items: Chip[];
+	ariaLabel?: string;
+}
+
+const { items, ariaLabel = "On this page" } = Astro.props;
+---
+
+<nav class="section-chips" data-section-chips aria-label={ariaLabel}>
+	<div class="section-chips__scroller">
+		{items.map((item, index) => <a href={`#${item.id}`} aria-current={index === 0 ? "true" : undefined}>{item.label}</a>)}
+	</div>
+</nav>
+
+<script>
+	const root = document.documentElement;
+	const reduceMotion = () => root.classList.contains("reduce-motion-active") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const siteHeader = document.querySelector<HTMLElement>(".site-header");
+	const navs = Array.from(document.querySelectorAll<HTMLElement>("[data-section-chips]"));
+	let hasUserScrolledPage = window.scrollY > 0;
+	window.addEventListener("scroll", () => {
+		if (window.scrollY > 0) hasUserScrolledPage = true;
+	}, { passive: true });
+
+	function syncStickyOffset() {
+		const offset = siteHeader?.classList.contains("header-hidden") ? 0 : siteHeader?.offsetHeight || 0;
+		root.style.setProperty("--section-chips-top", `${offset}px`);
+	}
+	syncStickyOffset();
+	if (siteHeader && "MutationObserver" in window) new MutationObserver(syncStickyOffset).observe(siteHeader, { attributes: true, attributeFilter: ["class"] });
+	if (siteHeader && "ResizeObserver" in window) new ResizeObserver(syncStickyOffset).observe(siteHeader);
+	window.addEventListener("resize", syncStickyOffset, { passive: true });
+
+	for (const nav of navs) {
+		const scroller = nav.querySelector<HTMLElement>(".section-chips__scroller");
+		const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a[href^='#']"));
+		if (!scroller || !links.length) continue;
+		let activeLink = links.find((link) => link.getAttribute("aria-current") === "true") || links[0];
+		scroller.scrollLeft = 0;
+
+		function syncFades() {
+			const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+			const left = scroller.scrollLeft > 2;
+			const right = scroller.scrollLeft < maxScroll - 2;
+			scroller.classList.toggle("has-overflow", maxScroll > 2);
+			scroller.classList.toggle("has-left-overflow", maxScroll > 2 && left);
+			scroller.classList.toggle("has-right-overflow", maxScroll > 2 && right);
+			scroller.style.setProperty("--chips-fade-left", left ? "1.25rem" : "0px");
+			scroller.style.setProperty("--chips-fade-right", right ? "1.25rem" : "0px");
+		}
+		scroller.addEventListener("scroll", syncFades, { passive: true });
+		window.addEventListener("resize", syncFades, { passive: true });
+		requestAnimationFrame(() => { scroller.scrollLeft = 0; syncFades(); });
+
+		function revealActiveLink(link: HTMLAnchorElement) {
+			const item = link.getBoundingClientRect();
+			const viewport = scroller.getBoundingClientRect();
+			const delta = item.left < viewport.left ? item.left - viewport.left : item.right > viewport.right ? item.right - viewport.right : 0;
+			if (delta) scroller.scrollTo({ left: scroller.scrollLeft + delta, behavior: reduceMotion() ? "auto" : "smooth" });
+		}
+
+		links.forEach((link) => link.addEventListener("click", (event) => {
+			const target = document.querySelector<HTMLElement>(link.hash);
+			if (!target) return;
+			event.preventDefault();
+			target.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
+			history.replaceState(null, "", link.hash);
+		}));
+
+		if (!("IntersectionObserver" in window)) continue;
+		const targets = links.map((link) => document.querySelector<HTMLElement>(link.hash)).filter((target): target is HTMLElement => Boolean(target));
+		const observer = new IntersectionObserver((entries) => {
+			if (!hasUserScrolledPage) return;
+			const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+			if (!visible) return;
+			const next = links.find((link) => link.hash === `#${visible.target.id}`);
+			if (!next || next === activeLink) return;
+			activeLink = next;
+			links.forEach((link) => link === next ? link.setAttribute("aria-current", "true") : link.removeAttribute("aria-current"));
+			revealActiveLink(next);
+		}, { rootMargin: "-18% 0px -62% 0px", threshold: [0, 0.15, 0.35, 0.6] });
+		targets.forEach((target) => observer.observe(target));
+	}
+</script>

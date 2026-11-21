@@ -1,0 +1,135 @@
+---
+import ContentBody from "../components/content/ContentBody.astro";
+import NextWork from "../components/shared/NextWork.astro";
+import SectionChips from "../components/shared/SectionChips.astro";
+import { works } from "../data/works.js";
+
+interface Props {
+	work: any;
+}
+
+const { work } = Astro.props;
+const sections = work.sections;
+const isPoem = Array.isArray(work.text[0]);
+const chips = [
+	{ label: isPoem ? "Poem" : "Story", id: "text" },
+	...sections.map((section: any) => ({
+		label: section.id === "resonance" ? "Today" : section.id === "references" ? "Sources" : section.heading,
+		id: section.id,
+	})),
+];
+const catalogIndex = works.findIndex((item) => item.id === work.id);
+const nextWork = catalogIndex < 0 ? null : works[(catalogIndex + 1) % works.length];
+const nextTheme = work.id === "annabel-lee" ? "gothic-sea" : work.id === "cask-of-amontillado" ? "gothic-catacombs" : "daffodils";
+const stripMarkers = (text = "") => text.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/\s+/g, " ").trim();
+const firstBodyText = (section: any) => {
+	const first = section.body.find((block: any) => block.text || block.items?.length);
+	if (!first) return "";
+	const text = stripMarkers(first.text || first.items?.[0]?.text || "");
+	return text.match(/^.*?[.!?](?=\s|$)/)?.[0] || text;
+};
+const previewRepeatsBody = (section: any) => {
+	if (section.dramaNote) return true;
+	const preview = stripMarkers(section.preview);
+	const firstSentence = firstBodyText(section);
+	return preview === firstSentence || preview.startsWith(firstSentence);
+};
+const sourceSection = sections.find((section: any) => section.id === "references");
+const conclusion = sourceSection?.body.find((block: any) => block.label === "Conclusion")?.text || "";
+const sourceList = sourceSection?.body.find((block: any) => block.type === "references")?.items || [];
+const yearAndAuthor = `${work.author} · ${work.year}`;
+const renderInline = (text = "") => text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+---
+
+<div class={`work-content work-content--${work.id}`}>
+	<SectionChips items={chips} ariaLabel="Sections in this work" />
+
+	<section class="work-text-paper" id="text" data-work-section aria-labelledby="work-text-title">
+		<header class="work-text-paper__heading">
+			<h2 id="work-text-title">{work.title}</h2>
+			<p>{yearAndAuthor}</p>
+		</header>
+		{!isPoem ? (
+			<div class="work-text-paper__story" aria-label={`${work.title} by ${work.author}`}>
+				{work.text.slice(0, 2).map((paragraph: string) => <p set:html={renderInline(paragraph)} />)}
+				<div id="work-text-continuation" class="work-text-paper__continuation" hidden>
+					{work.text.slice(2).map((paragraph: string) => <p set:html={renderInline(paragraph)} />)}
+				</div>
+			</div>
+		) : (
+			<div class="work-text-paper__poem" aria-label={`${work.title} by ${work.author}`}>
+				{work.text.slice(0, 1).map((stanza: string[]) => <p>{stanza.map((line: string) => <span>{line}</span>)}</p>)}
+				<div id="work-text-continuation" class="work-text-paper__continuation" hidden>
+					{work.text.slice(1).map((stanza: string[]) => <p>{stanza.map((line: string) => <span>{line}</span>)}</p>)}
+				</div>
+			</div>
+		)}
+		<button class="work-text-paper__toggle" type="button" aria-expanded="false" aria-controls="work-text-continuation" data-story={!isPoem ? "true" : "false"}>
+			{!isPoem ? "Read the full story" : "Show the full poem"}
+		</button>
+	</section>
+
+	<article class="work-sections" aria-label={`${work.title} study sections`}>
+		{sections.filter((section: any) => section.id !== "references").map((section: any) => {
+			const isConventions = section.id === "conventions";
+			const isAnalysis = section.id === "analysis";
+			const body = isConventions ? section.body.filter((block: any) => block.type !== "list") : section.body;
+			return <section id={section.id} class="work-section" data-work-section aria-labelledby={`${section.id}-title`}>
+				<h2 id={`${section.id}-title`}>{section.heading}</h2>
+				{!previewRepeatsBody(section) && <p class="work-section__preview">{section.preview}</p>}
+				<div class="work-section__body">
+					<ContentBody blocks={body} ordered={isAnalysis} />
+					{isConventions && <div class="work-conventions">
+						<section class="work-conventions__group"><h3>Genre conventions</h3><ul>{section.conventionItems.filter((item: any) => item.type === "genre").map((item: any) => <li>{item.label && <strong>{item.label}: </strong>}<span set:html={renderInline(item.text)} /></li>)}</ul></section>
+						<section class="work-conventions__group"><h3>Drama conventions (professor's list)</h3>{section.dramaNote ? <p set:html={renderInline(section.dramaNote)} /> : <ul>{section.conventionItems.filter((item: any) => item.type === "drama").map((item: any) => <li>{item.label && <strong>{item.label}: </strong>}<span set:html={renderInline(item.text)} /></li>)}</ul>}</section>
+					</div>}
+				</div>
+			</section>;
+		})}
+		{sourceSection && <section id="references" class="work-section work-section--sources" data-work-section aria-labelledby="references-title">
+			<h2 id="references-title">{sourceSection.heading}</h2>
+			{conclusion && <p class="work-conclusion" set:html={renderInline(conclusion)} />}
+			<details class="work-sources">
+				<summary>Show sources</summary>
+				<ul>{sourceList.map((item: any) => <li><span set:html={renderInline(item.text)} />{item.url && <> <a href={item.url} target="_blank" rel="noopener">{item.url}</a></>}</li>)}</ul>
+			</details>
+		</section>}
+	</article>
+	{nextWork && <NextWork title={nextWork.title} link={nextWork.href} theme={nextTheme} />}
+</div>
+
+<script>
+	const root = document.documentElement;
+	const reduced = () => root.classList.contains("reduce-motion-active") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	document.querySelectorAll<HTMLButtonElement>(".work-text-paper__toggle").forEach((button) => {
+		button.addEventListener("click", () => {
+			const expanded = button.getAttribute("aria-expanded") !== "true";
+			button.setAttribute("aria-expanded", String(expanded));
+			const continuation = document.getElementById(button.getAttribute("aria-controls") || "");
+			if (continuation) continuation.hidden = !expanded;
+			button.textContent = expanded ? "Hide full text" : button.dataset.story === "true" ? "Read the full story" : "Show the full poem";
+		});
+	});
+	document.querySelectorAll<HTMLDetailsElement>(".work-sources").forEach((details) => {
+		const summary = details.querySelector<HTMLElement>("summary");
+		const sync = () => {
+			summary?.setAttribute("aria-expanded", String(details.open));
+			if (summary) summary.textContent = details.open ? "Hide sources" : "Show sources";
+		};
+		sync();
+		details.addEventListener("toggle", sync);
+	});
+	const workSections = Array.from(document.querySelectorAll<HTMLElement>(".work-section"));
+	if (workSections.length && !reduced() && "IntersectionObserver" in window) {
+		root.classList.add("work-reveals-ready");
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("is-visible");
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1 });
+		workSections.forEach((section) => observer.observe(section));
+	}
+</script>

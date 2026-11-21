@@ -2,13 +2,9 @@
 // Annabel Lee reading and study page.
 import PoemLayout from "../layouts/PoemLayout.astro";
 import AnnabelLeeScene from "../components/scene/AnnabelLeeScene.astro";
-import ContentSection from "../components/content/ContentSection.astro";
-import NextWork from "../components/shared/NextWork.astro";
-import ContentBody from "../components/content/ContentBody.astro";
 import work from "../data/works/annabel-lee.js";
+import WorkLayout from "../layouts/WorkLayout.astro";
 
-const inlineHtml = (value: string = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('\"', "&quot;").replaceAll("'", "&#39;").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
-const stanzaHtml = (lines: string[]) => lines.map(inlineHtml).join("<br />") + "<br />";
 
 ---
 
@@ -52,35 +48,6 @@ const stanzaHtml = (lines: string[]) => lines.map(inlineHtml).join("<br />") + "
 	</section>
 
 	<!-- The stanza paragraphs preserve the poem's line breaks for reading. -->
-	<details class="reading-panel">
-		<summary>{work.textTitle}</summary>
-		<div class="text-content">
-			<div class="text-content__inner">
-				<div class="poem-stanzas" aria-label={`${work.title} by ${work.author}`}>
-					{work.text.map((stanza) => <p set:html={stanzaHtml(stanza)} />)}
-				</div>
-			</div>
-		</div>
-	</details>
-
-	<article class="annabel-content" aria-label={`${work.title} study sections`}>
-		{work.sections.map((section, index) => (
-			<ContentSection id={section.id} title={section.heading} summary={section.preview} align={index % 2 === 0 ? "left" : "right"}>
-				<ContentBody blocks={section.body} />
-			</ContentSection>
-		))}
-	</article>
-	<NextWork title="The Cask of Amontillado" link="/cask-of-amontillado" theme="gothic-sea" />
+	<WorkLayout work={work} />
 </PoemLayout>
 
-<style>
-	.poem-stanzas {
-		max-width: 70ch;
-		margin-inline: auto;
-		text-align: center;
-	}
-
-	.poem-stanzas p + p {
-		margin-top: 1.75rem;
-	}
-</style>

@@ -8,9 +8,10 @@ interface BodyItem {
 
 interface Props {
 	blocks: BodyItem[];
+	ordered?: boolean;
 }
 
-const { blocks } = Astro.props;
+const { blocks, ordered = false } = Astro.props;
 const inlineHtml = (value: string = "") => value
 	.replaceAll("&", "&amp;")
 	.replaceAll("<", "&lt;")
@@ -32,5 +33,7 @@ const inlineHtml = (value: string = "") => value
 		return <ul>{(block.items || []).map((item) => <li><span set:html={inlineHtml(item.text)} />{item.url ? <> <a href={item.url} target="_blank" rel="noopener">{item.url}</a></> : null}</li>)}</ul>;
 	}
 
-	return <ul>{(block.items || []).map((item) => <li>{item.label ? <><strong>{item.label}:</strong> </> : null}<span set:html={inlineHtml(item.text)} /></li>)}</ul>;
+	return ordered
+		? <ol>{(block.items || []).map((item) => <li>{item.label ? <><strong>{item.label}:</strong> </> : null}<span set:html={inlineHtml(item.text)} /></li>)}</ol>
+		: <ul>{(block.items || []).map((item) => <li>{item.label ? <><strong>{item.label}:</strong> </> : null}<span set:html={inlineHtml(item.text)} /></li>)}</ul>;
 })}

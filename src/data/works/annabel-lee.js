@@ -230,40 +230,43 @@ const work = {
         {
           "type": "paragraph",
           "text": "The professor's list (classical unities, noble birth, tragic flaw, free will) was written for drama, so it only partly fits two poems and a short story. Here is how they apply to \"Annabel Lee\":"
+        }
+      ],
+      "conventionItems": [
+        {
+          "type": "genre",
+          "label": "Elegy",
+          "text": "It is a poem of mourning for a dead loved one, which makes it the poem's main convention."
         },
         {
-          "type": "list",
-          "items": [
-            {
-              "text": "It is a poem of mourning for a dead loved one, which makes it the poem's main convention.",
-              "label": "Elegy"
-            },
-            {
-              "text": "It has the repeated refrain, the simple story told in verse, and the musical rhythm. Though it is not technically a ballad, Poe referred to it as one.",
-              "label": "Ballad"
-            },
-            {
-              "text": "This is Poe's signature convention. In \"The Philosophy of Composition\" (1846), he called the death of a beautiful woman \"the most poetical topic in the world.\"",
-              "label": "Death of a beautiful woman"
-            },
-            {
-              "text": "The setting is a timeless, fairy-tale \"kingdom by the sea,\" with a tomb, angels and demons.",
-              "label": "Dark Romantic setting"
-            },
-            {
-              "text": "Annabel Lee's \"highborn kinsmen\" suggest she comes from a noble family. They're the ones who carry her away.",
-              "label": "Noble birth (partly)"
-            },
-            {
-              "text": "The speaker blames forces outside human control, the envious angels and the wind, rather than chance or illness.",
-              "label": "Free will vs. fate"
-            }
-          ],
-          "ordered": false
+          "type": "genre",
+          "label": "Ballad",
+          "text": "It has the repeated refrain, the simple story told in verse, and the musical rhythm. Though it is not technically a ballad, Poe referred to it as one."
         },
         {
-          "type": "paragraph",
-          "text": "*Doesn't apply:* Tragic flaw and the classical unities."
+          "type": "genre",
+          "label": "Death of a beautiful woman",
+          "text": "This is Poe's signature convention. In \"The Philosophy of Composition\" (1846), he called the death of a beautiful woman \"the most poetical topic in the world.\""
+        },
+        {
+          "type": "genre",
+          "label": "Dark Romantic setting",
+          "text": "The setting is a timeless, fairy-tale \"kingdom by the sea,\" with a tomb, angels and demons."
+        },
+        {
+          "type": "drama",
+          "label": "Noble birth (partly)",
+          "text": "Annabel Lee's \"highborn kinsmen\" suggest she comes from a noble family. They're the ones who carry her away."
+        },
+        {
+          "type": "drama",
+          "label": "Free will vs. fate",
+          "text": "The speaker blames forces outside human control, the envious angels and the wind, rather than chance or illness."
+        },
+        {
+          "type": "drama",
+          "label": "Doesn't apply",
+          "text": "Tragic flaw and the classical unities."
         }
       ]
     },

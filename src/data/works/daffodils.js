@@ -202,39 +202,37 @@ const work = {
       "body": [
         {
           "type": "paragraph",
-          "text": "The drama conventions (classical unities, noble birth, tragic flaw, free will) do not apply to this poem. It has no conflict, no hero, and no fall."
-        },
-        {
-          "type": "paragraph",
           "text": "Instead, it uses the conventions of a **Romantic lyric**:"
+        }
+      ],
+      "conventionItems": [
+        {
+          "type": "genre",
+          "label": "Emotion recollected in tranquillity",
+          "text": "This was Wordsworth's own definition of poetry. In his preface to *Lyrical Ballads* (1800), Wordsworth said that poetry results from \"emotion recollected in tranquillity,\" and in the fourth stanza the poet, in tranquillity, recollects an earlier experience."
         },
         {
-          "type": "list",
-          "items": [
-            {
-              "text": "This was Wordsworth's own definition of poetry. In his preface to *Lyrical Ballads* (1800), Wordsworth said that poetry results from \"emotion recollected in tranquillity,\" and in the fourth stanza the poet, in tranquillity, recollects an earlier experience.",
-              "label": "Emotion recollected in tranquillity"
-            },
-            {
-              "text": "Everyday nature is the subject, not a grand or mythic landscape.",
-              "label": "Nature as a source of feeling and renewal"
-            },
-            {
-              "text": "The poem is about a personal experience told in the poet's own voice.",
-              "label": "First-person lyric \"I\""
-            },
-            {
-              "text": "The words are close to everyday speech, which is what the *Lyrical Ballads* preface called for.",
-              "label": "Plain language"
-            },
-            {
-              "text": "The daffodils \"dance,\" \"toss their heads\" and show \"glee.\"",
-              "label": "Personification of nature"
-            }
-          ],
-          "ordered": false
+          "type": "genre",
+          "label": "Nature as a source of feeling and renewal",
+          "text": "Everyday nature is the subject, not a grand or mythic landscape."
+        },
+        {
+          "type": "genre",
+          "label": "First-person lyric \"I\"",
+          "text": "The poem is about a personal experience told in the poet's own voice."
+        },
+        {
+          "type": "genre",
+          "label": "Plain language",
+          "text": "The words are close to everyday speech, which is what the *Lyrical Ballads* preface called for."
+        },
+        {
+          "type": "genre",
+          "label": "Personification of nature",
+          "text": "The daffodils \"dance,\" \"toss their heads\" and show \"glee.\""
         }
-      ]
+      ],
+      "dramaNote": "The drama conventions (classical unities, noble birth, tragic flaw, free will) do not apply to this poem. It has no conflict, no hero, and no fall."
     },
     {
       "id": "resonance",
