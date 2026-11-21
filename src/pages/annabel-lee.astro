@@ -4,9 +4,15 @@ import PoemLayout from "../layouts/PoemLayout.astro";
 import AnnabelLeeScene from "../components/scene/AnnabelLeeScene.astro";
 import ContentSection from "../components/content/ContentSection.astro";
 import NextWork from "../components/shared/NextWork.astro";
+import ContentBody from "../components/content/ContentBody.astro";
+import work from "../data/works/annabel-lee.js";
+
+const inlineHtml = (value: string = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('\"', "&quot;").replaceAll("'", "&#39;").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+const stanzaHtml = (lines: string[]) => lines.map(inlineHtml).join("<br />") + "<br />";
+
 ---
 
-<PoemLayout title="Annabel Lee | Romantic Age" themeClass="poem-page annabel-lee-theme">
+<PoemLayout title={`${work.title} | Romantic Age`} themeClass="poem-page annabel-lee-theme">
 	<!-- The memory and mourning landscapes are decorative and CSS-only. -->
 	<section class="annabel-hero" aria-labelledby="page-title">
 		<AnnabelLeeScene />
@@ -39,156 +45,30 @@ import NextWork from "../components/shared/NextWork.astro";
 			</svg>
 		</div>
 		<div class="annabel-hero__content">
-			<p class="annabel-hero__eyebrow">A poem by Edgar Allan Poe</p>
-			<h1 id="page-title">Annabel Lee</h1>
-			<p class="annabel-hero__author">1849 · A love the grave could not end</p>
+			<p class="annabel-hero__eyebrow">{work.label}</p>
+			<h1 id="page-title">{work.title}</h1>
+			<p class="annabel-hero__author">{work.year} · {work.tagline}</p>
 		</div>
 	</section>
 
 	<!-- The stanza paragraphs preserve the poem's line breaks for reading. -->
 	<details class="reading-panel">
-		<summary>Read the Poem</summary>
+		<summary>{work.textTitle}</summary>
 		<div class="text-content">
 			<div class="text-content__inner">
-				<div class="poem-stanzas" aria-label="Annabel Lee by Edgar Allan Poe">
-					<p>
-						It was many and many a year ago,<br />
-						In a kingdom by the sea,<br />
-						That a maiden there lived whom you may know<br />
-						By the name of Annabel Lee;<br />
-						And this maiden she lived with no other thought<br />
-						Than to love and be loved by me.
-					</p>
-					<p>
-						I was a child and she was a child,<br />
-						In this kingdom by the sea,<br />
-						But we loved with a love that was more than love—<br />
-						I and my Annabel Lee—<br />
-						With a love that the wingèd seraphs of Heaven<br />
-						Coveted her and me.
-					</p>
-					<p>
-						And this was the reason that, long ago,<br />
-						In this kingdom by the sea,<br />
-						A wind blew out of a cloud, chilling<br />
-						My beautiful Annabel Lee;<br />
-						So that her highborn kinsmen came<br />
-						And bore her away from me,<br />
-						To shut her up in a sepulchre<br />
-						In this kingdom by the sea.
-					</p>
-					<p>
-						The angels, not half so happy in Heaven,<br />
-						Went envying her and me—<br />
-						Yes!—that was the reason (as all men know,<br />
-						In this kingdom by the sea)<br />
-						That the wind came out of the cloud by night,<br />
-						Chilling and killing my Annabel Lee.
-					</p>
-					<p>
-						But our love it was stronger by far than the love<br />
-						Of those who were older than we—<br />
-						Of many far wiser than we—<br />
-						And neither the angels in Heaven above<br />
-						Nor the demons down under the sea<br />
-						Can ever dissever my soul from the soul<br />
-						Of the beautiful Annabel Lee;
-					</p>
-					<p>
-						For the moon never beams, without bringing me dreams<br />
-						Of the beautiful Annabel Lee;<br />
-						And the stars never rise, but I feel the bright eyes<br />
-						Of the beautiful Annabel Lee;<br />
-						And so, all the night-tide, I lie down by the side<br />
-						Of my darling—my darling—my life and my bride,<br />
-						In her sepulchre there by the sea—<br />
-						In her tomb by the sounding sea.
-					</p>
+				<div class="poem-stanzas" aria-label={`${work.title} by ${work.author}`}>
+					{work.text.map((stanza) => <p set:html={stanzaHtml(stanza)} />)}
 				</div>
 			</div>
 		</div>
 	</details>
 
-	<article class="annabel-content" aria-label="Annabel Lee study sections">
-		<ContentSection id="author" title="Author" summary="Edgar Allan Poe (1809–1849) was an American writer, poet, editor, and critic, and one of the central figures of American Romanticism and Gothic literature." align="left">
-			<p>Edgar Allan Poe (1809–1849) was an American writer, poet, editor, and critic, and one of the central figures of American Romanticism and Gothic literature. He was orphaned young and raised by John Allan, a Richmond merchant. Poe is generally credited as the first well-known American author who tried to support himself entirely through writing and editing, which kept him in near-constant financial hardship. He married his young cousin, Virginia Clemm, in 1836; her long, slow loss to tuberculosis in 1847 devastated him. Poe himself died in Baltimore in 1849 under mysterious circumstances. "Annabel Lee" is considered the last poem he completed, written in the months before he died and published two days after his death.</p>
-		</ContentSection>
-
-		<ContentSection id="context" title="Time, Era, and Societal Context" summary="Romantic writers of this period prized intense emotion, the individual imagination, mystery, and the sublime over Enlightenment-era reason and order." align="right">
-			<p><strong>Literary movement:</strong> American Romanticism / Dark Romanticism (Gothic). Romantic writers of this period prized intense emotion, the individual imagination, mystery, and the sublime over Enlightenment-era reason and order.</p>
-			<p>Poe believed poetry didn't need to teach a moral lesson — its purpose was to create a single, unified emotional effect in the reader. He anticipated the "art for art's sake" movement by attacking what he called "the heresy of the Didactic."</p>
-			<p><strong>Historical backdrop:</strong> 1849 America was expanding westward, and the country was increasingly divided over slavery. Poe's poem pointedly ignores all of this — it is set in a vague, fairy-tale "kingdom by the sea," which lets it float free of any specific place or political moment.</p>
-			<p><strong>Biographical backdrop:</strong> Poe wrote it not long after losing his wife Virginia. Grief over this loss is widely believed to have shaped the poem, even though scholars still debate exactly who (if anyone specific) "Annabel Lee" represents.</p>
-		</ContentSection>
-
-		<ContentSection id="summary" title="Summary (Characters, Setting, Plot)" summary="A grieving speaker remembers his childhood love, Annabel Lee, whose death he blames on the envy of angels." align="left">
-			<p><strong>Speaker/Narrator:</strong> An unnamed man, the former lover of Annabel Lee, now grieving her death.</p>
-			<p><strong>Annabel Lee:</strong> A maiden the speaker loved since childhood; she dies young.</p>
-			<p><strong>Setting:</strong> A vague, legendary "kingdom by the sea" — deliberately timeless and placeless, like a fairy tale.</p>
-			<p><strong>Plot:</strong> Many years ago, in a kingdom by the sea, a maiden named Annabel Lee lived with no thought except loving and being loved by the speaker. Their love was so complete that even winged angels in heaven envied it. Because of that envy, a wind blew out of a cloud one night and chilled Annabel Lee, and her highborn relatives came and shut her away in a tomb by the sea. The speaker insists that neither angels above nor demons below the sea can ever separate his soul from hers. Every night, he says, the moon and stars bring him dreams and visions of her eyes, and he lies down beside her in her tomb by the sea.</p>
-		</ContentSection>
-
-		<ContentSection id="analysis" title="Analysis (Salient Points)" summary="The poem is a lyric elegy — it's less about narrating an event and more about revealing the speaker's emotional (and increasingly unstable) state." align="right">
-			<ul>
-				<li>The poem is a lyric elegy — it's less about narrating an event and more about revealing the speaker's emotional (and increasingly unstable) state.</li>
-				<li>The speaker never accepts a natural explanation (illness) for Annabel Lee's death; he reframes it as cosmic jealousy, which is a way of giving unbearable, random loss a dramatic, meaningful cause.</li>
-				<li>The poem doesn't resolve neatly into "healthy mourning" or "unhealthy obsession" — the poem leaves this ambiguous. The final image can be read as either the ultimate proof of eternal love or a picture of someone who cannot let go and has stopped living his own life.</li>
-				<li>Modern readers sometimes discuss the poem alongside the stages of grief (denial, anger, bargaining, depression, acceptance), though this is a modern psychological lens, not a scholarly consensus.</li>
-			</ul>
-		</ContentSection>
-
-		<ContentSection id="themes" title="Major Themes and Motifs" summary="Love that survives death, grief and the refusal to let go, and cosmic injustice are the major themes developed through motifs." align="left">
-			<ul>
-				<li><strong>Love that survives death:</strong> Repeated insistence that no earthly or heavenly power can "dissever" their souls.</li>
-				<li><strong>Grief and the refusal to let go:</strong> Motif of nightly visitation to the tomb; recurring dreams of her eyes in the stars.</li>
-				<li><strong>Envy of the divine / cosmic injustice:</strong> The recurring accusation against "the angels" and "winged seraphs."</li>
-				<li><strong>Idealized, childlike love:</strong> Repetition of "I was a child and she was a child."</li>
-				<li><strong>The sea as boundary between life and death:</strong> The recurring refrain "kingdom by the sea" and "sepulchre there by the sea."</li>
-			</ul>
-			<p><strong>Key recurring motif — the refrain:</strong> The repetition of "Annabel Lee" and "kingdom by the sea" functions like a chant or incantation, reinforcing how fixated the speaker is on both the woman and the place where he lost her.</p>
-		</ContentSection>
-
-		<ContentSection id="symbols" title="Major Symbols" summary="The sea, the wind, angels, the tomb, and the moon and stars serve as the major symbols in the poem." align="right">
-			<ul>
-				<li><strong>The sea:</strong> Represents vastness, isolation, and the boundary between the world of the living and the world of the dead.</li>
-				<li><strong>The wind/cloud that kills her:</strong> A symbol of illness and death as forces outside human control. The speaker turns a natural death into something done to her.</li>
-				<li><strong>Angels/"winged seraphs":</strong> Symbolize both divine judgment and — in the speaker's paranoid logic — divine jealousy of human happiness.</li>
-				<li><strong>The tomb/sepulchre:</strong> Symbolizes both the finality of death and the speaker's refusal to accept that finality.</li>
-				<li><strong>The moon and stars:</strong> Symbolize memory and the persistence of the beloved's presence in the speaker's mind.</li>
-			</ul>
-		</ContentSection>
-
-		<ContentSection id="conventions" title="Important Conventions" summary={'The poem functions as an elegy and a ballad, utilizing the "death of a beautiful woman" convention.'} align="left">
-			<p>The professor's list (classical unities, noble birth, tragic flaw, free will) was written for drama, so it only partly fits two poems and a short story. Here is how they apply to "Annabel Lee":</p>
-			<ul>
-				<li><strong>Elegy:</strong> It is a poem of mourning for a dead loved one, which makes it the poem's main convention.</li>
-				<li><strong>Ballad:</strong> It has the repeated refrain, the simple story told in verse, and the musical rhythm. Though it is not technically a ballad, Poe referred to it as one.</li>
-				<li><strong>Death of a beautiful woman:</strong> This is Poe's signature convention. In "The Philosophy of Composition" (1846), he called the death of a beautiful woman "the most poetical topic in the world."</li>
-				<li><strong>Dark Romantic setting:</strong> The setting is a timeless, fairy-tale "kingdom by the sea," with a tomb, angels and demons.</li>
-				<li><strong>Noble birth (partly):</strong> Annabel Lee's "highborn kinsmen" suggest she comes from a noble family. They're the ones who carry her away.</li>
-				<li><strong>Free will vs. fate:</strong> The speaker blames forces outside human control, the envious angels and the wind, rather than chance or illness.</li>
-			</ul>
-			<p><em>Doesn't apply:</em> Tragic flaw and the classical unities.</p>
-		</ContentSection>
-
-		<ContentSection id="resonance" title="How the Text Resonates Today" summary="Grief that refuses closure is a feeling readers still recognize today." align="right">
-			<ul>
-				<li>Grief that refuses closure is a universally recognized experience. Modern readers and critics still discuss where "devoted love" ends and "obsession" begins — a very contemporary conversation around grief, attachment, and mental health.</li>
-				<li>The poem continues to be adapted across music, film, and other media well over a century later, showing how enduring the universal ache of losing someone young feels across generations.</li>
-			</ul>
-		</ContentSection>
-
-		<ContentSection id="references" title="References and Conclusion" summary="Sources for this page, including Poe scholar T. O. Mabbott's edition of the poems." align="left">
-			<p><strong>References:</strong></p>
-			<ul>
-				<li>Encyclopedia.com. (n.d.). <em>Annabel Lee</em>. <a href="https://www.encyclopedia.com/arts/educational-magazines/annabel-lee" target="_blank" rel="noopener">https://www.encyclopedia.com/arts/educational-magazines/annabel-lee</a></li>
-				<li>LitCharts. (n.d.). <em>Annabel Lee summary & analysis</em>. <a href="https://www.litcharts.com/poetry/edgar-allan-poe/annabel-lee" target="_blank" rel="noopener">https://www.litcharts.com/poetry/edgar-allan-poe/annabel-lee</a></li>
-				<li>Mabbott, T. O. (Ed.). (1969). <em>Collected works of Edgar Allan Poe: Vol. 1. Poems</em>. Belknap Press of Harvard University Press.</li>
-				<li>Poe, E. A. (1846). The philosophy of composition. <em>Graham's Magazine, 28</em>(4), 163–167.</li>
-				<li>SuperSummary. (n.d.). <em>Annabel Lee summary</em>. <a href="https://www.supersummary.com/annabel-lee/summary/" target="_blank" rel="noopener">https://www.supersummary.com/annabel-lee/summary/</a></li>
-			</ul>
-			<p><strong>Conclusion:</strong> "Annabel Lee" endures because it takes a universal wound — losing someone you loved before you were ready to — and elevates it into myth. Poe strips away time and place so that any reader, in any era, can pour their own grief into the speaker's voice.</p>
-		</ContentSection>
+	<article class="annabel-content" aria-label={`${work.title} study sections`}>
+		{work.sections.map((section, index) => (
+			<ContentSection id={section.id} title={section.heading} summary={section.preview} align={index % 2 === 0 ? "left" : "right"}>
+				<ContentBody blocks={section.body} />
+			</ContentSection>
+		))}
 	</article>
 	<NextWork title="The Cask of Amontillado" link="/cask-of-amontillado" theme="gothic-sea" />
 </PoemLayout>

@@ -1,0 +1,36 @@
+---
+interface BodyItem {
+	type: "paragraph" | "list" | "references";
+	text?: string;
+	label?: string;
+	items?: Array<{ text: string; label?: string; url?: string }>;
+}
+
+interface Props {
+	blocks: BodyItem[];
+}
+
+const { blocks } = Astro.props;
+const inlineHtml = (value: string = "") => value
+	.replaceAll("&", "&amp;")
+	.replaceAll("<", "&lt;")
+	.replaceAll(">", "&gt;")
+	.replaceAll('"', "&quot;")
+	.replaceAll("'", "&#39;")
+	.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+	.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+---
+
+{blocks.map((block) => {
+	if (block.type === "paragraph") {
+		return block.label
+			? <p><strong>{block.label}:</strong>{block.text ? <> <span set:html={inlineHtml(block.text)} /></> : null}</p>
+			: <p set:html={inlineHtml(block.text)} />;
+	}
+
+	if (block.type === "references") {
+		return <ul>{(block.items || []).map((item) => <li><span set:html={inlineHtml(item.text)} />{item.url ? <> <a href={item.url} target="_blank" rel="noopener">{item.url}</a></> : null}</li>)}</ul>;
+	}
+
+	return <ul>{(block.items || []).map((item) => <li>{item.label ? <><strong>{item.label}:</strong> </> : null}<span set:html={inlineHtml(item.text)} /></li>)}</ul>;
+})}
