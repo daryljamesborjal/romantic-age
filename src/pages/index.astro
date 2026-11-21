@@ -50,6 +50,71 @@ import { works } from "../data/works.js";
 </BaseLayout>
 
 <script>
+	const landingBookLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".book-link"));
+	const arrivalStorageKey = "romantic-age-book-arrival";
+	type OpeningSequence = {
+		layer: HTMLDivElement;
+		clone: HTMLAnchorElement;
+		original: HTMLAnchorElement;
+		destination: string;
+		themeColor: string;
+		cleanup?: () => void;
+	};
+	let activeSequence: OpeningSequence | null = null;
+
+	function wait(milliseconds: number) {
+		return new Promise<void>((resolve) => window.setTimeout(resolve, milliseconds));
+	}
+
+	function isReducedMotionEnabled() {
+		return window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion-active");
+	}
+
+	function saveArrivalColor(color: string) {
+		try { sessionStorage.setItem(arrivalStorageKey, color); } catch { /* Navigation remains available when storage is blocked. */ }
+	}
+
+	function navigateToWork(sequence: OpeningSequence) {
+		if (activeSequence !== sequence) return;
+		activeSequence = null;
+		sequence.cleanup?.();
+		sequence.original.style.visibility = "";
+		sequence.layer.remove();
+		saveArrivalColor(sequence.themeColor);
+		window.location.assign(sequence.destination);
+	}
+
+	function createOpeningLayer(original: HTMLAnchorElement, bounds: DOMRect, destination: string, themeColor: string) {
+		const layer = document.createElement("div");
+		layer.className = "book-opening-layer";
+		layer.setAttribute("aria-hidden", "true");
+		const backdrop = document.createElement("div");
+		backdrop.className = "book-opening-backdrop";
+		const colorWash = document.createElement("div");
+		colorWash.className = "book-opening-color-wash";
+		colorWash.style.backgroundColor = themeColor;
+		const clone = original.cloneNode(true) as HTMLAnchorElement;
+		clone.classList.add("book-link--opening-clone");
+		clone.setAttribute("tabindex", "-1");
+		clone.style.position = "absolute";
+		clone.style.left = `${bounds.left}px`;
+		clone.style.top = `${bounds.top}px`;
+		clone.style.width = `${bounds.width}px`;
+		clone.style.height = `${bounds.height}px`;
+		clone.style.margin = "0";
+		clone.style.transform = "none";
+		clone.style.transformOrigin = "center center";
+		const sourceStage = original.querySelector<HTMLElement>(".book3d-stage");
+		const cloneStage = clone.querySelector<HTMLElement>(".book3d-stage");
+		if (sourceStage && cloneStage) cloneStage.style.height = getComputedStyle(sourceStage).height;
+		const sourceBook = original.querySelector<HTMLElement>(".book3d");
+		const cloneBook = clone.querySelector<HTMLElement>(".book3d");
+		if (sourceBook && cloneBook) cloneBook.style.transform = getComputedStyle(sourceBook).transform;
+		layer.append(backdrop, colorWash, clone);
+		document.body.append(layer);
+		return { layer, clone, colorWash, cloneBook };
+	}
+
 	const bookCarousel = document.querySelector<HTMLUListElement>("#book-carousel");
 	const bookSlides = Array.from(bookCarousel?.querySelectorAll<HTMLElement>(".book-list__item") ?? []);
 	const bookDots = Array.from(document.querySelectorAll<HTMLButtonElement>(".book-pagination__dot"));
@@ -123,6 +188,76 @@ import { works } from "../data/works.js";
 			}, { passive: true });
 		});
 	}
+
+	landingBookLinks.forEach((bookLink) => {
+		bookLink.addEventListener("click", async (event: MouseEvent) => {
+			const isPlainActivation = event.button === 0 && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey;
+			if (activeSequence) {
+				event.preventDefault();
+				navigateToWork(activeSequence);
+				return;
+			}
+			if (!isPlainActivation) return;
+
+			event.preventDefault();
+			const destination = bookLink.href;
+			const themeColor = bookLink.dataset.themeColor ?? "#111624";
+			if (isReducedMotionEnabled()) {
+				saveArrivalColor(themeColor);
+				window.location.assign(destination);
+				return;
+			}
+
+			const bounds = bookLink.getBoundingClientRect();
+			const opening = createOpeningLayer(bookLink, bounds, destination, themeColor);
+			const sequence: OpeningSequence = { layer: opening.layer, clone: opening.clone, original: bookLink, destination, themeColor };
+			activeSequence = sequence;
+			bookLink.style.visibility = "hidden";
+
+			const bookFace = opening.clone.querySelector<HTMLElement>(".book3d");
+			const faceWidth = bookFace?.offsetWidth ?? bounds.width * 0.68;
+			const faceHeight = bookFace?.offsetHeight ?? bounds.height;
+			const fitScale = Math.min((window.innerWidth * 0.9) / (faceWidth * 2), (window.innerHeight * 0.7) / faceHeight);
+			const flightX = window.innerWidth / 2 - (bounds.left + bounds.width / 2);
+			const flightY = window.innerHeight / 2 - (bounds.top + bounds.height / 2);
+
+			opening.layer.addEventListener("pointerdown", () => navigateToWork(sequence));
+			opening.layer.addEventListener("click", (nextClick) => {
+				nextClick.preventDefault();
+				navigateToWork(sequence);
+			});
+			opening.clone.addEventListener("click", (cloneClick) => {
+				cloneClick.preventDefault();
+				navigateToWork(sequence);
+			});
+			const escapeToNavigate = (keyEvent: KeyboardEvent) => {
+				if (keyEvent.key !== "Escape") return;
+				keyEvent.preventDefault();
+				navigateToWork(sequence);
+			};
+			document.addEventListener("keydown", escapeToNavigate);
+			sequence.cleanup = () => document.removeEventListener("keydown", escapeToNavigate);
+			opening.layer.classList.add("book-opening-layer--visible");
+			void opening.clone.offsetWidth;
+			requestAnimationFrame(() => {
+				if (opening.cloneBook) opening.cloneBook.style.transform = "";
+				opening.clone.style.transform = `translate3d(${flightX}px, ${flightY}px, 0) scale(${fitScale})`;
+			});
+			await wait(350);
+			if (activeSequence !== sequence) return;
+			opening.clone.classList.add("is-cover-open");
+			await wait(550);
+			if (activeSequence !== sequence) return;
+			opening.clone.classList.add("is-fluttering");
+			await wait(850);
+			if (activeSequence !== sequence) return;
+			opening.clone.classList.add("is-entering");
+			opening.colorWash.classList.add("book-opening-color-wash--visible");
+			await wait(400);
+			if (activeSequence !== sequence) return;
+			navigateToWork(sequence);
+		});
+	});
 </script>
 
 <style>
@@ -144,7 +279,7 @@ import { works } from "../data/works.js";
 
 	.landing-content {
 		--book-h: clamp(300px, 46vh, 480px);
-		width: min(100%, 75rem);
+		width: 100%;
 		min-width: 0;
 		max-width: 100%;
 		margin: auto;
@@ -152,6 +287,8 @@ import { works } from "../data/works.js";
 	}
 
 	.landing-copy {
+		--landing-copy-scrim-strong: 86%;
+		--landing-copy-scrim-mid: 84%;
 		position: relative;
 		z-index: 0;
 		width: 100%;
@@ -159,6 +296,46 @@ import { works } from "../data/works.js";
 		max-width: 100%;
 		isolation: isolate;
 		padding: 0.75rem 1rem;
+	}
+
+	.landing-copy::before {
+		position: absolute;
+		z-index: -1;
+		top: -0.25rem;
+		bottom: -0.75rem;
+		left: 0;
+		right: 0;
+		background: linear-gradient(
+			to bottom,
+			transparent 0%,
+			rgb(10 6 4 / var(--landing-copy-scrim-strong)) 12%,
+			rgb(10 6 4 / var(--landing-copy-scrim-strong)) 82%,
+			rgb(10 6 4 / var(--landing-copy-scrim-mid)) 90%,
+			rgb(10 6 4 / 40%) 95%,
+			transparent 100%
+		);
+		content: "";
+		pointer-events: none;
+	}
+
+	:global(html[data-theme="light"]) .landing-copy {
+		--landing-copy-scrim-strong: 65%;
+		--landing-copy-scrim-mid: 63%;
+	}
+
+	:global(html[data-theme="dark"]) .landing-copy::before {
+		bottom: -12rem;
+		background: linear-gradient(
+			to bottom,
+			transparent 0%,
+			rgb(10 6 4 / 86%) 12%,
+			rgb(10 6 4 / 86%) 60%,
+			rgb(10 6 4 / 78%) 70%,
+			rgb(10 6 4 / 60%) 80%,
+			rgb(10 6 4 / 40%) 88%,
+			rgb(10 6 4 / 18%) 96%,
+			transparent 100%
+		);
 	}
 
 	.landing-kicker {
@@ -323,4 +500,5 @@ import { works } from "../data/works.js";
 	:global(html.reduce-motion-active) .book-pagination__dot::before {
 		transition: none;
 	}
+
 </style>

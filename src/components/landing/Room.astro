@@ -12,6 +12,12 @@ const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 	<div class="room-backdrop" aria-hidden="true">
 		<div class="room-dust"></div>
 	</div>
+	<div class="room-night-overlay" aria-hidden="true"></div>
+	<div class="room-night-vignette" aria-hidden="true"></div>
+	<div class="room-window-glow" aria-hidden="true"></div>
+	<div class="room-night-window-glow" aria-hidden="true"></div>
+	<div class="room-lamp-glow room-lamp-glow--left" aria-hidden="true"></div>
+	<div class="room-lamp-glow room-lamp-glow--right" aria-hidden="true"></div>
 	<div class="reading-room__content">
 		<slot />
 	</div>
@@ -33,22 +39,6 @@ const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 		background-size: cover;
 	}
 
-	/* Start the heading scrim at the room's top edge to avoid a visible seam. */
-	.reading-room::after {
-		position: absolute;
-		z-index: 1;
-		inset: 0;
-		background: linear-gradient(
-			to bottom,
-			rgb(10 6 4 / 82%) 0%,
-			rgb(10 6 4 / 58%) 34%,
-			rgb(10 6 4 / 28%) 58%,
-			transparent 76%
-		);
-		content: "";
-		pointer-events: none;
-	}
-
 	.room-backdrop {
 		position: absolute;
 		inset: 0;
@@ -64,10 +54,79 @@ const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 		position: absolute;
 		z-index: 0;
 		inset: 0;
-		background:
-			linear-gradient(to bottom, var(--landing-overlay-top), var(--landing-overlay-bottom)),
-			radial-gradient(circle at center, transparent 50%, var(--landing-vignette) 100%);
+		background: radial-gradient(
+			ellipse at center,
+			transparent 44%,
+			rgb(15 9 5 / 8%) 72%,
+			rgb(15 9 5 / 30%) 100%
+		);
 		content: "";
+	}
+
+	.room-window-glow {
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		background: radial-gradient(
+			ellipse at 50% 48%,
+			rgb(255 190 82 / 22%) 0%,
+			rgb(255 174 65 / 12%) 24%,
+			transparent 52%
+		);
+		animation: room-window-breathe 9s ease-in-out infinite alternate;
+		opacity: 0.58;
+		pointer-events: none;
+		transition: opacity 600ms ease;
+	}
+
+	.room-night-overlay,
+	.room-night-vignette,
+	.room-night-window-glow,
+	.room-lamp-glow {
+		position: absolute;
+		z-index: 1;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 600ms ease;
+	}
+
+	.room-night-overlay {
+		inset: 0;
+		background: rgb(10 16 35 / 45%);
+	}
+
+	.room-night-vignette {
+		inset: 0;
+		background: radial-gradient(ellipse at center, transparent 42%, rgb(3 8 24 / 20%) 72%, rgb(3 8 24 / 43%) 100%);
+	}
+
+	.room-night-window-glow {
+		top: 48%;
+		left: 50%;
+		width: min(78vw, 72rem);
+		height: min(64vh, 42rem);
+		transform: translate(-50%, -50%);
+		background: radial-gradient(ellipse at center, rgb(22 40 91 / 38%) 0%, rgb(17 32 76 / 24%) 34%, transparent 72%);
+	}
+
+	.room-lamp-glow {
+		top: 32%;
+		width: clamp(17rem, 34vw, 34rem);
+		height: clamp(14rem, 29vw, 29rem);
+		transform: translate(-50%, -50%);
+		isolation: isolate;
+	}
+
+	.room-lamp-glow--left { left: 36%; }
+	.room-lamp-glow--right { left: 64%; }
+
+	.room-lamp-glow::before {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(ellipse at center, rgb(255 207 122 / 72%) 0%, rgb(255 207 122 / 42%) 25%, rgb(255 185 78 / 20%) 52%, transparent 76%);
+		animation: lamp-flicker 4.2s ease-in-out infinite alternate;
+		content: "";
+		pointer-events: none;
 	}
 
 	.room-dust {
@@ -106,6 +165,28 @@ const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 		}
 	}
 
+	@keyframes room-window-breathe {
+		from { opacity: 0.42; }
+		to { opacity: 0.72; }
+	}
+
+	@keyframes lamp-flicker {
+		from { opacity: 0.72; }
+		to { opacity: 1; }
+	}
+
+	:global(html[data-theme="dark"]) .room-night-overlay,
+	:global(html[data-theme="dark"]) .room-night-vignette,
+	:global(html[data-theme="dark"]) .room-night-window-glow,
+	:global(html[data-theme="dark"]) .room-lamp-glow {
+		opacity: 1;
+	}
+
+	:global(html[data-theme="dark"]) .room-window-glow {
+		animation: none;
+		opacity: 0;
+	}
+
 	@media (max-width: 48rem) {
 		.reading-room {
 			min-height: calc(100vh - 7.5rem);
@@ -118,8 +199,32 @@ const { backgroundImage = "/images/library-room.jpg" } = Astro.props;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.room-dust {
+		.room-dust,
+		.room-window-glow,
+		.room-lamp-glow::before {
 			animation: none;
 		}
+		.room-night-overlay,
+		.room-night-vignette,
+		.room-night-window-glow,
+		.room-window-glow,
+		.room-lamp-glow { transition: none; }
+	}
+
+	:global(html.reduce-motion-active) .room-dust,
+	:global(html.reduce-motion-active) .room-window-glow {
+		animation: none;
+	}
+
+	:global(html.reduce-motion-active) .room-lamp-glow::before {
+		animation-play-state: paused;
+	}
+
+	:global(html.reduce-motion-active) .room-night-overlay,
+	:global(html.reduce-motion-active) .room-night-vignette,
+	:global(html.reduce-motion-active) .room-night-window-glow,
+	:global(html.reduce-motion-active) .room-window-glow,
+	:global(html.reduce-motion-active) .room-lamp-glow {
+		transition: none;
 	}
 </style>

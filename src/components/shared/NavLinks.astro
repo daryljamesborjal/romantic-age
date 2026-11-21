@@ -5,8 +5,8 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 ---
 
 <ul class="site-nav">
-	<li>
-		<a class="nav-link" href="/" aria-label="Home" aria-current={isCurrentPage("/") ? "page" : undefined}>
+	<li class="site-nav__home">
+		<a class="nav-link nav-link--home" href="/" aria-label="Home" aria-current={isCurrentPage("/") ? "page" : undefined}>
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="m3 10 9-7 9 7M5.5 9v11h13V9M9.5 20v-6h5v6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
 			</svg>
@@ -60,3 +60,4 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 	</li>
 	<slot />
 </ul>
+

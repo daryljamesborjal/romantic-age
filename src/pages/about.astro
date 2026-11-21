@@ -36,8 +36,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		</svg>
 
 		<section class="image-credits-section" aria-labelledby="image-credits-title">
-			<h2 id="image-credits-title">Image and sound credits</h2>
-			<p>[PLACEHOLDER: credits to be added]</p>
+			<h2 id="image-credits-title">Credits</h2>
+			<p>Varghese, S. (n.d.). <em>A room with a table and chairs</em> [Photograph]. Unsplash. <a href="https://unsplash.com/photos/a-room-with-a-table-and-chairs-Nxjq1w642XM">https://unsplash.com/photos/a-room-with-a-table-and-chairs-Nxjq1w642XM</a></p>
+			<p class="illustration-credit">All other illustrations were created for this website.</p>
 		</section>
 	</div>
 </BaseLayout>
@@ -161,7 +162,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 	.image-credits-section {
 		width: 100%;
-		text-align: left;
+		text-align: center;
 	}
 
 	.image-credits-section h2 {
@@ -172,11 +173,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 	}
 
 	.image-credits-section p {
-		margin: 0;
+		margin: 0 auto;
 		color: var(--about-muted);
 		font-size: 0.92rem;
 		line-height: 1.7;
+		overflow-wrap: anywhere;
 	}
+
+	.image-credits-section a { color: var(--about-gold); text-underline-offset: 0.18em; }
+	.image-credits-section .illustration-credit { margin-top: 0.5rem; }
 
 	@media (max-width: 767px) {
 		.about-page {

@@ -502,6 +502,56 @@ nav a[aria-current="page"] {
 	padding-block: clamp(3rem, 10vw, 7rem);
 }
 
+.book-arrival-wash {
+	position: fixed;
+	z-index: 1000;
+	inset: 0;
+	background: var(--book-arrival-color, #111624);
+	opacity: 1;
+	transition: opacity 400ms ease;
+	pointer-events: none;
+}
+
+.book-arrival-wash--fading { opacity: 0; }
+
+.book-opening-layer {
+	position: fixed;
+	z-index: 2000;
+	inset: 0;
+	overflow: visible;
+	pointer-events: auto;
+}
+
+.book-opening-backdrop {
+	position: absolute;
+	z-index: 0;
+	inset: 0;
+	background: #000;
+	opacity: 0;
+	transition: opacity 350ms ease;
+}
+
+.book-opening-layer--visible .book-opening-backdrop { opacity: 0.75; }
+
+.book-opening-color-wash {
+	position: absolute;
+	z-index: 3;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 400ms ease;
+	pointer-events: none;
+}
+
+.book-opening-color-wash--visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.book-arrival-wash,.book-opening-backdrop,.book-opening-color-wash { transition: none; }
+}
+
+html.reduce-motion-active .book-arrival-wash,
+html.reduce-motion-active .book-opening-backdrop,
+html.reduce-motion-active .book-opening-color-wash { transition: none; }
+
 /* Poem pages need an unconfined main column so the hero can meet both viewport edges. */
 .site-main.poem-page {
 	width: 100%;

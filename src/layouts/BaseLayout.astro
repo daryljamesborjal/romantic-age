@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { title = "Romantic Age | Great Books Project", mainClass = "" } = Astro.props;
+const pagePath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const showBookArrival = ["/annabel-lee", "/cask-of-amontillado", "/daffodils"].includes(pagePath);
 ---
 
 <!doctype html>
@@ -47,6 +49,7 @@ const { title = "Romantic Age | Great Books Project", mainClass = "" } = Astro.p
 		</script>
 	</head>
 	<body>
+		{showBookArrival && <div class="book-arrival-wash" id="book-arrival-wash" hidden aria-hidden="true"></div>}
 		<!-- Decorative reading progress indicator; it never intercepts input. -->
 		<div class="progress-container" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
 			<div class="progress-bar"></div>
@@ -86,6 +89,36 @@ const { title = "Romantic Age | Great Books Project", mainClass = "" } = Astro.p
 		</footer>
 
 		<script>
+			const arrivalWash = document.querySelector<HTMLElement>("#book-arrival-wash");
+			if (arrivalWash) {
+				try {
+					const arrivalColor = sessionStorage.getItem("romantic-age-book-arrival");
+					if (arrivalColor) {
+						arrivalWash.style.backgroundColor = arrivalColor;
+						let reduceMotionOnArrival = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+						try {
+							const savedMotion = localStorage.getItem("romantic-age-reduce-motion");
+							if (savedMotion === "true" || savedMotion === "false") reduceMotionOnArrival = savedMotion === "true";
+						} catch { /* The system preference remains the fallback. */ }
+						if (reduceMotionOnArrival || document.documentElement.classList.contains("reduce-motion-active")) {
+							arrivalWash.remove();
+							sessionStorage.removeItem("romantic-age-book-arrival");
+						} else {
+							arrivalWash.hidden = false;
+							window.requestAnimationFrame(() => arrivalWash.classList.add("book-arrival-wash--fading"));
+							window.setTimeout(() => {
+								arrivalWash.remove();
+								try { sessionStorage.removeItem("romantic-age-book-arrival"); } catch { /* The overlay still completes without storage access. */ }
+							}, 420);
+						}
+					} else {
+						arrivalWash.remove();
+					}
+				} catch {
+					arrivalWash.remove();
+				}
+			}
+
 			// Persist the theme choice and expose its current state accessibly.
 			const themeStorageKey = "romantic-age-theme";
 			const themeRoot = document.documentElement;
