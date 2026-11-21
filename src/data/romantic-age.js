@@ -1,4 +1,12 @@
 export const subtitle = "[PLACEHOLDER: final copy coming]";
+export const readTime = "~5 min read";
+
+export const atAGlance = [
+	{ label: "When", value: "[PLACEHOLDER: final copy coming]" },
+	{ label: "Where", value: "[PLACEHOLDER: final copy coming]" },
+	{ label: "Spirit", value: "[PLACEHOLDER: final copy coming]" },
+	{ label: "Known for", value: "[PLACEHOLDER: final copy coming]" },
+];
 
 export const overview = [
 	"[PLACEHOLDER: final copy coming]",
@@ -15,12 +23,12 @@ export const timeline = [
 ];
 
 export const coreIdeas = [
-	{ term: "Emotion over reason", text: "[PLACEHOLDER: final copy coming]" },
-	{ term: "Imagination", text: "[PLACEHOLDER: final copy coming]" },
-	{ term: "Nature", text: "[PLACEHOLDER: final copy coming]" },
-	{ term: "The individual", text: "[PLACEHOLDER: final copy coming]" },
-	{ term: "The sublime", text: "[PLACEHOLDER: final copy coming]" },
-	{ term: "The Gothic and Dark Romanticism", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "Emotion over reason", icon: "heart", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "Imagination", icon: "feather", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "Nature", icon: "leaf", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "The individual", icon: "person", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "The sublime", icon: "mountain", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ term: "The Gothic and Dark Romanticism", icon: "arch", summary: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
 ];
 
 export const britishVsAmerican = {
@@ -30,7 +38,12 @@ export const britishVsAmerican = {
 };
 
 export const keyVoices = [
-	{ name: "[PLACEHOLDER: final copy coming]", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "William Wordsworth", years: "1770–1850", country: "England", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "Samuel Taylor Coleridge", years: "1772–1834", country: "England", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "William Blake", years: "1757–1827", country: "England", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "Mary Shelley", years: "1797–1851", country: "England", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "Ralph Waldo Emerson", years: "1803–1882", country: "United States", text: "[PLACEHOLDER: final copy coming]" },
+	{ name: "Edgar Allan Poe", years: "1809–1849", country: "United States", text: "[PLACEHOLDER: final copy coming]" },
 ];
 
 export const whyItMatters = [
@@ -43,6 +56,8 @@ export const references = [
 
 export const romanticAge = {
 	subtitle,
+	readTime,
+	atAGlance,
 	overview,
 	timeline,
 	coreIdeas,

@@ -1,7 +1,10 @@
 ---
 // Shared responsive route navigation. Text remains available to assistive tech on mobile.
+import { works } from "../../data/works.js";
+
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === currentPath;
+const isWorkPage = works.some((work) => isCurrentPage(work.href));
 ---
 
 <ul class="site-nav">
@@ -14,7 +17,7 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<span class="nav-mobile-label" aria-hidden="true">Home</span>
 		</a>
 	</li>
-	<li>
+	<li class="site-nav__work-link-item">
 		<a class="nav-link nav-link--annabel" href="/annabel-lee" aria-label="Annabel Lee" aria-current={isCurrentPage("/annabel-lee") ? "page" : undefined}>
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="M6 20V10a6 6 0 0 1 12 0v10M5 20h14M9 20v-5h6v5M12 5.5v4m-2-2h4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
@@ -27,7 +30,7 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<span class="nav-mobile-label" aria-hidden="true">Annabel</span>
 		</a>
 	</li>
-	<li>
+	<li class="site-nav__work-link-item">
 		<a class="nav-link nav-link--cask" href="/cask-of-amontillado" aria-label="The Cask of Amontillado" aria-current={isCurrentPage("/cask-of-amontillado") ? "page" : undefined}>
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="M6 3h12l-1.3 8.2a4.8 4.8 0 0 1-9.4 0L6 3Zm6 13v4m-4 1h8m-8-13h8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
@@ -36,7 +39,7 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<span class="nav-mobile-label" aria-hidden="true">Cask</span>
 		</a>
 	</li>
-	<li>
+	<li class="site-nav__work-link-item">
 		<a class="nav-link nav-link--daffodils" href="/daffodils" aria-label="I Wandered Lonely as a Cloud" aria-current={isCurrentPage("/daffodils") ? "page" : undefined}>
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="M12 12v9m0-5c-3 0-4.5-1.5-5-4 3 0 4.5 1.2 5 4Zm0-2c0-2.5 1.5-4 4-4-.2 2.7-1.5 4-4 4Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
@@ -47,6 +50,32 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 			<span class="nav-daffodil nav-daffodil--two" aria-hidden="true"><svg viewBox="0 0 64 52"><g fill="#f7e27a"><path d="M29 27C20 16 20 7 27 2c7 4 9 14 7 25z"/><path d="M29 27C17 20 8 18 5 24c3 8 13 11 25 8z"/><path d="M31 29c-5 11-2 20 5 22 7-5 5-14-1-23z"/><path d="M34 27c10 7 19 7 23 1-2-8-12-11-24-6z"/></g><path d="M28 21c9-3 16-1 21 4l10-4 4 4-9 6c-8 2-17 0-26-3z" fill="#f2b632"/><ellipse cx="60" cy="25" rx="3.3" ry="4.4" fill="#c98716"/></svg></span>
 			<span class="nav-mobile-label" aria-hidden="true">Daffodils</span>
 		</a>
+	</li>
+	<li class="site-nav__works">
+		<button class="works-menu__trigger" id="works-menu-trigger" type="button" aria-label="Works" aria-expanded="false" aria-controls="works-menu" aria-current={isWorkPage ? "page" : undefined}>
+			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<path d="M4 5.5 18 3v15L4 20.5v-15ZM4 5.5 18 8m-14 7 14 2m-9-7 5 1m-5 3 5 1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" />
+				<path d="M19 5.5a2 2 0 0 1 2 2v12l-14 2a3 3 0 0 0-3 2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" />
+			</svg>
+			<span class="works-menu__desktop-label">Works</span>
+			<span class="nav-mobile-label" aria-hidden="true">Works</span>
+		</button>
+		<div class="works-menu" id="works-menu" hidden>
+			<ul>
+				{works.map((work) => (
+					<li>
+						<a class="works-menu__link" href={work.href} aria-current={isCurrentPage(work.href) ? "page" : undefined}>
+							<svg class="works-menu__emblem" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+								{work.emblem === "moon-waves" && <><path d="M20 3a11 11 0 1 0 9 18A12 12 0 0 1 20 3Z"/><path d="M3 24c4-3 7 3 11 0s8 3 14 0M3 29c4-3 7 3 11 0s8 3 14 0"/></>}
+								{work.emblem === "theatre-mask" && <><path d="M5 4c7 3 15 3 22 0v11c0 8-6 12-14 14C8 26 5 22 5 15V4Z"/><path d="M9 12c3-3 5-2 7 0-2 2-5 2-7 0Zm8 0c3-3 5-2 7 0-2 2-5 2-7 0ZM12 21c3-2 7-2 10 0"/></>}
+								{work.emblem === "daffodil" && <><path d="M16 15v14m0-8c-5-4-9-3-11-1 3 5 7 6 11 5m0-6c1-5 4-7 8-7 0 5-3 8-8 8Z"/><path d="M15 13c-5-1-5-6-1-7-1-5 5-6 6-1 5-2 8 3 4 6 2 4-2 7-6 4-3 4-8 1-6-3-4-2-2-7 3-6Z"/></>}
+							</svg>
+							<span><strong>{work.title}</strong><small>{work.author} &middot; {work.year}</small></span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
 	</li>
 	<li>
 		<a class="nav-link nav-link--age" href="/romantic-age" aria-label="The Romantic Age" aria-current={isCurrentPage("/romantic-age") ? "page" : undefined}>
@@ -70,4 +99,91 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 	</li>
 	<slot />
 </ul>
+
+<script>
+	const worksTrigger = document.querySelector<HTMLButtonElement>("#works-menu-trigger");
+	const worksPanel = document.querySelector<HTMLElement>("#works-menu");
+	let closeTimer = 0;
+
+	function finishWorksClose() {
+		if (!worksPanel) return;
+		worksPanel.hidden = true;
+		worksPanel.classList.remove("is-open", "is-closing");
+	}
+
+	function closeWorksMenu(returnFocus = true) {
+		if (!worksTrigger || !worksPanel || worksPanel.hidden) return;
+		window.clearTimeout(closeTimer);
+		worksTrigger.setAttribute("aria-expanded", "false");
+		worksPanel.classList.remove("is-open");
+		worksPanel.classList.add("is-closing");
+		if (returnFocus) worksTrigger.focus();
+		const reduceMotion = document.documentElement.classList.contains("reduce-motion-active") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		if (reduceMotion) finishWorksClose();
+		else closeTimer = window.setTimeout(finishWorksClose, 220);
+	}
+
+	function openWorksMenu() {
+		if (!worksTrigger || !worksPanel) return;
+		window.clearTimeout(closeTimer);
+		worksPanel.hidden = false;
+		worksPanel.classList.remove("is-closing");
+		worksTrigger.setAttribute("aria-expanded", "true");
+		requestAnimationFrame(() => {
+			worksPanel.classList.add("is-open");
+			worksPanel.querySelector<HTMLAnchorElement>("a")?.focus();
+		});
+	}
+
+	worksTrigger?.addEventListener("click", () => {
+		if (worksTrigger.getAttribute("aria-expanded") === "true") closeWorksMenu(true);
+		else openWorksMenu();
+	});
+
+	worksPanel?.addEventListener("click", (event) => {
+		if ((event.target as HTMLElement).closest("a")) closeWorksMenu(false);
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && worksTrigger?.getAttribute("aria-expanded") === "true") {
+			event.preventDefault();
+			closeWorksMenu(true);
+		}
+	});
+
+	document.addEventListener("pointerdown", (event) => {
+		if (worksTrigger?.getAttribute("aria-expanded") !== "true") return;
+		const target = event.target as Node;
+		if (!worksPanel?.contains(target) && !worksTrigger?.contains(target)) closeWorksMenu(true);
+	});
+</script>
+
+<style>
+	.site-nav__works { display: none; }
+	.works-menu__trigger { display: none; }
+	.works-menu[hidden] { display: none; }
+	.works-menu__emblem { width: 2.1rem; height: 2.1rem; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.4; }
+
+	@media (max-width: 48rem) {
+		:global(.site-header__inner) { position: relative; }
+		:global(.site-nav__work-link-item) { display: none !important; }
+		.site-nav__works { display: flex; position: static; flex: 1 1 0; min-width: 0; align-items: center; justify-content: center; }
+		.works-menu__trigger { display: flex; width: 100%; min-width: 44px; min-height: 44px; flex-direction: column; align-items: center; justify-content: center; gap: .15rem; padding: .25rem .1rem; border: 0; background: transparent; color: var(--color-accent); cursor: pointer; }
+		.works-menu__trigger .nav-icon { display: block; }
+		.works-menu__desktop-label { display: none; }
+		.works-menu__trigger .nav-mobile-label { display: block; font: 600 12px/1.3 system-ui,sans-serif; white-space: nowrap; }
+		.works-menu__trigger[aria-current="page"] { color: var(--color-accent-hover); }
+		.works-menu { position: absolute; z-index: 80; top: calc(100% + .35rem); left: 0; width: 100%; padding: .5rem; border: 1px solid var(--border-color); border-radius: .65rem; background: var(--card-bg); box-shadow: 0 .8rem 2rem rgb(0 0 0 / 22%); opacity: 0; transform: translateY(-.5rem); transition: opacity 200ms ease, transform 200ms ease; }
+		.works-menu.is-open { opacity: 1; transform: translateY(0); }
+		.works-menu.is-closing { opacity: 0; transform: translateY(-.5rem); }
+		.works-menu ul { display: grid; gap: .15rem; margin: 0; padding: 0; list-style: none; }
+		.works-menu__link { display: flex; min-height: 52px; gap: .75rem; align-items: center; padding: .45rem .65rem; border-radius: .4rem; color: var(--text-color); text-decoration: none; }
+		.works-menu__link:hover,.works-menu__link[aria-current="page"] { background: color-mix(in srgb,var(--color-accent) 12%,transparent); color: var(--color-accent-hover); }
+		.works-menu__link strong,.works-menu__link small { display: block; }
+		.works-menu__link strong { font-size: .92rem; line-height: 1.3; }
+		.works-menu__link small { margin-top: .15rem; color: var(--color-muted); font-size: .78rem; line-height: 1.3; }
+		@media (prefers-reduced-motion: reduce) { .works-menu { transition: none; } }
+		:global(html.reduce-motion-active) .works-menu { transition: none; }
+	}
+</style>
 
