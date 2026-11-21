@@ -11,6 +11,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 			<p class="about-description">
 				A digital collection of literary works exploring the Romantic Age. This site was built as a final project for our Great Books course at Bicol University to make classic literature engaging and interactive.
 			</p>
+			<a class="about-age-link" href="/romantic-age">Read about the Romantic Age</a>
 		</header>
 
 		<svg class="about-divider" viewBox="0 0 240 20" aria-hidden="true" focusable="false">
@@ -119,6 +120,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		color: var(--about-muted);
 		font-size: clamp(1.05rem, 1.7vw, 1.16rem);
 		line-height: 1.85;
+	}
+
+	.about-age-link {
+		display: inline-flex;
+		min-height: 44px;
+		align-items: center;
+		margin-top: 0.65rem;
+		color: var(--about-gold);
+		font-size: 0.96rem;
+		text-underline-offset: 0.2em;
 	}
 
 	.about-divider {

@@ -49,6 +49,16 @@ const isCurrentPage = (href: string) => (href.replace(/\/+$/, "") || "/") === cu
 		</a>
 	</li>
 	<li>
+		<a class="nav-link nav-link--age" href="/romantic-age" aria-label="The Romantic Age" aria-current={isCurrentPage("/romantic-age") ? "page" : undefined}>
+			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H19v16H8.5A3.5 3.5 0 0 0 5 21.5v-16ZM5 5.5v16M8 6h7m-7 4h7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" />
+				<path d="M19 2c1.7 0 3 1.3 3 3v11.5a3.5 3.5 0 0 0-3-1.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" />
+			</svg>
+			<span class="nav-text">The Age</span>
+			<span class="nav-mobile-label" aria-hidden="true">The Age</span>
+		</a>
+	</li>
+	<li>
 		<a class="nav-link" href="/about" aria-label="About" aria-current={isCurrentPage("/about") ? "page" : undefined}>
 			<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7" />

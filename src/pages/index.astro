@@ -45,6 +45,13 @@ import { works } from "../data/works.js";
 					))}
 				</div>
 			)}
+			<a class="landing-age-link" href="/romantic-age">
+				<svg class="landing-age-link__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path d="M6 5.5A3.5 3.5 0 0 1 9.5 2H19v16H9.5A3.5 3.5 0 0 0 6 21.5v-16ZM6 5.5v16M9 6h6m-6 4h6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" />
+					<path d="M19 2c1.7 0 3 1.3 3 3v11.5a3.5 3.5 0 0 0-3-1.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" />
+				</svg>
+				<span>What was the Romantic Age?</span>
+			</a>
 		</section>
 	</Room>
 </BaseLayout>
@@ -442,6 +449,47 @@ import { works } from "../data/works.js";
 		outline-offset: 1px;
 	}
 
+	.landing-age-link {
+		display: inline-flex;
+		min-height: 44px;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		margin-top: 0.85rem;
+		padding: 0.4rem 0.8rem;
+		border: 1px solid rgb(255 248 233 / 52%);
+		border-radius: 999px;
+		color: #fff8e9;
+		font-size: 0.92rem;
+		text-decoration: none;
+		text-shadow: 0 1px 0.2rem rgb(0 0 0 / 85%);
+	}
+
+	.landing-age-link:hover {
+		border-color: #fff0ca;
+		background: rgb(18 13 9 / 32%);
+	}
+
+	.landing-age-link:focus-visible {
+		outline: 3px solid #fff19a;
+		outline-offset: 3px;
+	}
+
+	.landing-age-link__icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		flex: 0 0 auto;
+	}
+
+	.landing-age-link:hover .landing-age-link__icon {
+		animation: age-scroll-wiggle 420ms ease-in-out;
+	}
+
+	@keyframes age-scroll-wiggle {
+		25% { transform: rotate(-7deg); }
+		75% { transform: rotate(7deg); }
+	}
+
 	@media (max-width: 48rem) {
 		.landing-copy {
 			padding: 0.25rem 0.75rem;
@@ -492,13 +540,18 @@ import { works } from "../data/works.js";
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.book-pagination__dot::before {
+		.book-pagination__dot::before,
+		.landing-age-link {
 			transition: none;
 		}
+		.landing-age-link__icon { animation: none !important; }
 	}
 
 	:global(html.reduce-motion-active) .book-pagination__dot::before {
 		transition: none;
 	}
+
+	:global(html.reduce-motion-active) .landing-age-link { transition: none; }
+	:global(html.reduce-motion-active) .landing-age-link__icon { animation: none !important; }
 
 </style>

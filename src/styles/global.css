@@ -1715,7 +1715,7 @@ html[data-theme="dark"] .daffodils-theme .reading-panel {
 	.site-nav {
 		width: 100%;
 		justify-content: space-between;
-		gap: clamp(0.15rem, 1.3vw, 0.75rem);
+		gap: clamp(0.05rem, 0.65vw, 0.3rem);
 	}
 
 	.site-nav li {

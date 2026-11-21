@@ -1,0 +1,380 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContentSection from "../components/content/ContentSection.astro";
+import { romanticAge } from "../data/romantic-age.js";
+
+const placeholderSummary = "Select to explore this idea";
+---
+
+<BaseLayout
+	title="What Was the Romantic Age? | Romantic Age"
+	mainClass="romantic-age-shell"
+	description={romanticAge.subtitle}
+>
+	<article class="romantic-age-page" aria-labelledby="page-title">
+		<div class="romantic-age-content">
+			<header class="romantic-age-hero">
+				<p class="romantic-age-kicker">A Literary Era</p>
+				<h1 id="page-title">What Was the Romantic Age?</h1>
+				<p class="romantic-age-subtitle">{romanticAge.subtitle}</p>
+			</header>
+
+			<section class="romantic-age-section romantic-age-overview" aria-labelledby="overview-title">
+				<h2 id="overview-title">Overview</h2>
+				<div class="romantic-age-prose">
+					{romanticAge.overview.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+			</section>
+
+			<section class="romantic-age-section" aria-labelledby="timeline-title">
+				<h2 id="timeline-title">Timeline</h2>
+				<ol class="romantic-age-timeline" aria-label="Timeline of the Romantic Age">
+					{romanticAge.timeline.map((event) => (
+						<li class="romantic-age-timeline__entry">
+							<article>
+								<p class="romantic-age-timeline__year">{event.year}</p>
+								<h3>{event.title}</h3>
+								<p>{event.text}</p>
+							</article>
+						</li>
+					))}
+				</ol>
+			</section>
+
+			<section class="romantic-age-section romantic-age-ideas" aria-labelledby="ideas-title">
+				<h2 id="ideas-title">Core ideas</h2>
+				<div class="romantic-age-ideas__list">
+					{romanticAge.coreIdeas.map((idea, index) => (
+						<ContentSection id={`romantic-idea-${index + 1}`} title={idea.term} summary={placeholderSummary}>
+							<p>{idea.text}</p>
+						</ContentSection>
+					))}
+				</div>
+			</section>
+
+			<section class="romantic-age-section" aria-labelledby="comparison-title">
+				<h2 id="comparison-title">British and American Romanticism</h2>
+				<div class="romantic-age-comparison">
+					<section aria-labelledby="british-title">
+						<h3 id="british-title">British Romanticism</h3>
+						{romanticAge.britishVsAmerican.british.map((paragraph) => <p>{paragraph}</p>)}
+					</section>
+					<section aria-labelledby="american-title">
+						<h3 id="american-title">American Romanticism</h3>
+						{romanticAge.britishVsAmerican.american.map((paragraph) => <p>{paragraph}</p>)}
+					</section>
+				</div>
+				<p class="romantic-age-shared"><strong>Shared ground</strong> {romanticAge.britishVsAmerican.shared}</p>
+			</section>
+
+			<section class="romantic-age-section" aria-labelledby="voices-title">
+				<h2 id="voices-title">Key voices</h2>
+				<ul class="romantic-age-voices">
+					{romanticAge.keyVoices.map((voice) => (
+						<li><h3>{voice.name}</h3><p>{voice.text}</p></li>
+					))}
+				</ul>
+			</section>
+
+			<section class="romantic-age-section romantic-age-prose-section" aria-labelledby="matters-title">
+				<h2 id="matters-title">Why it still matters</h2>
+				<div class="romantic-age-prose">
+					{romanticAge.whyItMatters.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+			</section>
+
+			<section class="romantic-age-section romantic-age-references" aria-labelledby="references-title">
+				<h2 id="references-title">References</h2>
+				<ul>
+					{romanticAge.references.map((reference) => <li>{reference}</li>)}
+				</ul>
+			</section>
+		</div>
+	</article>
+</BaseLayout>
+
+<script>
+	const agePage = document.querySelector<HTMLElement>(".romantic-age-page");
+	const timeline = document.querySelector<HTMLOListElement>(".romantic-age-timeline");
+	const timelineEntries = Array.from(document.querySelectorAll<HTMLElement>(".romantic-age-timeline__entry"));
+	const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion-active");
+
+	if (reducedMotion || !("IntersectionObserver" in window)) {
+		timelineEntries.forEach((entry) => entry.classList.add("is-visible"));
+	} else if (agePage && timeline) {
+		agePage.classList.add("romantic-age-page--reveal-ready");
+		const isPhoneLayout = window.matchMedia("(max-width: 767px)").matches;
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (!entry.isIntersecting) return;
+				entry.target.classList.add("is-visible");
+				observer.unobserve(entry.target);
+			});
+		}, { root: isPhoneLayout ? null : timeline, threshold: 0.18 });
+		timelineEntries.forEach((entry) => observer.observe(entry));
+	}
+</script>
+
+<style>
+	:global(main.site-main.romantic-age-shell) {
+		--age-paper: #f4efdf;
+		--age-ink: #29261f;
+		--age-muted: #494439;
+		--age-gold: #765b2c;
+		width: 100%;
+		max-width: none;
+		min-height: calc(100vh - 5rem);
+		min-height: calc(100svh - 5rem);
+		margin: 0;
+		padding: 0;
+		background: var(--age-paper);
+		color: var(--age-ink);
+	}
+
+	:global(html[data-theme="dark"] main.site-main.romantic-age-shell) {
+		--age-paper: #11141b;
+		--age-ink: #f4eddf;
+		--age-muted: #ded5c3;
+		--age-gold: #d9b76c;
+	}
+
+	.romantic-age-page {
+		width: min(calc(100% - 3rem), 76rem);
+		margin-inline: auto;
+		padding-block: clamp(3rem, 8vw, 6rem);
+	}
+
+	.romantic-age-content {
+		transform-origin: top center;
+		animation: age-scroll-unroll 700ms cubic-bezier(.2,.7,.25,1) both;
+	}
+
+	@keyframes age-scroll-unroll {
+		from { transform: scaleY(0.96); opacity: 0; }
+		to { transform: scaleY(1); opacity: 1; }
+	}
+
+	.romantic-age-hero {
+		margin-bottom: clamp(3rem, 8vw, 6rem);
+		text-align: left;
+	}
+
+	.romantic-age-kicker {
+		margin: 0 0 0.8rem;
+		color: var(--age-gold);
+		font-family: system-ui, sans-serif;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.romantic-age-page h1 {
+		max-width: 70ch;
+		margin: 0;
+		color: var(--age-ink);
+		font-size: clamp(2.3rem, 6vw, 4.6rem);
+		font-weight: 500;
+		line-height: 1.12;
+		text-wrap: balance;
+	}
+
+	.romantic-age-subtitle {
+		max-width: 70ch;
+		margin: 1.15rem 0 0;
+		color: var(--age-muted);
+		font-size: clamp(1.05rem, 2vw, 1.25rem);
+		line-height: 1.65;
+	}
+
+	.romantic-age-section {
+		margin-top: clamp(3rem, 7vw, 5.5rem);
+	}
+
+	.romantic-age-section > h2 {
+		margin: 0 0 1.35rem;
+		color: var(--age-gold);
+		font-size: clamp(1.8rem, 4vw, 2.7rem);
+		font-weight: 400;
+		line-height: 1.2;
+		text-wrap: balance;
+	}
+
+	.romantic-age-prose {
+		max-width: 70ch;
+		color: var(--age-ink);
+		font-size: clamp(1.05rem, 1.6vw, 1.15rem);
+		line-height: 1.8;
+	}
+
+	.romantic-age-prose p,
+	.romantic-age-comparison p,
+	.romantic-age-shared,
+	.romantic-age-voices p {
+		margin: 0 0 1.1em;
+	}
+
+	.romantic-age-prose p:last-child,
+	.romantic-age-comparison p:last-child,
+	.romantic-age-voices p:last-child { margin-bottom: 0; }
+
+	.romantic-age-timeline {
+		display: flex;
+		gap: clamp(1rem, 2vw, 1.5rem);
+		margin: 0;
+		padding: 0.5rem 0 1rem;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-color: var(--age-gold) transparent;
+		list-style: none;
+	}
+
+	.romantic-age-timeline__entry {
+		flex: 0 0 clamp(16rem, 25vw, 21rem);
+		min-height: 12rem;
+		padding: 1rem 0.5rem 0 0;
+		border-top: 1px solid color-mix(in srgb, var(--age-gold) 55%, transparent);
+		scroll-snap-align: start;
+	}
+
+	.romantic-age-timeline__entry article { max-width: 34ch; }
+
+	.romantic-age-timeline__year {
+		margin: 0 0 0.55rem;
+		color: var(--age-gold);
+		font-family: system-ui, sans-serif;
+		font-size: 0.9rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+	}
+
+	.romantic-age-timeline__entry h3,
+	.romantic-age-comparison h3,
+	.romantic-age-voices h3 {
+		margin: 0 0 0.55rem;
+		color: var(--age-ink);
+		font-size: 1.22rem;
+		font-weight: 600;
+		line-height: 1.35;
+	}
+
+	.romantic-age-timeline__entry > article > p:last-child {
+		margin: 0;
+		color: var(--age-muted);
+		line-height: 1.65;
+	}
+
+	.romantic-age-page--reveal-ready .romantic-age-timeline__entry {
+		opacity: 0;
+		transform: translateY(12px);
+		transition: opacity 450ms ease, transform 450ms ease;
+	}
+
+	.romantic-age-page--reveal-ready .romantic-age-timeline__entry.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.romantic-age-comparison {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(1.5rem, 5vw, 4rem);
+		color: var(--age-ink);
+		font-size: 1.08rem;
+		line-height: 1.8;
+	}
+
+	.romantic-age-comparison h3 { color: var(--age-gold); }
+
+	.romantic-age-shared {
+		max-width: 70ch;
+		margin-top: 1.5rem;
+		color: var(--age-muted);
+		line-height: 1.75;
+	}
+
+	.romantic-age-shared strong { color: var(--age-gold); }
+
+	.romantic-age-voices {
+		max-width: 70ch;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.romantic-age-voices li {
+		padding-block: 1rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--age-gold) 40%, transparent);
+	}
+
+	.romantic-age-voices h3 { color: var(--age-gold); }
+
+	.romantic-age-references ul {
+		max-width: 70ch;
+		margin: 0;
+		padding-left: 1.2rem;
+		color: var(--age-muted);
+		font-size: 0.92rem;
+		line-height: 1.75;
+	}
+
+	.romantic-age-shell :focus-visible {
+		outline-color: var(--age-gold);
+	}
+
+	:global(.romantic-age-shell .content-section) {
+		--content-section-accent: var(--age-gold);
+		--content-section-ink: var(--age-ink);
+		--content-section-muted: var(--age-muted);
+		--content-section-rule: color-mix(in srgb, var(--age-gold) 58%, transparent);
+		margin: 0;
+	}
+
+	:global(.romantic-age-shell .content-section__summary) {
+		min-height: 4.5rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--age-gold) 35%, transparent);
+	}
+
+	:global(.romantic-age-shell .content-section__body-inner) {
+		max-width: 70ch;
+		color: var(--age-muted);
+	}
+
+	@media (max-width: 767px) {
+		.romantic-age-page { width: calc(100% - 2.5rem); }
+		.romantic-age-timeline {
+			flex-direction: column;
+			gap: 0;
+			overflow: visible;
+			padding: 0 0 0 1.1rem;
+			border-left: 1px solid color-mix(in srgb, var(--age-gold) 55%, transparent);
+			scroll-snap-type: none;
+		}
+		.romantic-age-timeline__entry {
+			flex: 0 0 auto;
+			min-height: 0;
+			padding: 0 0 1.75rem 0.25rem;
+			border-top: 0;
+			scroll-snap-align: none;
+		}
+		.romantic-age-timeline__entry article { max-width: 70ch; }
+		.romantic-age-comparison { grid-template-columns: 1fr; gap: 1.6rem; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.romantic-age-content { animation: none; transform: none; opacity: 1; }
+		.romantic-age-timeline__entry { transition: none !important; transform: none !important; opacity: 1 !important; }
+	}
+
+	:global(html.reduce-motion-active) .romantic-age-content {
+		animation: none;
+		transform: none;
+		opacity: 1;
+	}
+
+	:global(html.reduce-motion-active) .romantic-age-timeline__entry {
+		transition: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+</style>

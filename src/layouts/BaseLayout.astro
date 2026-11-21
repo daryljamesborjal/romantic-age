@@ -7,9 +7,10 @@ import NavLinks from "../components/shared/NavLinks.astro";
 interface Props {
 	title?: string;
 	mainClass?: string;
+	description?: string;
 }
 
-const { title = "Romantic Age | Great Books Project", mainClass = "" } = Astro.props;
+const { title = "Romantic Age | Great Books Project", mainClass = "", description = "Explore the Romantic Age through Edgar Allan Poe's 'Annabel Lee' and 'The Cask of Amontillado', and William Wordsworth's 'I Wandered Lonely as a Cloud'. A Great Books project." } = Astro.props;
 const pagePath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const showBookArrival = ["/annabel-lee", "/cask-of-amontillado", "/daffodils"].includes(pagePath);
 ---
@@ -21,7 +22,7 @@ const showBookArrival = ["/annabel-lee", "/cask-of-amontillado", "/daffodils"].i
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#151515" />
-		<meta name="description" content="Explore the Romantic Age through Edgar Allan Poe's 'Annabel Lee' and 'The Cask of Amontillado', and William Wordsworth's 'I Wandered Lonely as a Cloud'. A Great Books project." />
+		<meta name="description" content={description} />
 		<meta property="og:title" content="Romantic Age - Literature Project" />
 		<meta property="og:description" content="An interactive exploration of Romantic Age literature." />
 		<meta property="og:type" content="website" />
